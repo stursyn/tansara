@@ -3,6 +3,7 @@ package kz.greetgo.sandbox.db.input_file_generator;
 import kz.greetgo.util.RND;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 
@@ -153,28 +155,118 @@ public class GenerateInputFiles {
     return new String(ret);
   }
 
-  final AtomicReference<PrintStream> printer = new AtomicReference<>(null);
+  PrintStream ciaPrinter = null;
+  String ciaFileName;
+  File ciaFile;
+
+  final AtomicBoolean clearCiaPrinter = new AtomicBoolean(false);
+
+  static final String DIR = "build/out_files";
 
   private void execute() throws Exception {
 
     rowTypeRnd.showInfo();
     errorTypeRnd.showInfo();
 
+    final File workingFile = new File(DIR + "/__working__");
+    final File newCiaFile = new File(DIR + "/__new_cia_file__");
+
+    workingFile.getParentFile().mkdirs();
+    workingFile.createNewFile();
+
+    newCiaFile.getParentFile().mkdirs();
+    newCiaFile.createNewFile();
+
+    final AtomicBoolean working = new AtomicBoolean(true);
+    final AtomicBoolean showInfo = new AtomicBoolean(false);
+
+    new Thread(() -> {
+
+      while (workingFile.exists() && working.get()) {
+
+        try {
+          Thread.sleep(300);
+        } catch (InterruptedException e) {
+          break;
+        }
+
+        if (!newCiaFile.exists()) {
+          clearCiaPrinter.set(true);
+
+          newCiaFile.getParentFile().mkdirs();
+          try {
+            newCiaFile.createNewFile();
+          } catch (IOException e) {
+            throw new RuntimeException(e);
+          }
+        }
+
+      }
+
+      working.set(false);
+
+    }).start();
+
+    new Thread(() -> {
+
+      while (working.get()) {
+
+        try {
+          Thread.sleep(700);
+        } catch (InterruptedException e) {
+          break;
+        }
+
+        showInfo.set(true);
+      }
+
+    }).start();
+
     int i = 1;
     for (RowType rowType : RowType.values()) {
       printClient(i++, rowType);
     }
-    for (; i <= 100; i++) {
+
+    int fileIndex = 1;
+
+    for (; currentCiaFileRecords <= 1_000_000 && working.get(); i++) {
 
       printClient(i, rowTypeRnd.next());
+      currentCiaFileRecords++;
 
+      if (fileIndex == 1 && currentCiaFileRecords >= 300) {
+        fileIndex++;
+        clearCiaPrinter.set(true);
+      }
+      if (fileIndex == 2 && currentCiaFileRecords >= 3000) {
+        fileIndex++;
+        clearCiaPrinter.set(true);
+      }
+      if (fileIndex == 3 && currentCiaFileRecords >= 30_000) {
+        fileIndex++;
+        clearCiaPrinter.set(true);
+      }
+      if (fileIndex == 4 && currentCiaFileRecords >= 300_000) {
+        fileIndex++;
+        clearCiaPrinter.set(true);
+      }
+
+      if (showInfo.get()) {
+        showInfo.set(false);
+        System.out.println("Сформировано записей в текущем файле: "
+          + currentCiaFileRecords + ", всего записей: " + i);
+      }
     }
 
-    {
-      PrintStream pr = printer.get();
-      if (pr != null) finishCiaFile(pr);
-    }
+    finishCiaPrinter();
+
+    working.set(false);
+
+    System.out.println("ИТОГО: Сформировано записей в текущем файле: "
+      + currentCiaFileRecords + ", всего записей: " + i);
   }
+
+  int currentCiaFileRecords = 0;
 
   @SuppressWarnings("unused")
   enum PhoneType {
@@ -239,15 +331,21 @@ public class GenerateInputFiles {
     }
   }
 
-  private static void finishCiaFile(PrintStream pr) {
-    pr.println("</cia>");
+  private void finishCiaPrinter() {
+    PrintStream pr = ciaPrinter;
+    if (pr != null) {
+      pr.println("</cia>");
+      pr.close();
+      ciaPrinter = null;
+
+      File newCiaFile = new File(ciaFileName + "-" + currentCiaFileRecords + ".xml");
+      ciaFile.renameTo(newCiaFile);
+    }
   }
 
   private void printClient(int clientIndex, RowType rowType) throws Exception {
 
-
     List<String> tags = new ArrayList<>();
-
 
     ErrorType errorType = null;
 
@@ -332,20 +430,25 @@ public class GenerateInputFiles {
       }
     }
 
-
     {
-      PrintStream pr = printer.get();
+      PrintStream pr = ciaPrinter;
 
-      if (pr == null) {
+      if (pr == null || clearCiaPrinter.get()) {
+        clearCiaPrinter.set(false);
+
+        finishCiaPrinter();
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
         Date now = new Date();
 
-        File xmlOut = new File("build/out_files/from_cia_" + sdf.format(now) + ".xml");
-        xmlOut.getParentFile().mkdirs();
+        ciaFileName = DIR + "/from_cia_" + sdf.format(now) + "-" + ciaFileNo++;
+        ciaFile = new File(ciaFileName + ".xml");
+        ciaFile.getParentFile().mkdirs();
 
-        pr = new PrintStream(xmlOut, "UTF-8");
-        printer.set(pr);
+        pr = new PrintStream(ciaFile, "UTF-8");
+        ciaPrinter = pr;
         pr.println("<cia>");
+        currentCiaFileRecords = 0;
       }
 
       Collections.shuffle(tags);
@@ -364,6 +467,8 @@ public class GenerateInputFiles {
       pr.println("  </client>");
     }
   }
+
+  int ciaFileNo = 1;
 
   final AtomicReference<List<String>> charmList = new AtomicReference<>(Collections.emptyList());
 
