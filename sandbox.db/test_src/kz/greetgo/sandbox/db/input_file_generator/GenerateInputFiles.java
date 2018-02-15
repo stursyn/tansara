@@ -5,17 +5,23 @@ import kz.greetgo.util.RND;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class GenerateInputFiles {
+
+  public static final int CIA_LIMIT = 1_000_000;
+  public static final int FRS_LIMIT = 10_000_000;
+
   public static void main(String[] args) throws Exception {
     new GenerateInputFiles().execute();
   }
@@ -35,7 +41,7 @@ public class GenerateInputFiles {
     for (int i = 0; i < len; i++) {
       ret[i] = ALL[random.nextInt(allLength)];
     }
-    return new String(ret);
+    return String.valueOf(ret);
   }
 
   private static String rndClientId() {
@@ -50,6 +56,27 @@ public class GenerateInputFiles {
       String.valueOf(cc, 4, 2) + '-' +
       String.valueOf(cc, 6, 2) + '-' +
       rndStr(10);
+  }
+
+  private static String rndAccountNumber() {
+    return RND.intStr(5) + "KZ" + RND.intStr(3) + "-" + RND.intStr(5) + "-" + RND.intStr(5) + "-" + RND.intStr(7);
+  }
+
+  public static String formatBD(BigDecimal a) {
+    if (a == null) return "";
+    DecimalFormat df = new DecimalFormat();
+    df.setMaximumFractionDigits(2);
+
+    df.setMinimumFractionDigits(0);
+
+    df.setGroupingUsed(true);
+    DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+    dfs.setGroupingSeparator('_');
+    dfs.setDecimalSeparator('.');
+    df.setDecimalFormatSymbols(dfs);
+    String ret = df.format(a.setScale(2, RoundingMode.HALF_UP));
+    if (ret.startsWith("-")) return ret;
+    return "+" + ret;
   }
 
   enum ErrorType {
@@ -98,7 +125,7 @@ public class GenerateInputFiles {
     }
   }
 
-  final List<String> idList = new ArrayList<>();
+  final List<String> commonClientIdList = new ArrayList<>();
 
   private static class SelectorRnd<T> {
     private Object[] values;
@@ -152,16 +179,15 @@ public class GenerateInputFiles {
   private static String spaces(int count) {
     char ret[] = new char[count];
     for (int i = 0; i < count; i++) ret[i] = ' ';
-    return new String(ret);
+    return String.valueOf(ret);
   }
 
-  PrintStream ciaPrinter = null;
-  String ciaFileName;
-  File ciaFile;
-
-  final AtomicBoolean clearCiaPrinter = new AtomicBoolean(false);
-
   static final String DIR = "build/out_files";
+
+  final AtomicBoolean clearPrinter = new AtomicBoolean(false);
+  PrintStream printer = null;
+  String outFileName;
+  File outFile;
 
   private void execute() throws Exception {
 
@@ -170,6 +196,7 @@ public class GenerateInputFiles {
 
     final File workingFile = new File(DIR + "/__working__");
     final File newCiaFile = new File(DIR + "/__new_cia_file__");
+    final File newFrsFile = new File(DIR + "/__new_frs_file__");
 
     workingFile.getParentFile().mkdirs();
     workingFile.createNewFile();
@@ -191,7 +218,7 @@ public class GenerateInputFiles {
         }
 
         if (!newCiaFile.exists()) {
-          clearCiaPrinter.set(true);
+          clearPrinter.set(true);
 
           newCiaFile.getParentFile().mkdirs();
           try {
@@ -200,7 +227,6 @@ public class GenerateInputFiles {
             throw new RuntimeException(e);
           }
         }
-
       }
 
       working.set(false);
@@ -222,51 +248,96 @@ public class GenerateInputFiles {
 
     }).start();
 
-    int i = 1;
-    for (RowType rowType : RowType.values()) {
-      printClient(i++, rowType);
+    {
+      int i = 1;
+      for (RowType rowType : RowType.values()) {
+        printClient(i++, rowType);
+      }
+
+      currentFileRecords = 0;
+
+      int fileIndex = 1;
+      for (; currentFileRecords < CIA_LIMIT && working.get(); i++) {
+
+        printClient(i, rowTypeRnd.next());
+        currentFileRecords++;
+
+        if (fileIndex == 1 && currentFileRecords >= 300) {
+          fileIndex++;
+          clearPrinter.set(true);
+        }
+        if (fileIndex == 2 && currentFileRecords >= 3000) {
+          fileIndex++;
+          clearPrinter.set(true);
+        }
+        if (fileIndex == 3 && currentFileRecords >= 30_000) {
+          fileIndex++;
+          clearPrinter.set(true);
+        }
+        if (fileIndex == 4 && currentFileRecords >= 300_000) {
+          fileIndex++;
+          clearPrinter.set(true);
+        }
+
+        if (showInfo.get()) {
+          showInfo.set(false);
+          System.out.println("Сформировано записей в текущем файле CIA: "
+            + currentFileRecords + ", всего записей: " + i);
+        }
+      }
+
+      System.out.println("ИТОГО: Сформировано записей в текущем файле CIA: "
+        + currentFileRecords + ", всего записей: " + i);
     }
 
-    int fileIndex = 1;
+    finishPrinter("</cia>", ".xml");
 
-    for (; currentCiaFileRecords <= 1_000_000 && working.get(); i++) {
+    System.out.println("Файлы CIA сформированы: приступаем к формированию файлов FRS...");
 
-      printClient(i, rowTypeRnd.next());
-      currentCiaFileRecords++;
+    {
+      newFrsFile.getParentFile().mkdirs();
+      newFrsFile.createNewFile();
 
-      if (fileIndex == 1 && currentCiaFileRecords >= 300) {
-        fileIndex++;
-        clearCiaPrinter.set(true);
-      }
-      if (fileIndex == 2 && currentCiaFileRecords >= 3000) {
-        fileIndex++;
-        clearCiaPrinter.set(true);
-      }
-      if (fileIndex == 3 && currentCiaFileRecords >= 30_000) {
-        fileIndex++;
-        clearCiaPrinter.set(true);
-      }
-      if (fileIndex == 4 && currentCiaFileRecords >= 300_000) {
-        fileIndex++;
-        clearCiaPrinter.set(true);
+      currentFileRecords = 0;
+
+      int i = 1, fileIndex = 1;
+      for (; currentFileRecords < FRS_LIMIT && working.get(); i++) {
+
+        printAccountWithTransactions(i);
+        currentFileRecords++;
+
+        if (fileIndex == 1 && currentFileRecords >= 30_000) {
+          fileIndex++;
+          clearPrinter.set(true);
+        }
+        if (fileIndex == 2 && currentFileRecords >= 700_000) {
+          fileIndex++;
+          clearPrinter.set(true);
+        }
+
+        if (showInfo.get()) {
+          showInfo.set(false);
+          System.out.println("Сформировано записей в текущем файле FRS: "
+            + currentFileRecords + ", всего записей: " + i);
+        }
       }
 
-      if (showInfo.get()) {
-        showInfo.set(false);
-        System.out.println("Сформировано записей в текущем файле: "
-          + currentCiaFileRecords + ", всего записей: " + i);
-      }
+      System.out.println("ИТОГО: Сформировано записей в текущем файле FRS: "
+        + currentFileRecords + ", всего записей: " + i);
     }
 
-    finishCiaPrinter();
+    finishPrinter(null, ".json_row.txt");
 
     working.set(false);
 
-    System.out.println("ИТОГО: Сформировано записей в текущем файле: "
-      + currentCiaFileRecords + ", всего записей: " + i);
+    archive();
+
+    workingFile.delete();
+    newCiaFile.delete();
+    newFrsFile.delete();
   }
 
-  int currentCiaFileRecords = 0;
+  int currentFileRecords = 0;
 
   @SuppressWarnings("unused")
   enum PhoneType {
@@ -331,15 +402,15 @@ public class GenerateInputFiles {
     }
   }
 
-  private void finishCiaPrinter() {
-    PrintStream pr = ciaPrinter;
+  private void finishPrinter(String lastLine, String extension) {
+    PrintStream pr = printer;
     if (pr != null) {
-      pr.println("</cia>");
+      if (lastLine != null) pr.println(lastLine);
       pr.close();
-      ciaPrinter = null;
+      printer = null;
 
-      File newCiaFile = new File(ciaFileName + "-" + currentCiaFileRecords + ".xml");
-      ciaFile.renameTo(newCiaFile);
+      File newCiaFile = new File(outFileName + "-" + currentFileRecords + extension);
+      outFile.renameTo(newCiaFile);
     }
   }
 
@@ -431,35 +502,35 @@ public class GenerateInputFiles {
     }
 
     {
-      PrintStream pr = ciaPrinter;
+      PrintStream pr = printer;
 
-      if (pr == null || clearCiaPrinter.get()) {
-        clearCiaPrinter.set(false);
+      if (pr == null || clearPrinter.get()) {
+        clearPrinter.set(false);
 
-        finishCiaPrinter();
+        finishPrinter("</cia>", ".xml");
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
         Date now = new Date();
 
-        ciaFileName = DIR + "/from_cia_" + sdf.format(now) + "-" + ciaFileNo++;
-        ciaFile = new File(ciaFileName + ".xml");
-        ciaFile.getParentFile().mkdirs();
+        outFileName = DIR + "/from_cia_" + sdf.format(now) + "-" + ciaFileNo++;
+        outFile = new File(outFileName + ".xml");
+        outFile.getParentFile().mkdirs();
 
-        pr = new PrintStream(ciaFile, "UTF-8");
-        ciaPrinter = pr;
+        pr = new PrintStream(outFile, "UTF-8");
+        printer = pr;
         pr.println("<cia>");
-        currentCiaFileRecords = 0;
+        currentFileRecords = 0;
       }
 
       Collections.shuffle(tags);
 
       String clientId = rndClientId();
-      if (rowType == RowType.EXISTS && idList.size() > 0) {
-        clientId = idList.get(random.nextInt(idList.size()));
+      if (rowType == RowType.EXISTS && commonClientIdList.size() > 0) {
+        clientId = commonClientIdList.get(random.nextInt(commonClientIdList.size()));
       }
 
       if (rowType == RowType.NEW_FOR_PAIR) {
-        idList.add(clientId);
+        commonClientIdList.add(clientId);
       }
 
       pr.println("  <client id=\"" + clientId + "\"> <!-- " + clientIndex + " -->");
@@ -469,6 +540,7 @@ public class GenerateInputFiles {
   }
 
   int ciaFileNo = 1;
+  int frsFileNo = 1;
 
   final AtomicReference<List<String>> charmList = new AtomicReference<>(Collections.emptyList());
 
@@ -503,5 +575,272 @@ public class GenerateInputFiles {
 
   private String nextSurname() {
     return RND.str(10);
+  }
+
+  private static List<String> addingTransactionType = new ArrayList<>();
+  private static List<String> subtractingTransactionType = new ArrayList<>();
+
+  static {
+    addingTransactionType.add("Списывание с федерального бюджета");
+    addingTransactionType.add("Списывание с регионального бюджета Алматинской области");
+    addingTransactionType.add("Списывание с регионального бюджета г.Алматы");
+    addingTransactionType.add("Списывание с регионального бюджета Карагандинского области");
+    addingTransactionType.add("Списывание с регионального бюджета г.Караганда");
+    subtractingTransactionType.add("Перевод в офшоры");
+    subtractingTransactionType.add("Перевод на подставной счёт");
+    subtractingTransactionType.add("Отмывание на ботинках");
+    subtractingTransactionType.add("Отмывание на компьютерной технике");
+  }
+
+  private static String nextTransactionType(boolean adding) {
+    List<String> list = adding ? addingTransactionType : subtractingTransactionType;
+    return list.get(random.nextInt(list.size()));
+  }
+
+
+  static GregorianCalendar registeredAtCal = null;
+
+  static GregorianCalendar finishedAtCal = null;
+
+  static class Account {
+    String clientId, number;
+    Date registeredAt;
+
+    final List<Transaction> transactionList = new ArrayList<>();
+
+    double ceil;
+
+    class Transaction {
+      Date finishedAt;
+      String type;
+      BigDecimal money;
+
+      String toJson() {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+
+        List<String> pairs = new ArrayList<>();
+        pairs.add("'type':'transaction'");
+        pairs.add("'money':'" + formatBD(money) + "'");
+        pairs.add("'finished_at':'" + sdf.format(finishedAt) + "'");
+        pairs.add("'transaction_type':'" + type + "'");
+        pairs.add("'account_number':'" + number + "'");
+
+        Collections.shuffle(pairs);
+
+        return pairs.stream().collect(Collectors.joining(",", "{", "}")).replace('\'', '"');
+      }
+
+      public void normMoney() {
+        money = money.setScale(2, RoundingMode.HALF_UP);
+      }
+    }
+
+    static Account next(String clientId) {
+      if (registeredAtCal == null) {
+        registeredAtCal = new GregorianCalendar();
+        registeredAtCal.add(Calendar.YEAR, -17);
+      }
+
+      registeredAtCal.add(Calendar.SECOND, +2);
+
+      {
+        Account ret = new Account();
+        ret.registeredAt = registeredAtCal.getTime();
+        ret.clientId = clientId;
+        ret.number = rndAccountNumber();
+
+        switch (random.nextInt(12)) {
+          case 0:
+            ret.ceil = 1000;
+            break;
+          case 1:
+          case 2:
+          case 3:
+          case 4:
+            ret.ceil = 10000;
+            break;
+          case 5:
+          case 6:
+          case 7:
+            ret.ceil = 100000;
+            break;
+          case 8:
+          case 9:
+          case 10:
+            ret.ceil = 1000000;
+            break;
+          case 11:
+            ret.ceil = 10000000;
+            break;
+        }
+
+        return ret;
+      }
+    }
+
+    String toJson() {
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+
+      List<String> pairs = new ArrayList<>();
+      pairs.add("'type':'new_account'");
+      pairs.add("'client_id':'" + clientId + "'");
+      pairs.add("'account_number':'" + number + "'");
+      pairs.add("'registered_at':'" + sdf.format(registeredAt) + "'");
+
+      Collections.shuffle(pairs);
+
+      return pairs.stream().collect(Collectors.joining(",", "{", "}")).replace('\'', '"');
+    }
+
+    BigDecimal rest() {
+      BigDecimal ret = BigDecimal.ZERO;
+      for (Transaction transaction : transactionList) {
+        ret = ret.add(transaction.money);
+      }
+      return ret;
+    }
+
+    public Transaction addTransaction(int rowIndex, boolean last) {
+      Transaction ret = new Transaction();
+
+      if (finishedAtCal == null) {
+        finishedAtCal = new GregorianCalendar();
+        finishedAtCal.add(Calendar.YEAR, -7);
+      }
+
+      finishedAtCal.add(Calendar.SECOND, +1 + (rowIndex % 2));
+
+      ret.finishedAt = finishedAtCal.getTime();
+
+      BigDecimal rest = rest();
+
+      if (last) {
+
+        ret.money = new BigDecimal(random.nextInt(10) * 1000).subtract(rest);
+        ret.normMoney();
+
+      } else {
+
+        switch (random.nextInt(3)) {
+          case 0:
+            if (rest.compareTo(BigDecimal.ZERO) > 0) {
+              ret.money = rest.negate();
+              ret.type = nextTransactionType(false);
+              break;
+            } //else goto case 1
+          case 1:
+            ret.money = new BigDecimal(123.45 + random.nextDouble() * ceil);
+            ret.type = nextTransactionType(true);
+            ret.normMoney();
+            break;
+          case 2:
+            ret.money = new BigDecimal(random.nextDouble() * rest.doubleValue()).negate();
+            ret.type = nextTransactionType(false);
+            ret.normMoney();
+            break;
+        }
+
+      }
+
+      transactionList.add(ret);
+      return ret;
+    }
+
+  }
+
+  private void printAccountWithTransactions(int rowIndex) throws Exception {
+    List<String> records = new ArrayList<>();
+
+    String clientId = commonClientIdList.get(random.nextInt(commonClientIdList.size()));
+
+    Account account = Account.next(clientId);
+
+    records.add(account.toJson());
+
+    int count = 2 + random.nextInt(10);
+    for (int i = 0; i < count; i++) {
+      records.add(account.addTransaction(rowIndex, false).toJson());
+    }
+    records.add(account.addTransaction(rowIndex, true).toJson());
+
+    Collections.shuffle(records);
+
+    {
+      PrintStream pr = printer;
+
+      if (pr == null || clearPrinter.get()) {
+        clearPrinter.set(false);
+
+        finishPrinter(null, ".json_row.txt");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+        Date now = new Date();
+
+        outFileName = DIR + "/from_frs_" + sdf.format(now) + "-" + frsFileNo++;
+        outFile = new File(outFileName + ".json_row.txt");
+        outFile.getParentFile().mkdirs();
+
+        pr = new PrintStream(outFile, "UTF-8");
+        printer = pr;
+        currentFileRecords = 0;
+      }
+
+      records.forEach(pr::println);
+      currentFileRecords += records.size();
+    }
+  }
+
+  private void archive() throws Exception {
+    File[] files = new File(DIR).listFiles(file ->
+      file.getName().startsWith("from")
+        && !file.getName().endsWith(".bz2"));
+
+    if (files == null) return;
+
+    ConcurrentLinkedQueue<File> fileQueue = new ConcurrentLinkedQueue<>();
+    Collections.addAll(fileQueue, files);
+
+    List<Thread> threadList = new ArrayList<>();
+    for (int i = 0; i < 3; i++) {
+      threadList.add(new Thread(() -> archiveQueue(fileQueue)));
+    }
+
+    threadList.forEach(Thread::start);
+    for (Thread thread : threadList) {
+      thread.join();
+    }
+  }
+
+  private void archiveQueue(ConcurrentLinkedQueue<File> fileQueue) {
+    try {
+      archiveQueueEx(fileQueue);
+    } catch (Exception e) {
+      if (e instanceof RuntimeException) throw (RuntimeException) e;
+      throw new RuntimeException(e);
+    }
+  }
+
+  private void archiveQueueEx(ConcurrentLinkedQueue<File> fileQueue) throws Exception {
+    while (true) {
+      File file = fileQueue.poll();
+      if (file == null) return;
+      archiveFile(file);
+    }
+  }
+
+  private void archiveFile(File file) throws Exception {
+    File dest = new File(file.getPath() + ".tar.bz2");
+    System.out.println("Start archiving file " + file.getName()
+      + " with size " + file.length() + " -> " + dest.getName());
+
+    ProcessBuilder builder = new ProcessBuilder();
+    builder.command("tar", "-cvjSf", dest.getPath(), file.getPath());
+    builder.inheritIO();
+    Process process = builder.start();
+    int exitStatus = process.waitFor();
+    if (exitStatus != 0) throw new RuntimeException("Error archive file " + file + " with exit status " + exitStatus);
+
+    file.delete();
   }
 }
