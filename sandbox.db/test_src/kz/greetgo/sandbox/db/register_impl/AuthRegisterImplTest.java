@@ -35,11 +35,9 @@ public class AuthRegisterImplTest extends ParentTestNg {
 
   @DataProvider
   public Object[][] saveParam_DP() {
-    List<Object[]> list = Arrays.stream(UserParamName.values())
+    return Arrays.stream(UserParamName.values())
       .map(a -> new Object[]{a})
-      .collect(Collectors.toList());
-
-    return list.toArray(new Object[list.size()][]);
+      .toArray(Object[][]::new);
   }
 
   @Test(dataProvider = "saveParam_DP")

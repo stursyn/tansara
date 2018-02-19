@@ -339,12 +339,14 @@ public class GenerateInputFiles {
 
   int currentFileRecords = 0;
 
+
   @SuppressWarnings("unused")
   enum PhoneType {
     homePhone, mobilePhone, workPhone,
   }
 
-  final static char DEG_CHARS[] = DEG.toCharArray();
+  static final char DEG_CHARS[] = DEG.toCharArray();
+  static final int DEG_CHARS_LENGTH = DEG_CHARS.length;
 
   static class Phone {
     String number;
@@ -352,22 +354,21 @@ public class GenerateInputFiles {
     static Phone next() {
 
       StringBuilder sb = new StringBuilder();
-      sb.append('+');
-      sb.append('7');
+      sb.append("+7-");
+
+      sb.append(DEG_CHARS[random.nextInt(DEG_CHARS_LENGTH)]);
+      sb.append(DEG_CHARS[random.nextInt(DEG_CHARS_LENGTH)]);
+      sb.append(DEG_CHARS[random.nextInt(DEG_CHARS_LENGTH)]);
       sb.append('-');
-      sb.append(DEG_CHARS[random.nextInt(DEG_CHARS.length)]);
-      sb.append(DEG_CHARS[random.nextInt(DEG_CHARS.length)]);
-      sb.append(DEG_CHARS[random.nextInt(DEG_CHARS.length)]);
+      sb.append(DEG_CHARS[random.nextInt(DEG_CHARS_LENGTH)]);
+      sb.append(DEG_CHARS[random.nextInt(DEG_CHARS_LENGTH)]);
+      sb.append(DEG_CHARS[random.nextInt(DEG_CHARS_LENGTH)]);
       sb.append('-');
-      sb.append(DEG_CHARS[random.nextInt(DEG_CHARS.length)]);
-      sb.append(DEG_CHARS[random.nextInt(DEG_CHARS.length)]);
-      sb.append(DEG_CHARS[random.nextInt(DEG_CHARS.length)]);
+      sb.append(DEG_CHARS[random.nextInt(DEG_CHARS_LENGTH)]);
+      sb.append(DEG_CHARS[random.nextInt(DEG_CHARS_LENGTH)]);
       sb.append('-');
-      sb.append(DEG_CHARS[random.nextInt(DEG_CHARS.length)]);
-      sb.append(DEG_CHARS[random.nextInt(DEG_CHARS.length)]);
-      sb.append('-');
-      sb.append(DEG_CHARS[random.nextInt(DEG_CHARS.length)]);
-      sb.append(DEG_CHARS[random.nextInt(DEG_CHARS.length)]);
+      sb.append(DEG_CHARS[random.nextInt(DEG_CHARS_LENGTH)]);
+      sb.append(DEG_CHARS[random.nextInt(DEG_CHARS_LENGTH)]);
 
       if (random.nextInt(5) == 0) {
         sb.append(" вн. ").append(RND.intStr(4));
@@ -409,7 +410,7 @@ public class GenerateInputFiles {
       pr.close();
       printer = null;
 
-      File newCiaFile = new File(outFileName + "-" + currentFileRecords + extension);
+      File newCiaFile = new File(outFileName + '-' + currentFileRecords + extension);
       outFile.renameTo(newCiaFile);
     }
   }
@@ -839,7 +840,7 @@ public class GenerateInputFiles {
     builder.inheritIO();
     Process process = builder.start();
     int exitStatus = process.waitFor();
-    if (exitStatus != 0) throw new RuntimeException("Error archive file " + file + " with exit status " + exitStatus);
+    if (exitStatus != 0) throw new RuntimeException("Error archiving file " + file + " with exit status " + exitStatus);
 
     file.delete();
   }

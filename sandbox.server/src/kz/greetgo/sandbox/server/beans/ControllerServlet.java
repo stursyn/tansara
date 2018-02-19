@@ -19,9 +19,7 @@ public class ControllerServlet extends AppServlet {
 
   @Override
   protected List<Object> getControllerList() {
-    List<Object> ret = new ArrayList<>();
-    ret.addAll(controllerList.get());
-    return unmodifiableList(ret);
+    return unmodifiableList(new ArrayList<Object>(controllerList.get()));
   }
 
   public BeanGetter<Views> views;

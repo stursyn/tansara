@@ -15,11 +15,8 @@ public class DbLoader {
   final Logger logger = Logger.getLogger(getClass());
 
   public BeanGetter<StandDb> standDb;
-
   public BeanGetter<AuthTestDao> authTestDao;
-
   public BeanGetter<TokenRegister> tokenManager;
-
 
   public void loadTestData() {
     logger.info("Start loading test data...");

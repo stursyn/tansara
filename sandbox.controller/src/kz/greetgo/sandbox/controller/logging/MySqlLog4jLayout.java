@@ -22,7 +22,7 @@ public class MySqlLog4jLayout extends org.apache.log4j.Layout {
       buffer.append(" [");
       String loggerName = event.getLoggerName();
       final int index1 = loggerName.lastIndexOf('.');
-      if (index1 < 0) {
+      if (0 > index1) {
         buffer.append(loggerName);
       } else {
         final int index2 = loggerName.lastIndexOf('.', index1 - 1);

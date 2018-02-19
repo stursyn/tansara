@@ -29,7 +29,6 @@ public class DbWorker {
 
   public BeanGetter<DbConfig> postgresDbConfig;
   public BeanGetter<AllConfigFactory> allPostgresConfigFactory;
-
   public BeanGetter<LiquibaseManager> liquibaseManager;
 
   public void recreateAll() throws Exception {
