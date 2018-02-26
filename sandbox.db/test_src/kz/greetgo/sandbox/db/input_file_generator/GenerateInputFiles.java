@@ -34,6 +34,40 @@ public class GenerateInputFiles {
 
   private static final Random random = new Random();
 
+  private static class Info {
+
+    int transactionCount = 0;
+    int accountCount = 0;
+    int clientErrorRecordCount = 0;
+
+    final Set<String> goodClientIds = new HashSet<>();
+
+    public void newErrorClient() {
+      clientErrorRecordCount++;
+    }
+
+    public void appendGoodClientId(String clientId) {
+      goodClientIds.add(clientId);
+    }
+
+    public void newAccount() {
+      accountCount++;
+    }
+
+    public void newTransaction() {
+      transactionCount++;
+    }
+
+    public void printTo(PrintStream pr) {
+      pr.println("Unique good client count = " + goodClientIds.size());
+      pr.println("Client error record count = " + clientErrorRecordCount);
+      pr.println("Transaction count = " + transactionCount);
+      pr.println("Account count = " + accountCount);
+    }
+  }
+
+  final Info info = new Info();
+
   @SuppressWarnings("SameParameterValue")
   private static String rndStr(int len) {
     final int allLength = ALL.length;
@@ -110,7 +144,7 @@ public class GenerateInputFiles {
     EXISTS(100),
     @SuppressWarnings("unused")
     NEW_ALONE(10),
-    ERROR(1),
+    ERROR(10),
 
     //
     ;
@@ -335,6 +369,20 @@ public class GenerateInputFiles {
     workingFile.delete();
     newCiaFile.delete();
     newFrsFile.delete();
+
+    saveInfoFile();
+  }
+
+  private void saveInfoFile() throws Exception {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+    Date now = new Date();
+
+    File file = new File(DIR + "/info_" + sdf.format(now) + ".txt");
+    file.getParentFile().mkdirs();
+
+    try (PrintStream pr = new PrintStream(file, "UTF-8")) {
+      info.printTo(pr);
+    }
   }
 
   int currentFileRecords = 0;
@@ -532,6 +580,12 @@ public class GenerateInputFiles {
 
       if (rowType == RowType.NEW_FOR_PAIR) {
         commonClientIdList.add(clientId);
+      }
+
+      if (rowType == RowType.ERROR) {
+        info.newErrorClient();
+      } else {
+        info.appendGoodClientId(clientId);
       }
 
       pr.println("  <client id=\"" + clientId + "\"> <!-- " + clientIndex + " -->");
@@ -758,12 +812,15 @@ public class GenerateInputFiles {
     Account account = Account.next(clientId);
 
     records.add(account.toJson());
+    info.newAccount();
 
     int count = 2 + random.nextInt(10);
     for (int i = 0; i < count; i++) {
       records.add(account.addTransaction(rowIndex, false).toJson());
+      info.newTransaction();
     }
     records.add(account.addTransaction(rowIndex, true).toJson());
+    info.newTransaction();
 
     Collections.shuffle(records);
 
