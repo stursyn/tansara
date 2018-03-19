@@ -6,6 +6,7 @@ export class UserInfo {
   public surname: string | null;
   public name: string | null;
   public patronymic: string | null;
+  public yellow: boolean;
 
   public phoneType: PhoneType | null;
 
@@ -16,6 +17,7 @@ export class UserInfo {
     this.name = o.name;
     this.patronymic = o.patronymic;
     this.phoneType = o.phoneType;
+    this.yellow = o.yellow;
     return this;
   }
 

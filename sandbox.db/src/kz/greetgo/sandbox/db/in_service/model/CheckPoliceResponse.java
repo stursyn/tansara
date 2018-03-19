@@ -5,6 +5,12 @@ public class CheckPoliceResponse {
   public String innWhoChecked;
   public String description;
 
+  public CheckPoliceResponse() {}
+
+  public CheckPoliceResponse(PoliceStatus status) {
+    this.status = status;
+  }
+
   @Override
   public String toString() {
     return "CheckPoliceResponse{" +

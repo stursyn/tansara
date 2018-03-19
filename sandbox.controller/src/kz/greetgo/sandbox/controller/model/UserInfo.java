@@ -8,5 +8,6 @@ public class UserInfo {
   public String surname;
   public String name;
   public String patronymic;
+  public boolean yellow;
   public PhoneType phoneType;
 }
