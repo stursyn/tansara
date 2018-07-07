@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+  <changeSet author="seyit" id="create-table-flora">
+    <sql endDelimiter=";;"><![CDATA[
+     create sequence num;;
+
+     create table flora (
+        id bigint not null primary key,
+        num varchar(100),
+        catalog varchar(255),
+        collectedBy varchar(2000),
+        typeTitle varchar(500),
+        familyTitle varchar(500),
+        floraNum varchar(100),
+        collectPlace varchar(2000),
+        collectCoordinate varchar(100),
+        collectAltitude varchar(100),
+        collectDate varchar(100),
+        floraWeight varchar(100),
+        useReason varchar(100),
+        behaviorPercent varchar(100)
+      );;
+
+    ]]></sql>
+  </changeSet>
+
+
+</databaseChangeLog>

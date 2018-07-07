@@ -5,6 +5,7 @@
 
   <!-- v001 -->
   <include file="liquibase/postgres/v001/000_common.xml"/>
-  <include file="liquibase/postgres/v001/001_person.xml"/>
+  <include file="liquibase/postgres/v001/001_flora.xml"/>
+  <include file="liquibase/postgres/v001/002_flora_data.xml"/>
 
 </databaseChangeLog>

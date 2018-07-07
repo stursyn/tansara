@@ -1,0 +1,16 @@
+@mixin custom-toggle_button-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $foreground: map-get($theme, foreground);
+  $background: map-get($theme, background);
+
+  .mat-button-toggle {
+    color: #000000;
+  }
+
+  .mat-button-toggle-checked {
+    background-color: mat-color($primary, K500);
+    color: #ffffff;
+  }
+}

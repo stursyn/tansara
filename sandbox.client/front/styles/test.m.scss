@@ -1,0 +1,18 @@
+@import "@angular/material/_theming.scss";
+// Custom themes
+@import '_palette_primary_color.scss';
+@import '_palette_accent_color.scss';
+@import '_palette_warn_color.scss';
+@import '_button_theme.scss';
+@import '_toggle_button_theme.scss';
+
+@include mat-core();
+
+$custom-primary-palette: mat-palette($palette-primary-color);
+$custom-accent-palette: mat-palette($palette-accent-color);
+$custom-warn-palette: mat-palette($palette-warn-color);
+$custom-theme: mat-light-theme($custom-primary-palette, $custom-accent-palette, $custom-warn-palette);
+
+@include angular-material-theme($custom-theme);
+@include custom-button-theme($custom-theme);
+@include custom-toggle-button-theme($custom-theme);

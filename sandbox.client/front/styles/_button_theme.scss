@@ -1,0 +1,190 @@
+/**
+ * Table Of Content
+ *
+ * 1. Common: <button mat-button>, <a mat-button>, <button mat-raised-button>, <a mat-raised-button>
+ * 2. Own: <button mat-button>
+ * 3. Own: <a mat-button>
+ * 4. Own: <button mat-mini-fab>, <a mat-mini-fab>
+ *
+ */
+
+@mixin custom-button-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $foreground: map-get($theme, foreground);
+  $background: map-get($theme, background);
+
+  $white: #ffffff;
+
+  /*1. Common: <button mat-button>, <a mat-button>, <button mat-raised-button>, <a mat-raised-button>*/
+  button,
+  a {
+    &[color=white] {
+      color: $white !important;
+
+      &:hover,
+      &:active {
+        border-color: $white !important;
+      }
+    }
+
+    &[color=white-dotted] {
+      color: $white !important;
+      border-bottom: 1px dotted rgba(255, 255, 255, 0.5) !important;
+      border-radius: 0 !important;
+
+      &:hover,
+      &:active {
+        border-bottom: 1px dotted $white !important;
+      }
+    }
+
+    &.mat-button {
+      &.mat-primary:hover,
+      &.mat-primary:active {
+        border-color: mat-color($primary, K500);
+      }
+
+      &.mat-accent:hover,
+      &.mat-accent:active {
+        border-color: mat-color($accent, K500);
+      }
+
+      &.mat-warn:hover,
+      &.mat-warn:active {
+        border-color: mat-color($warn, K500);
+      }
+    }
+
+    &.mat-raised-button {
+      color: mat-color($primary, K500);
+      border-bottom: 4px solid transparent;
+
+      &.mat-primary {
+        border-color: mat-color($primary, K600);
+
+        &:hover {
+          background-color: mat-color($primary, K400);
+        }
+
+        &:active {
+          background-color: mat-color($primary, K600);
+        }
+
+        &:disabled,
+        &[disabled="true"] {
+          border-bottom: 4px solid;
+        }
+      }
+
+      &.mat-accent {
+        border-color: mat-color($accent, K600);
+
+        &:hover {
+          background-color: mat-color($accent, K400);
+        }
+
+        &:active {
+          background-color: mat-color($accent, K600);
+        }
+
+        &:disabled,
+        &[disabled="true"] {
+          border-bottom: 4px solid;
+        }
+      }
+
+      &.mat-warn {
+        border-color: mat-color($warn, K600);
+
+        &:hover {
+          background-color: mat-color($warn, K400);
+        }
+
+        &:active {
+          background-color: mat-color($warn, K600);
+        }
+
+        &:disabled,
+        &[disabled="true"] {
+          border-bottom: 4px solid;
+        }
+      }
+    }
+  }
+
+  /*2. Own: <button mat-button>*/
+  button {
+    &.mat-button {
+      color: mat-color($primary, K500);
+      border-bottom: 4px solid transparent;
+
+      &:hover,
+      &:active {
+        border-bottom: 4px mat-color($primary, K500) solid;
+      }
+
+      &:disabled {
+        border-bottom: 4px solid transparent;
+      }
+    }
+  }
+
+  /*3. Own: <a mat-button>*/
+  a {
+    &[hasStar=true]::after {
+      content: ' *';
+      color: #ff6319;
+    }
+
+    &[color=white] {
+      color: $white;
+      border-bottom: 1px rgba(255, 255, 255, 0.5) solid;
+    }
+
+    &[color=link] {
+      border-radius: 0;
+      padding: 0;
+      line-height: unset;
+      white-space: normal;
+      text-align: left;
+
+      &:hover {
+        .mat-button-focus-overlay {
+          opacity: 0;
+        }
+      }
+    }
+
+    &.mat-button {
+      color: mat-color($primary, K500);
+      border-bottom: 1px rgba(104, 45, 134, 0.2) solid;
+      transition: border-bottom 70ms ease;
+
+      &:hover {
+        border-color: mat-color($primary, K500);
+      }
+
+      &[disabled="true"] {
+        border-bottom: 1px rgba(104, 45, 134, 0.2) solid;
+        transition: border-bottom 70ms ease;
+      }
+    }
+  }
+
+  /*4. Own: <button mat-mini-fab>, <a mat-mini-fab>*/
+  button,
+  a {
+    &.mat-mini-fab {
+      &[color=transparent] {
+        box-shadow: unset;
+        background-color: transparent;
+      }
+
+      &:hover {
+        background-color: buttonface;
+      }
+    }
+  }
+}

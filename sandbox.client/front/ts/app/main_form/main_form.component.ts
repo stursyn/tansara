@@ -1,88 +1,79 @@
-import {Component, EventEmitter, Output} from "@angular/core";
-import {UserInfo} from "../../model/UserInfo";
+import {AfterViewInit, Component, EventEmitter, ViewChild} from "@angular/core";
 import {HttpService} from "../HttpService";
-import {PhoneType} from "../../model/PhoneType";
+import {MatDialog, MatPaginator, PageEvent} from "@angular/material";
+import {EditDialogWindow} from "./edit_dialog_window/edit_dialog.window";
+import {noUndefined} from "@angular/compiler/src/util";
+
+export class ToFilterElement {
+  public num: string;
+  public catalog: number;
+  public collectedBy: number;
+  public typeTitle: string;
+  public familyTitle: string;
+  public floraNum: string;
+  public collectPlace: string;
+  public collectCoordinate: string;
+  public collectAltitude: string;
+  public collectDate: string;
+  public floraWeight: string;
+  public behaviorPercent: string;
+  public useReason: string;
+  public page: number;
+  public pageSize: number;
+}
 
 @Component({
   selector: 'main-form-component',
-  template: `
-    <div>
-      <h2>Main Form Component</h2>
-
-      <button (click)="exit.emit()">Выход</button>
-
-      <div *ngIf="!userInfo">
-        <button [disabled]="!loadUserInfoButtonEnabled" (click)="loadUserInfoButtonClicked()">
-          Загрузить данные пользователя
-        </button>
-        <div *ngIf="loadUserInfoError">
-          {{loadUserInfoError}}
-        </div>
-      </div>
-      <div *ngIf="userInfo">
-
-        <table>
-          <tbody>
-
-          <tr>
-            <td>ID</td>
-            <td>&nbsp;:&nbsp;</td>
-            <td><b>{{userInfo.id}}</b></td>
-          </tr>
-          <tr>
-            <td>Account name</td>
-            <td>&nbsp;:&nbsp;</td>
-            <td><b>{{userInfo.accountName}}</b></td>
-          </tr>
-          <tr>
-            <td>Surname</td>
-            <td>&nbsp;:&nbsp;</td>
-            <td><b>{{userInfo.surname}}</b></td>
-          </tr>
-          <tr>
-            <td>Name</td>
-            <td>&nbsp;:&nbsp;</td>
-            <td><b>{{userInfo.name}}</b></td>
-          </tr>
-          <tr>
-            <td>Patronymic</td>
-            <td>&nbsp;:&nbsp;</td>
-            <td><b>{{userInfo.patronymic}}</b></td>
-          </tr>
-          <tr>
-            <td>Phone type</td>
-            <td>&nbsp;:&nbsp;</td>
-            <td><b>{{userInfo.phoneType}}</b></td>
-          </tr>
-
-          </tbody>
-        </table>
-
-      </div>
-    </div>`,
+  template: require('./main_form.component.html'),
+  styles: [require('./main_form.component.css')],
 })
-export class MainFormComponent {
-  @Output() exit = new EventEmitter<void>();
+export class MainFormComponent implements AfterViewInit{
+  public toFilter: ToFilterElement = new ToFilterElement();
+  public displayedColumns: string[] = ['num', 'catalog','collectedBy','typeTitle','familyTitle',
+                                       'floraNum', 'collectPlace', 'collectCoordinate', 'collectAltitude', 'collectDate',
+                                       'floraWeight', 'behaviorPercent','action'];
+  public dataSource:Array<any> = [];
+  public resultsLength:number = 0;
 
-  userInfo: UserInfo | null = null;
-  loadUserInfoButtonEnabled: boolean = true;
-  loadUserInfoError: string | null;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private httpService: HttpService) {}
+  constructor(private httpService: HttpService,
+              public dialog: MatDialog) {
+  }
 
-  loadUserInfoButtonClicked() {
-    this.loadUserInfoButtonEnabled = false;
-    this.loadUserInfoError = null;
+  ngAfterViewInit(){
+    this.find();
+  }
 
-    this.httpService.get("/auth/userInfo").toPromise().then(result => {
-      this.userInfo = UserInfo.copy(result.json());
-      let phoneType: PhoneType | null = this.userInfo.phoneType;
-      console.log(phoneType);
-    }, error => {
-      console.log(error);
-      this.loadUserInfoButtonEnabled = true;
-      this.loadUserInfoError = error;
-      this.userInfo = null;
+  find(){
+    console.log(this.paginator);
+
+      this.toFilter.page = this.paginator.pageIndex;
+      this.toFilter.pageSize = this.paginator.pageSize;
+
+    this.httpService.post("/flora/list", { toFilter: JSON.stringify(this.toFilter)}).toPromise()
+        .then(result => {
+            this.dataSource = result.json();
+            });
+    this.httpService.post("/flora/count", { toFilter: JSON.stringify(this.toFilter)}).toPromise()
+        .then(result => {
+          this.resultsLength = result.json();
+        });
+  }
+
+  edit(row){
+    console.log(row);
+    const dialogRef = this.dialog.open(EditDialogWindow, {
+      width: '800px',
+      data: {floraId: row?row.id:row}
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.find();
+    });
+  }
+
+  addFlora(){
+    this.edit(undefined);
   }
 }

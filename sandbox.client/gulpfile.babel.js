@@ -213,7 +213,7 @@ task('pug', function () {
   p = p.on("error", console.log);
 
   if (!isStand) {
-    ['webpack', 'stylus', 'less']
+    ['webpack', 'stylus', 'less','sass']
       .map(s => path.resolve('.', 'build', 'manifest_' + s + '.json'))
       .filter(fileName => fs.existsSync(fileName))
       .forEach(fileName => {
@@ -285,7 +285,7 @@ task('sass', function () {
 
   //noinspection JSUnresolvedFunction
   p = p.pipe(sass({
-    importer: moduleImporter(),
+    importer: moduleImporter()
   }).on('error', sass.logError));
 
   if (!isStand) {

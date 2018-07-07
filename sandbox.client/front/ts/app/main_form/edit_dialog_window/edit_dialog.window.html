@@ -1,0 +1,67 @@
+<h1 mat-dialog-title>{{header}}</h1>
+<div mat-dialog-content>
+    <div class="row">
+        <div class="col-lg-6  form-field-width-100">
+            <mat-form-field>
+                <input matInput [placeholder]="'Нумерация'"
+                       [(ngModel)]="toSave.num"
+                >
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput [placeholder]="'Каталог'"
+                       [(ngModel)]="toSave.catalog"
+                >
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput [placeholder]="'Кем собрано'"
+                       [(ngModel)]="toSave.collectedBy">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput [placeholder]="'Важн хозяйс.значение'"
+                       [(ngModel)]="toSave.useReason">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput [placeholder]="'Место сбора, административный район'"
+                   [(ngModel)]="toSave.collectPlace">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput [placeholder]="'Координаты сбора (N, E)'"
+                       [(ngModel)]="toSave.collectCoordinate">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput [placeholder]="'Высота над уров-нем  моря, м'"
+                       [(ngModel)]="toSave.collectAltitude">
+            </mat-form-field>
+        </div>
+        <div class="col-lg-6  form-field-width-100">
+            <mat-form-field>
+                <input matInput [placeholder]="'Название вида'"
+                       [(ngModel)]="toSave.typeTitle">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput [placeholder]="'Название семейства'"
+                       [(ngModel)]="toSave.familyTitle">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput [placeholder]="'№ флор р-на'"
+                       [(ngModel)]="toSave.floraNum">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput [placeholder]="'Дата сбора (число.месяц год)'"
+                       [(ngModel)]="toSave.collectDate">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput [placeholder]="'Масса 1000 семян, г'"
+                       [(ngModel)]="toSave.floraWeight">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput [placeholder]="'Всхож %'"
+                       [(ngModel)]="toSave.behaviorPercent">
+            </mat-form-field>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button color="accent" (click)="save()" cdkFocusInitial>Сохранить</button>
+    <button mat-button [mat-dialog-close]="">Отмена</button>
+</div>

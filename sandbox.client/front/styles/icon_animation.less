@@ -2,6 +2,28 @@
   animation: spin 1s infinite linear;
 }
 
+body {
+  font-family: Roboto, Arial, sans-serif;
+  margin: 0;
+}
+
+.basic-container {
+  padding: 30px;
+}
+.example-container.mat-elevation-z8 {
+  height: 530px;
+  overflow: auto;
+ }
+
+.version-info {
+  font-size: 8pt;
+  float: right;
+}
+
+.form-field-width-100 > mat-form-field {
+  width: 100%;
+}
+
 @keyframes spin {
   from { transform: scale(1) rotate(0deg);}
   to { transform: scale(1) rotate(360deg);}
