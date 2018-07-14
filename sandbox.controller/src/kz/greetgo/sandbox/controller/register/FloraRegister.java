@@ -1,5 +1,7 @@
 package kz.greetgo.sandbox.controller.register;
 
+import kz.greetgo.sandbox.controller.model.DictRecord;
+import kz.greetgo.sandbox.controller.model.DictSimpleToFilter;
 import kz.greetgo.sandbox.controller.model.FloraRecord;
 import kz.greetgo.sandbox.controller.model.FloraToFilter;
 
@@ -13,4 +15,6 @@ public interface FloraRegister {
   FloraRecord detail(Integer floraId);
 
   void save(FloraRecord toSave);
+
+  List<DictRecord> dictSimple(DictSimpleToFilter toFilter);
 }

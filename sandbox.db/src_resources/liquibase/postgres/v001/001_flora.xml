@@ -8,20 +8,36 @@
      create sequence num;;
 
      create table flora (
-        id bigint not null primary key,
-        num varchar(100),
+        num bigint not null primary key,
         catalog varchar(255),
         collectedBy varchar(2000),
-        typeTitle varchar(500),
-        familyTitle varchar(500),
-        floraNum varchar(100),
+        familyCode varchar(1000),
+        genusCode varchar(1000),
+        typeCode varchar(1000),
+        usageCode varchar(1000),
+        regionCode varchar(1000),
         collectPlace varchar(2000),
         collectCoordinate varchar(100),
         collectAltitude varchar(100),
-        collectDate varchar(100),
+        collectDate timestamp,
         floraWeight varchar(100),
-        useReason varchar(100),
         behaviorPercent varchar(100)
+      );;
+
+     create table table_of_dicts (
+        code varchar(1000) not null primary key,
+        title varchar(3000),
+        dictType varchar(255),
+        parentCode varchar(255)
+     );;
+
+     create table flora_collection_relation (
+        flora bigint not null,
+        collectionDict varchar(1000) not null,
+        measureDict varchar(1000) not null,
+        actual smallint not null default 1,
+
+        PRIMARY KEY(flora, collectionDict, measureDict)
       );;
 
     ]]></sql>

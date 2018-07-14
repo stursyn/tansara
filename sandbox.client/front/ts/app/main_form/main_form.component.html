@@ -3,66 +3,99 @@
         <div class="row">
             <div class="col-lg-3">
                 <mat-form-field>
-                    <input matInput [placeholder]="'Нумерация'"
-                        [(ngModel)]="toFilter.num"
+                    <input matInput placeholder="Нумерация"
+                        [(ngModel)]="toFilter.num" ng-pattern="/^[0-9]*$/"
                     >
                 </mat-form-field>
                 <mat-form-field>
-                    <input matInput [placeholder]="'Каталог'"
+                    <input matInput placeholder="Каталог"
                            [(ngModel)]="toFilter.catalog"
                     >
                 </mat-form-field>
                 <mat-form-field>
-                    <input matInput [placeholder]="'Кем собрано'"
-                            [(ngModel)]="toFilter.collectedBy">
-                </mat-form-field>
-
-                <mat-form-field>
-                    <input matInput [placeholder]="'Важн хозяйс.значение'"
-                           [(ngModel)]="toFilter.useReason">
-                </mat-form-field>
-            </div>
-            <div class="col-lg-3">
-                <mat-form-field>
-                    <input matInput [placeholder]="'Название вида'"
-                           [(ngModel)]="toFilter.typeTitle">
+                    <mat-select placeholder="Коллекция" [(ngModel)]="toFilter.collection">
+                        <mat-option *ngFor="let item of collectionDict" [value]="item.code">
+                            {{item.title}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
                 <mat-form-field>
-                    <input matInput [placeholder]="'Название семейства'"
-                           [(ngModel)]="toFilter.familyTitle">
+                    <mat-select placeholder="Хранения в таре,мл" [(ngModel)]="toFilter.measure">
+                        <mat-option *ngFor="let item of measureDict" [value]="item.code">
+                            {{item.title}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
                 <mat-form-field>
-                    <input matInput [placeholder]="'№ флор р-на'"
-                           [(ngModel)]="toFilter.floraNum">
+                    <mat-select placeholder="Важн хозяйс.значение" [(ngModel)]="toFilter.usage">
+                        <mat-option *ngFor="let item of usageDict" [value]="item.code">
+                            {{item.title}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
             </div>
             <div class="col-lg-3">
                 <mat-form-field>
-                    <input matInput [placeholder]="'Место сбора, административный район'"
+                    <mat-select placeholder="Название семейства" [(ngModel)]="toFilter.family"
+                                (selectionChange)="selectionChange('FAMILY',$event)">
+                        <mat-option *ngFor="let item of familyDict" [value]="item.code">
+                            {{item.title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-select placeholder="Название рода" [(ngModel)]="toFilter.genus"
+                                (selectionChange)="selectionChange('GENUS',$event)">
+                        <mat-option *ngFor="let item of genusDict" [value]="item.code">
+                            {{item.title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-select placeholder="Название рода" [(ngModel)]="toFilter.type">
+                        <mat-option *ngFor="let item of typeDict" [value]="item.code">
+                            {{item.title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-select placeholder="№ флор р-на" [(ngModel)]="toFilter.region">
+                        <mat-option *ngFor="let item of regionDict" [value]="item.code">
+                            {{item.title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-lg-3">
+                <mat-form-field>
+                    <input matInput placeholder="Место сбора, административный район"
                            [(ngModel)]="toFilter.collectPlace">
                 </mat-form-field>
                 <mat-form-field>
-                    <input matInput [placeholder]="'Координаты сбора (N, E)'"
+                    <input matInput placeholder="Координаты сбора (N, E)"
                            [(ngModel)]="toFilter.collectCoordinate">
                 </mat-form-field>
                 <mat-form-field>
-                    <input matInput [placeholder]="'Высота над уров-нем  моря, м'"
+                    <input matInput placeholder="Высота над уров-нем  моря, м"
                            [(ngModel)]="toFilter.collectAltitude">
                 </mat-form-field>
             </div>
-
             <div class="col-lg-3">
                 <mat-form-field>
-                    <input matInput [placeholder]="'Дата сбора (число.месяц год)'"
+                    <input matInput placeholder="Дата сбора (число.месяц год)"
                            [(ngModel)]="toFilter.collectDate">
                 </mat-form-field>
                 <mat-form-field>
-                    <input matInput [placeholder]="'Масса 1000 семян, г'"
+                    <input matInput placeholder="Масса 1000 семян, г"
                            [(ngModel)]="toFilter.floraWeight">
                 </mat-form-field>
                 <mat-form-field>
-                    <input matInput [placeholder]="'Всхож %'"
+                    <input matInput placeholder="Всхож %"
                            [(ngModel)]="toFilter.behaviorPercent">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput placeholder="Кем собрано"
+                           [(ngModel)]="toFilter.collectedBy">
                 </mat-form-field>
             </div>
         </div>

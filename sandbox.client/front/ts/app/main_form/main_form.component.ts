@@ -5,19 +5,24 @@ import {EditDialogWindow} from "./edit_dialog_window/edit_dialog.window";
 import {noUndefined} from "@angular/compiler/src/util";
 
 export class ToFilterElement {
-  public num: string;
-  public catalog: number;
-  public collectedBy: number;
-  public typeTitle: string;
-  public familyTitle: string;
-  public floraNum: string;
+  public num: number;
+  public catalog: string;
+  public collection: string;
+  public measure: string;
+  public usage: string;
+  public family: string;
+  public genus: string;
+  public type: string;
+  public region: string;
+
   public collectPlace: string;
   public collectCoordinate: string;
   public collectAltitude: string;
   public collectDate: string;
   public floraWeight: string;
   public behaviorPercent: string;
-  public useReason: string;
+  public collectedBy: string;
+
   public page: number;
   public pageSize: number;
 }
@@ -29,9 +34,7 @@ export class ToFilterElement {
 })
 export class MainFormComponent implements AfterViewInit{
   public toFilter: ToFilterElement = new ToFilterElement();
-  public displayedColumns: string[] = ['num', 'catalog','collectedBy','typeTitle','familyTitle',
-                                       'floraNum', 'collectPlace', 'collectCoordinate', 'collectAltitude', 'collectDate',
-                                       'floraWeight', 'behaviorPercent','action'];
+  public displayedColumns: string[] = ['num', 'catalog', 'familyTitle', 'genusTitle', 'typeTitle', 'collectDate', 'action'];
   public dataSource:Array<any> = [];
   public resultsLength:number = 0;
 
