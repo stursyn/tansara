@@ -27,6 +27,11 @@ export class ToFilterElement {
   public pageSize: number;
 }
 
+export class DictSimple{
+  public code:string;
+  public title:string;
+}
+
 @Component({
   selector: 'main-form-component',
   template: require('./main_form.component.html'),
@@ -37,6 +42,14 @@ export class MainFormComponent implements AfterViewInit{
   public displayedColumns: string[] = ['num', 'catalog', 'familyTitle', 'genusTitle', 'typeTitle', 'collectDate', 'action'];
   public dataSource:Array<any> = [];
   public resultsLength:number = 0;
+  public collectionDict:Array<DictSimple> = [];
+  public measureDict:Array<DictSimple> = [];
+  public regionDict:Array<DictSimple> = [];
+  public usageDict:Array<DictSimple> = [];
+  public familyDict:Array<DictSimple> = [];
+  public genusDict:Array<DictSimple> = [];
+  public typeDict:Array<DictSimple> = [];
+
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -49,7 +62,6 @@ export class MainFormComponent implements AfterViewInit{
   }
 
   find(){
-    console.log(this.paginator);
 
       this.toFilter.page = this.paginator.pageIndex;
       this.toFilter.pageSize = this.paginator.pageSize;
@@ -63,6 +75,50 @@ export class MainFormComponent implements AfterViewInit{
           this.resultsLength = result.json();
         });
   }
+
+  loadDict(){
+    this.httpService.post("/flora/dict_simple", { toFilter:JSON.stringify({
+      dictType:'COLLECTION'
+    })}).toPromise().then(
+      result=> {this.collectionDict = result.json();});
+
+    this.httpService.post("/flora/dict_simple", { toFilter:JSON.stringify({
+      dictType:'MEASURE'
+    })}).toPromise().then(
+      result=> {this.measureDict = result.json();});
+
+    this.httpService.post("/flora/dict_simple", { toFilter:JSON.stringify({
+      dictType:'REGION'
+    })}).toPromise().then(
+      result=> {this.regionDict = result.json();});
+
+    this.httpService.post("/flora/dict_simple", { toFilter:JSON.stringify({
+      dictType:'USAGE'
+    })}).toPromise().then(
+      result=> {this.usageDict = result.json();});
+
+    this.httpService.post("/flora/dict_simple", { toFilter:JSON.stringify({
+      dictType:'FAMILY'
+    })}).toPromise().then(
+      result=> {this.familyDict = result.json();});
+  }
+
+  loadGenusDict(familyCode){
+    this.httpService.post("/flora/dict_simple", { toFilter:JSON.stringify({
+      dictType:'GENUS',
+      parentCode:familyCode
+    })}).toPromise().then(
+      result=> {this.genusDict = result.json();});
+  }
+
+  loadTypeDict(genusCode){
+    this.httpService.post("/flora/dict_simple", { toFilter:JSON.stringify({
+      dictType:'TYPE',
+      parentCode:genusCode
+    })}).toPromise().then(
+      result=> {this.typeDict = result.json();});
+  }
+
 
   edit(row){
     console.log(row);

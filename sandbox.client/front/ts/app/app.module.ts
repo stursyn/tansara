@@ -11,7 +11,7 @@ import {
   MatIconModule,
   MatInputModule, MatMenuModule,
   MatPaginatorModule,
-  MatTableModule
+  MatTableModule, MatSelectModule
 } from "@angular/material";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BrowserModule} from "@angular/platform-browser";
@@ -37,6 +37,7 @@ import {EditDialogWindow} from "./main_form/edit_dialog_window/edit_dialog.windo
       MatButtonModule,
     MatDialogModule,
       MatMenuModule,
+    MatSelectModule
 
   ],
   declarations: [

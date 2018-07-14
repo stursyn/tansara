@@ -26,13 +26,6 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <mat-form-field>
-                    <mat-select placeholder="Важн хозяйс.значение" [(ngModel)]="toFilter.usage">
-                        <mat-option *ngFor="let item of usageDict" [value]="item.code">
-                            {{item.title}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
             </div>
             <div class="col-lg-3">
                 <mat-form-field>
@@ -79,6 +72,13 @@
                     <input matInput placeholder="Высота над уров-нем  моря, м"
                            [(ngModel)]="toFilter.collectAltitude">
                 </mat-form-field>
+                <mat-form-field>
+                  <mat-select placeholder="Важн хозяйс.значение" [(ngModel)]="toFilter.usage">
+                    <mat-option *ngFor="let item of usageDict" [value]="item.code">
+                      {{item.title}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
             </div>
             <div class="col-lg-3">
                 <mat-form-field>
@@ -116,54 +116,21 @@
                     <th mat-header-cell *matHeaderCellDef> Каталог</th>
                     <td mat-cell *matCellDef="let element"> {{element.catalog}}</td>
                 </ng-container>
+                <ng-container matColumnDef="familyTitle">
+                  <th mat-header-cell *matHeaderCellDef> Название семейства</th>
+                  <td mat-cell *matCellDef="let element"> {{element.familyTitle}}</td>
+                </ng-container>
+                <ng-container matColumnDef="genusTitle">
+                  <th mat-header-cell *matHeaderCellDef> Название рода</th>
+                  <td mat-cell *matCellDef="let element"> {{element.genusTitle}}</td>
+                </ng-container>
                 <ng-container matColumnDef="typeTitle">
                     <th mat-header-cell *matHeaderCellDef> Название вида</th>
                     <td mat-cell *matCellDef="let element"> {{element.typeTitle}}</td>
                 </ng-container>
-
-                <ng-container matColumnDef="familyTitle">
-                    <th mat-header-cell *matHeaderCellDef> Название семейства</th>
-                    <td mat-cell *matCellDef="let element"> {{element.familyTitle}}</td>
-                </ng-container>
-                <ng-container matColumnDef="floraNum">
-                    <th mat-header-cell *matHeaderCellDef> № флор р-на</th>
-                    <td mat-cell *matCellDef="let element"> {{element.floraNum}}</td>
-                </ng-container>
-                <ng-container matColumnDef="useReason">
-                    <th mat-header-cell *matHeaderCellDef> Важн хозяйс.значение</th>
-                    <td mat-cell *matCellDef="let element"> {{element.useReason}}</td>
-                </ng-container>
-
-                <ng-container matColumnDef="collectPlace">
-                    <th mat-header-cell *matHeaderCellDef> Место сбора, административный район</th>
-                    <td mat-cell *matCellDef="let element"> {{element.collectPlace}}</td>
-                </ng-container>
-                <ng-container matColumnDef="collectCoordinate">
-                    <th mat-header-cell *matHeaderCellDef> Координаты сбора (N, E)</th>
-                    <td mat-cell *matCellDef="let element"> {{element.collectCoordinate}}</td>
-                </ng-container>
-
-                <ng-container matColumnDef="collectAltitude">
-                    <th mat-header-cell *matHeaderCellDef> Высота над уров-нем  моря, м</th>
-                    <td mat-cell *matCellDef="let element"> {{element.collectAltitude}}</td>
-                </ng-container>
                 <ng-container matColumnDef="collectDate">
                     <th mat-header-cell *matHeaderCellDef> Дата сбора(число.месяц год)</th>
                     <td mat-cell *matCellDef="let element"> {{element.collectDate}}</td>
-                </ng-container>
-
-                <ng-container matColumnDef="floraWeight">
-                    <th mat-header-cell *matHeaderCellDef> Масса 1000 семян, г</th>
-                    <td mat-cell *matCellDef="let element"> {{element.floraWeight}}</td>
-                </ng-container>
-                <ng-container matColumnDef="collectedBy">
-                    <th mat-header-cell *matHeaderCellDef> Кем собрано</th>
-                    <td mat-cell *matCellDef="let element"> {{element.collectedBy}}</td>
-                </ng-container>
-
-                <ng-container matColumnDef="behaviorPercent">
-                    <th mat-header-cell *matHeaderCellDef> Всхож %</th>
-                    <td mat-cell *matCellDef="let element"> {{element.behaviorPercent}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="action">
