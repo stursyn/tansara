@@ -14,8 +14,8 @@ abstract public class FloraLogicJdbc<ReturnType, ModelClassType> extends SqlLogi
   }
 
   protected void where() {
-    if (!Strings.isNullOrEmpty(filter.num)) {
-      sql.where("lower(f.num) like lower('%' || :num || '%')");
+    if (filter.num!=null) {
+      sql.where("f.num = :num");
       sql.setValue("num", filter.num);
     }
     if (!Strings.isNullOrEmpty(filter.catalog)) {
@@ -34,8 +34,8 @@ abstract public class FloraLogicJdbc<ReturnType, ModelClassType> extends SqlLogi
       sql.where("lower(f.collectCoordinate) like lower('%' || :collectCoordinate || '%')");
       sql.setValue("collectCoordinate", filter.collectCoordinate);
     }
-    if (!Strings.isNullOrEmpty(filter.collectDate)) {
-      sql.where("lower(f.collectDate) like lower('%' || :collectDate || '%')");
+    if (filter.collectDate!=null) {
+      sql.where("EXTRACT(YEAR FROM f.collectDate) = :collectDate");
       sql.setValue("collectDate", filter.collectDate);
     }
     if (!Strings.isNullOrEmpty(filter.collectedBy)) {
@@ -46,25 +46,40 @@ abstract public class FloraLogicJdbc<ReturnType, ModelClassType> extends SqlLogi
       sql.where("lower(f.collectPlace) like lower('%' || :collectPlace || '%')");
       sql.setValue("collectPlace", filter.collectPlace);
     }
-    if (!Strings.isNullOrEmpty(filter.familyTitle)) {
-      sql.where("lower(f.familyTitle) like lower('%' || :familyTitle || '%')");
-      sql.setValue("familyTitle", filter.familyTitle);
+    if (!Strings.isNullOrEmpty(filter.family)) {
+      sql.where("f.familyCode = :family");
+      sql.setValue("family", filter.family);
     }
-    if (!Strings.isNullOrEmpty(filter.floraNum)) {
-      sql.where("lower(f.floraNum) like lower('%' || :floraNum || '%')");
-      sql.setValue("floraNum", filter.floraNum);
+    if (!Strings.isNullOrEmpty(filter.genus)) {
+      sql.where("f.genusCode = :genus");
+      sql.setValue("genus", filter.genus);
+    }
+    if (!Strings.isNullOrEmpty(filter.region)) {
+      sql.where("f.regionCode = :region");
+      sql.setValue("region", filter.region);
     }
     if (!Strings.isNullOrEmpty(filter.floraWeight)) {
       sql.where("lower(f.floraWeight) like lower('%' || :floraWeight || '%')");
       sql.setValue("floraWeight", filter.floraWeight);
     }
-    if (!Strings.isNullOrEmpty(filter.typeTitle)) {
-      sql.where("lower(f.typeTitle) like lower('%' || :typeTitle || '%')");
-      sql.setValue("typeTitle", filter.typeTitle);
+    if (!Strings.isNullOrEmpty(filter.type)) {
+      sql.where("f.typeCode = :typeCode");
+      sql.setValue("typeCode", filter.type);
     }
-    if (!Strings.isNullOrEmpty(filter.useReason)) {
-      sql.where("lower(f.useReason) like lower('%' || :useReason || '%')");
-      sql.setValue("useReason", filter.useReason);
+    if (!Strings.isNullOrEmpty(filter.usage)) {
+      sql.where("f.usageCode = :usage");
+      sql.setValue("usage", filter.usage);
+    }
+    if (!Strings.isNullOrEmpty(filter.collection) && !Strings.isNullOrEmpty(filter.measure)) {
+      sql.where("f.num in (select flora from flora_collection_relation where collectionDict = :collection and measureDict=:measure)");
+      sql.setValue("collection", filter.collection);
+      sql.setValue("measure", filter.measure);
+    } else if (!Strings.isNullOrEmpty(filter.collection)) {
+      sql.where("f.num in (select flora from flora_collection_relation where collectionDict = :collection)");
+      sql.setValue("collection", filter.collection);
+    } else if (!Strings.isNullOrEmpty(filter.measure)) {
+      sql.where("f.num in (select flora from flora_collection_relation where measureDict = :measure)");
+      sql.setValue("measure", filter.measure);
     }
   }
 

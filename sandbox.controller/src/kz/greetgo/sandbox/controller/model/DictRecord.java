@@ -1,9 +1,18 @@
 package kz.greetgo.sandbox.controller.model;
 
-public class DictRecord{
+public class DictRecord {
   public String code;
   public String title;
   public String parent;
+
+  public DictRecord() {
+
+  }
+
+  public DictRecord(String code, String title) {
+    this.code = code;
+    this.title = title;
+  }
 
   @Override
   public boolean equals(Object o) {

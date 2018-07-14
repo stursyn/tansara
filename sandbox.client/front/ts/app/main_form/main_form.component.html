@@ -1,10 +1,10 @@
 <mat-card>
-    <mat-card-content>
+    <mat-card-content fxLayoutGap="16px">
         <div class="row">
             <div class="col-lg-3">
                 <mat-form-field>
                     <input matInput placeholder="Нумерация"
-                        [(ngModel)]="toFilter.num" ng-pattern="/^[0-9]*$/"
+                        [(ngModel)]="toFilter.num" [pattern]="'[0-9]*'"
                     >
                 </mat-form-field>
                 <mat-form-field>
@@ -39,14 +39,14 @@
                 <mat-form-field>
                     <mat-select placeholder="Название рода" [(ngModel)]="toFilter.genus"
                                 (selectionChange)="selectionChange('GENUS',$event)">
-                        <mat-option *ngFor="let item of genusDict" [value]="item.code">
+                        <mat-option *ngFor="let item of genusDict" [value]="item.code" [matTooltip]="item.title">
                             {{item.title}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-select placeholder="Название рода" [(ngModel)]="toFilter.type">
-                        <mat-option *ngFor="let item of typeDict" [value]="item.code">
+                    <mat-select placeholder="Название вида" [(ngModel)]="toFilter.type">
+                        <mat-option *ngFor="let item of typeDict" [value]="item.code" [matTooltip]="item.title">
                             {{item.title}}
                         </mat-option>
                     </mat-select>
@@ -82,8 +82,10 @@
             </div>
             <div class="col-lg-3">
                 <mat-form-field>
-                    <input matInput placeholder="Дата сбора (число.месяц год)"
-                           [(ngModel)]="toFilter.collectDate">
+                  <input matInput [placeholder]="'Год сбора'" disabled  [(ngModel)]="toFilter.collectDate">
+                  <input matInput [matDatepicker]="dp3" hidden="true" [formControl]="date">
+                  <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                  <mat-datepicker #dp3 disabled="false" startView="multi-year" (yearSelected)="chosenYearHandler($event, dp3)"></mat-datepicker>
                 </mat-form-field>
                 <mat-form-field>
                     <input matInput placeholder="Масса 1000 семян, г"
@@ -99,8 +101,9 @@
                 </mat-form-field>
             </div>
         </div>
-        <button mat-button color="primary" (click)="find()">Найти</button>
-        <button mat-button color="accent" (click)="addFlora()">Добавить</button>
+      <button mat-button color="primary" (click)="find()">Найти</button>
+      <button mat-button color="accent" (click)="clear()">Очистить</button>
+      <button mat-button color="accent" (click)="addFlora()">Добавить</button>
     </mat-card-content>
 </mat-card>
 <mat-card>
@@ -142,6 +145,9 @@
                         <mat-menu #menu="matMenu">
                             <button mat-menu-item (click)="edit(row)">
                                 Редактировать
+                            </button>
+                            <button mat-menu-item (click)="view(row)">
+                                Просмотр
                             </button>
                             <button mat-menu-item (click)="remove(row)">
                                 Удалить

@@ -38,14 +38,14 @@ public class FloraController implements Controller {
   @NoSecurity
   @ToJson
   @Mapping("/detail")
-  public FloraRecord detail( @Par("floraId") String floraId) {
-    return floraRegister.get().detail(Integer.parseInt(floraId));
+  public FloraDetail detail( @Par("floraId") String floraId) {
+    return floraRegister.get().detail(Long.parseLong(floraId));
   }
 
   @NoSecurity
   @ToJson
   @Mapping("/save")
-  public void save(@Json @Par("toSave") FloraRecord toSave) {
+  public void save(@Json @Par("toSave") FloraDetail toSave) {
     floraRegister.get().save(toSave);
   }
 

@@ -1,67 +1,160 @@
 <h1 mat-dialog-title>{{header}}</h1>
 <div mat-dialog-content>
-    <div class="row">
+    <form class="row" #form="ngForm">
         <div class="col-lg-6  form-field-width-100">
-            <mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Нумерация</mat-label>
                 <input matInput [placeholder]="'Нумерация'"
-                       [(ngModel)]="toSave.num"
+                       [(ngModel)]="toSave.num"  [pattern]="'[0-9]*'" required name="num"
                 >
             </mat-form-field>
-            <mat-form-field>
-                <input matInput [placeholder]="'Каталог'"
+            <mat-form-field appearance="outline">
+              <mat-label>Каталог</mat-label>
+                <input matInput [placeholder]="'Каталог'" name="catalog"
                        [(ngModel)]="toSave.catalog"
                 >
             </mat-form-field>
-            <mat-form-field>
-                <input matInput [placeholder]="'Кем собрано'"
-                       [(ngModel)]="toSave.collectedBy">
+            <mat-form-field appearance="outline">
+              <mat-label>Важн хозяйс.значение</mat-label>
+              <mat-select placeholder="Важн хозяйс.значение" [(ngModel)]="toSave.usage"  name="usage">
+                <mat-option *ngFor="let item of usageDict" [value]="item.code">
+                  {{item.title}}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
-            <mat-form-field>
-                <input matInput [placeholder]="'Важн хозяйс.значение'"
-                       [(ngModel)]="toSave.useReason">
-            </mat-form-field>
-            <mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Место сбора, административный район</mat-label>
                 <input matInput [placeholder]="'Место сбора, административный район'"
-                   [(ngModel)]="toSave.collectPlace">
+                   [(ngModel)]="toSave.collectPlace" name="collectPlace">
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Координаты сбора (N, E)</mat-label>
                 <input matInput [placeholder]="'Координаты сбора (N, E)'"
-                       [(ngModel)]="toSave.collectCoordinate">
+                       [(ngModel)]="toSave.collectCoordinate" name="collectCoordinate">
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Высота над уров-нем  моря, м</mat-label>
                 <input matInput [placeholder]="'Высота над уров-нем  моря, м'"
-                       [(ngModel)]="toSave.collectAltitude">
+                       [(ngModel)]="toSave.collectAltitude" name="collectAltitude">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Кем собрано</mat-label>
+              <input matInput [placeholder]="'Кем собрано'"
+                     [(ngModel)]="toSave.collectedBy" name="collectedBy">
             </mat-form-field>
         </div>
         <div class="col-lg-6  form-field-width-100">
-            <mat-form-field>
-                <input matInput [placeholder]="'Название вида'"
-                       [(ngModel)]="toSave.typeTitle">
+            <mat-form-field appearance="outline">
+              <mat-label>Название семейства</mat-label>
+              <mat-select placeholder="Название семейства" [(ngModel)]="toSave.family"
+                          (selectionChange)="selectionChange('FAMILY',$event)"  name="family" required>
+                <mat-option *ngFor="let item of familyDict" [value]="item.code">
+                  {{item.title}}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
-            <mat-form-field>
-                <input matInput [placeholder]="'Название семейства'"
-                       [(ngModel)]="toSave.familyTitle">
+            <mat-form-field appearance="outline">
+              <mat-label>Название рода</mat-label>
+              <mat-select placeholder="Название рода" [(ngModel)]="toSave.genus"
+                          (selectionChange)="selectionChange('GENUS',$event)"  name="genus" required>
+                <mat-option *ngFor="let item of genusDict" [value]="item.code" [matTooltip]="item.title">
+                  {{item.title}}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
-            <mat-form-field>
-                <input matInput [placeholder]="'№ флор р-на'"
-                       [(ngModel)]="toSave.floraNum">
+            <mat-form-field appearance="outline">
+              <mat-label>Название вида</mat-label>
+              <mat-select placeholder="Название вида" [(ngModel)]="toSave.type"  name="type" required>
+                <mat-option *ngFor="let item of typeDict" [value]="item.code" [matTooltip]="item.title">
+                  {{item.title}}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
-            <mat-form-field>
-                <input matInput [placeholder]="'Дата сбора (число.месяц год)'"
-                       [(ngModel)]="toSave.collectDate">
+            <mat-form-field appearance="outline">
+              <mat-label>№ флор р-на</mat-label>
+              <mat-select placeholder="№ флор р-на" [(ngModel)]="toSave.region"  name="region" required>
+                <mat-option *ngFor="let item of regionDict" [value]="item.code">
+                  {{item.title}}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Дата сбора (число.месяц год)</mat-label>
+              <input matInput [matDatepicker]="dp3"  [(ngModel)]="toSave.collectDate" [placeholder]="'Дата сбора (число.месяц год)'" disabled  name="collectDate">
+              <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+              <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Масса 1000 семян, г</mat-label>
                 <input matInput [placeholder]="'Масса 1000 семян, г'"
-                       [(ngModel)]="toSave.floraWeight">
+                       [(ngModel)]="toSave.floraWeight"  name="floraWeight">
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Всхож %</mat-label>
                 <input matInput [placeholder]="'Всхож %'"
-                       [(ngModel)]="toSave.behaviorPercent">
+                       [(ngModel)]="toSave.behaviorPercent"   name="behaviorPercent">
             </mat-form-field>
         </div>
+    </form>
+  <form class="row" #form2="ngForm">
+    <div class="col-lg-6  form-field-width-100">
+      <mat-form-field appearance="outline">
+        <mat-label>Коллекция</mat-label>
+        <mat-select placeholder="Коллекция" [(ngModel)]="defaultCollection"  name="collection" required>
+          <mat-option *ngFor="let item of collectionDict" [value]="item.code">
+            {{item.title}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" *ngFor="let collection of collectionList, let i = index">
+        <mat-label>Коллекция</mat-label>
+        <mat-select placeholder="Коллекция" [(ngModel)]="collection.collection"  name="collection{{i}}" required>
+          <mat-option *ngFor="let item of collectionDict" [value]="item.code">
+            {{item.title}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
+    <div class="col-lg-6  form-field-width-100">
+      <div class="row">
+        <div class="col-lg-10 form-field-width-100">
+          <mat-form-field appearance="outline">
+            <mat-label>Хранения в таре,мл</mat-label>
+            <mat-select placeholder="Хранения в таре,мл" [(ngModel)]="defaultMeasure"  name="measure" required>
+              <mat-option *ngFor="let item of measureDict" [value]="item.code">
+                {{item.title}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div  style="padding-top: 7px">
+          <button mat-mini-fab color="transparent" (click)="addCollection()">
+            <mat-icon>add_circle</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div class="row" *ngFor="let collection of collectionList, let i = index">
+        <div class="col-lg-10 form-field-width-100">
+          <mat-form-field appearance="outline">
+            <mat-label>Хранения в таре,мл</mat-label>
+            <mat-select placeholder="Хранения в таре,мл" [(ngModel)]="collection.measure"  name="measure{{i}}" required>
+              <mat-option *ngFor="let item of measureDict" [value]="item.code">
+                {{item.title}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div  style="padding-top: 7px">
+          <button mat-mini-fab color="transparent" (click)="removeCollection(i)">
+            <mat-icon>remove_circle</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
 </div>
 <div mat-dialog-actions>
-    <button mat-button color="accent" (click)="save()" cdkFocusInitial>Сохранить</button>
-    <button mat-button [mat-dialog-close]="">Отмена</button>
+    <button mat-raised-button ton color="accent" (click)="save()" [disabled]="!form.valid || !form2.valid">Сохранить</button>
+    <button mat-raised-button [mat-dialog-close]="">Отмена</button>
 </div>

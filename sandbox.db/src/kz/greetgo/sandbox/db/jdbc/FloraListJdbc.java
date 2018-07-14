@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,34 +33,30 @@ public class FloraListJdbc extends FloraLogicJdbc<List<FloraRecord>, FloraRecord
 
   @Override
   protected void select() {
-    sql.select("f.id, f.num, f.catalog, f.collectedBy, f.typeTitle, f.familyTitle, " +
-        " f.floraNum, f.collectPlace, f.collectCoordinate, f.collectAltitude, f.collectDate, " +
-        " f.floraWeight, f.behaviorPercent, f.useReason");
+    sql.select("f.num");
+    sql.select("f.catalog");
+    sql.select("fd.title as familyTitle");
+    sql.select("gd.title as genusTitle");
+    sql.select("td.title as typeTitle");
+    sql.select("f.collectDate");
   }
 
   @Override
   protected FloraRecord fromRs(ResultSet rs) throws SQLException {
     FloraRecord r = new FloraRecord();
-    r.id = rs.getBigDecimal("id").intValue();
-    r.num = rs.getString("num");
+    r.num = rs.getLong("num");
     r.catalog = rs.getString("catalog");
-    r.collectedBy = rs.getString("collectedBy");
-    r.typeTitle = rs.getString("typeTitle");
     r.familyTitle = rs.getString("familyTitle");
-    r.floraNum = rs.getString("floraNum");
-    r.collectPlace = rs.getString("collectPlace");
-    r.collectCoordinate = rs.getString("collectCoordinate");
-    r.collectAltitude = rs.getString("collectAltitude");
-    r.collectDate = rs.getString("collectDate");
-    r.floraWeight = rs.getString("floraWeight");
-    r.behaviorPercent = rs.getString("behaviorPercent");
-    r.useReason = rs.getString("useReason");
+    r.genusTitle = rs.getString("genusTitle");
+    r.typeTitle = rs.getString("typeTitle");
+    if(rs.getDate("collectDate")!=null)
+      r.collectDate = new SimpleDateFormat("dd.MM.yyyy").format(rs.getDate("collectDate"));
     return r;
   }
 
   @Override
   protected void orderBy() {
-    sql.order_by("f.id");
+    sql.order_by("f.num");
   }
 
 
@@ -69,6 +66,9 @@ public class FloraListJdbc extends FloraLogicJdbc<List<FloraRecord>, FloraRecord
 
   @Override
   protected void leftJoin(){
+    sql.leftjoin("table_of_dicts fd on fd.code = f.familyCode");
+    sql.leftjoin("table_of_dicts gd on gd.code = f.genusCode");
+    sql.leftjoin("table_of_dicts td on td.code = f.typeCode");
   }
 
   @Override

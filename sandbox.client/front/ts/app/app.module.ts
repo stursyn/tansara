@@ -1,23 +1,24 @@
-import {NgModule} from "@angular/core";
-import {HttpModule} from "@angular/http";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RootComponent} from "./root.component";
 import {MainFormComponent} from "./main_form/main_form.component";
 import {HttpService} from "./HttpService";
-import {
-  MatButtonModule,
-  MatCardModule, MatDialogModule,
-  MatFormFieldModule,
-  MatIconModule,
-  MatInputModule, MatMenuModule,
-  MatPaginatorModule,
-  MatTableModule, MatSelectModule
-} from "@angular/material";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {BrowserModule} from "@angular/platform-browser";
-import {CommonModule} from "@angular/common";
-import {CdkTableModule} from "@angular/cdk/table";
 import {EditDialogWindow} from "./main_form/edit_dialog_window/edit_dialog.window";
+import {CdkTableModule} from "@angular/cdk/table";
+import {CommonModule} from "@angular/common";
+import {NgModule} from "@angular/core";
+import {BrowserModule} from "@angular/platform-browser";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {HttpModule} from "@angular/http";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {
+  MAT_DATE_LOCALE,
+  MatButtonModule,
+  MatCardModule, MatDatepickerModule, MatDialogModule, MatFormFieldModule, MatIconModule, MatInputModule, MatMenuModule,
+  MatNativeDateModule,
+  MatPaginatorModule,
+  MatSelectModule,
+  MatTableModule, MatTooltipModule
+} from "@angular/material";
+import {e} from "@angular/core/src/render3";
 
 @NgModule({
   imports: [
@@ -37,14 +38,18 @@ import {EditDialogWindow} from "./main_form/edit_dialog_window/edit_dialog.windo
       MatButtonModule,
     MatDialogModule,
       MatMenuModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatTooltipModule
 
   ],
   declarations: [
     RootComponent, MainFormComponent, EditDialogWindow
   ],
   bootstrap: [RootComponent],
-  providers: [HttpService],
+  providers: [HttpService,
+    {provide: MAT_DATE_LOCALE, useValue: 'ru-RU'}],
   entryComponents: [EditDialogWindow],
 })
 export class AppModule {

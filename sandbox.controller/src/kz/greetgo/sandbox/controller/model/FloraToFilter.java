@@ -1,19 +1,24 @@
 package kz.greetgo.sandbox.controller.model;
 
+import java.util.Date;
+
 public class FloraToFilter {
-  public String num;
+  public Long num;
   public String catalog;
-  public String collectedBy;
-  public String typeTitle;
-  public String familyTitle;
-  public String floraNum;
+  public String collection;
+  public String measure;
+  public String usage;
+  public String family;
+  public String genus;
+  public String type;
+  public String region;
   public String collectPlace;
   public String collectCoordinate;
   public String collectAltitude;
-  public String collectDate;
+  public Long collectDate;
   public String floraWeight;
   public String behaviorPercent;
-  public String useReason;
+  public String collectedBy;
 
   public Integer pageSize;
   public Integer page;

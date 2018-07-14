@@ -2,10 +2,7 @@ package kz.greetgo.sandbox.db.register_impl;
 
 import kz.greetgo.depinject.core.Bean;
 import kz.greetgo.depinject.core.BeanGetter;
-import kz.greetgo.sandbox.controller.model.DictRecord;
-import kz.greetgo.sandbox.controller.model.DictSimpleToFilter;
-import kz.greetgo.sandbox.controller.model.FloraRecord;
-import kz.greetgo.sandbox.controller.model.FloraToFilter;
+import kz.greetgo.sandbox.controller.model.*;
 import kz.greetgo.sandbox.controller.register.FloraRegister;
 import kz.greetgo.sandbox.db.dao.FloraDao;
 import kz.greetgo.sandbox.db.jdbc.FloraCountJdbc;
@@ -31,14 +28,20 @@ public class FloraRegisterImpl implements FloraRegister {
   }
 
   @Override
-  public FloraRecord detail(Integer floraId) {
-    return floraDao.get().loadFlora(floraId);
+  public FloraDetail detail(Long floraId) {
+    FloraDetail floraDetail = floraDao.get().loadFlora(floraId);
+    floraDetail.collectionList = floraDao.get().loadCollectionList(floraId);
+    return floraDetail;
   }
 
   @Override
-  public void save(FloraRecord toSave) {
-    if(toSave.id == null) toSave.id = floraDao.get().loadFloraId();
+  public void save(FloraDetail toSave) {
+    if(toSave.num == null) toSave.num = floraDao.get().loadFloraId();
     floraDao.get().insertFlora(toSave);
+    floraDao.get().deleteFloraCollectionList(toSave.num);
+    toSave.collectionList.forEach( collection->{
+      floraDao.get().insertFloraCollectionRelation(toSave.num, collection);
+    });
   }
 
   @Override
