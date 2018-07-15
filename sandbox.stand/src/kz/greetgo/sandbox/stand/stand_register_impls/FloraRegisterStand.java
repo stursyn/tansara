@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import kz.greetgo.depinject.core.Bean;
 import kz.greetgo.depinject.core.BeanGetter;
 import kz.greetgo.sandbox.controller.errors.AuthError;
+import kz.greetgo.sandbox.controller.errors.RestError;
 import kz.greetgo.sandbox.controller.model.*;
 import kz.greetgo.sandbox.controller.register.AuthRegister;
 import kz.greetgo.sandbox.controller.register.FloraRegister;
@@ -83,7 +84,7 @@ public class FloraRegisterStand implements FloraRegister {
 
   @Override
   public void save(FloraDetail toSave) {
-    System.out.println(toSave.toString());
+    throw new RestError("Net asdasd");
   }
 
   @Override
@@ -94,6 +95,16 @@ public class FloraRegisterStand implements FloraRegister {
     ret.add(new DictRecord(RND.str(15), RND.str(15)));
     ret.add(new DictRecord(RND.str(15), RND.str(15)));
     ret.add(new DictRecord(RND.str(15), RND.str(15)));
+    return ret;
+  }
+
+  @Override
+  public List<EmptyNumsRecord> emptyNums() {
+    List<EmptyNumsRecord> ret = Lists.newArrayList();
+    ret.add(new EmptyNumsRecord(RND.plusLong(1500)));
+    ret.add(new EmptyNumsRecord(RND.plusLong(1500)));
+    ret.add(new EmptyNumsRecord(RND.plusLong(1500)));
+    ret.add(new EmptyNumsRecord(RND.plusLong(1500)));
     return ret;
   }
 }

@@ -1,7 +1,9 @@
 package kz.greetgo.sandbox.db.register_impl;
 
+import com.google.common.collect.Lists;
 import kz.greetgo.depinject.core.Bean;
 import kz.greetgo.depinject.core.BeanGetter;
+import kz.greetgo.sandbox.controller.errors.RestError;
 import kz.greetgo.sandbox.controller.model.*;
 import kz.greetgo.sandbox.controller.register.FloraRegister;
 import kz.greetgo.sandbox.db.dao.FloraDao;
@@ -37,6 +39,11 @@ public class FloraRegisterImpl implements FloraRegister {
   @Override
   public void save(FloraDetail toSave) {
     if(toSave.num == null) toSave.num = floraDao.get().loadFloraId();
+
+    if(!toSave.edit) {
+      if(floraDao.get().checkFloraNum(toSave.num)!=null) new RestError("Нумерация уже существует");
+    }
+
     floraDao.get().insertFlora(toSave);
     floraDao.get().deleteFloraCollectionList(toSave.num);
     toSave.collectionList.forEach( collection->{
@@ -48,5 +55,16 @@ public class FloraRegisterImpl implements FloraRegister {
   public List<DictRecord> dictSimple(DictSimpleToFilter toFilter) {
     if(Strings.isNullOrEmpty(toFilter.parentCode)) return floraDao.get().loadDictSimpleList(toFilter.dictType);
     return floraDao.get().loadDictSimpleListByParentCode(toFilter.dictType, toFilter.parentCode);
+  }
+
+  @Override
+  public List<EmptyNumsRecord> emptyNums() {
+    List<EmptyNumsRecord> ret = Lists.newArrayList();
+    List<String> longs = floraDao.get().loadFloraNumByOrder();
+    for (long i = 1; i < Long.parseLong(longs.get(longs.size() - 1)); i++) {
+      if(longs.contains(i+"")) continue;
+      ret.add(new EmptyNumsRecord(i));
+    }
+    return ret;
   }
 }

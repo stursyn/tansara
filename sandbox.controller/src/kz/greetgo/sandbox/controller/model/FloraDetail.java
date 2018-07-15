@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 public class FloraDetail {
+  public Boolean edit = false;
   public Long num;
   public String catalog;
   public String usage;

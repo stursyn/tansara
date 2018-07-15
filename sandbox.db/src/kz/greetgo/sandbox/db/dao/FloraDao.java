@@ -1,9 +1,6 @@
 package kz.greetgo.sandbox.db.dao;
 
-import kz.greetgo.sandbox.controller.model.CollectionRecord;
-import kz.greetgo.sandbox.controller.model.DictRecord;
-import kz.greetgo.sandbox.controller.model.FloraDetail;
-import kz.greetgo.sandbox.controller.model.FloraRecord;
+import kz.greetgo.sandbox.controller.model.*;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -30,4 +27,10 @@ public interface FloraDao {
 
   @Select("select collectionDict as collection, measureDict as measure from flora_collection_relation where flora=#{floraId}")
   List<CollectionRecord> loadCollectionList(@Param("floraId") long floraId);
+
+  @Select("select num from flora order by num")
+  List<String> loadFloraNumByOrder();
+
+  @Select("select num from flora where num = #{num}")
+  Long checkFloraNum(@Param("num")Long num);
 }

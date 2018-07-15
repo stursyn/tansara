@@ -6,6 +6,7 @@ import {Moment} from 'moment';
 import {MomentDateAdapter} from "@angular/material-moment-adapter";
 import {AfterViewInit, Component, ViewChild} from "@angular/core";
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatDialog, MatPaginator} from "@angular/material";
+import {EmptyNumDialogWindow} from "./empty_num_dialog_window/empty_num_dialog.window";
 
 const moment = _moment;
 
@@ -227,5 +228,19 @@ export class MainFormComponent implements AfterViewInit {
 
   clear(){
     this.toFilter = new ToFilterElement();
+
+    this.loadTypeDict(undefined);
+    this.loadGenusDict(undefined);
+  }
+
+  getEmptyNums(){
+    const dialogRef = this.dialog.open(EmptyNumDialogWindow, {
+      width: '250px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.clear();
+      this.find();
+    });
   }
 }

@@ -55,4 +55,11 @@ public class FloraController implements Controller {
   public List<DictRecord> dictSimple(@Json @Par("toFilter") DictSimpleToFilter toFilter) {
     return floraRegister.get().dictSimple(toFilter);
   }
+
+  @NoSecurity
+  @ToJson
+  @Mapping("/empty_nums")
+  public List<EmptyNumsRecord> emptyNums() {
+    return floraRegister.get().emptyNums();
+  }
 }

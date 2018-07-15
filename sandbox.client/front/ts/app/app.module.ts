@@ -19,6 +19,7 @@ import {
   MatTableModule, MatTooltipModule
 } from "@angular/material";
 import {e} from "@angular/core/src/render3";
+import {EmptyNumDialogWindow} from "./main_form/empty_num_dialog_window/empty_num_dialog.window";
 
 @NgModule({
   imports: [
@@ -45,12 +46,12 @@ import {e} from "@angular/core/src/render3";
 
   ],
   declarations: [
-    RootComponent, MainFormComponent, EditDialogWindow
+    RootComponent, MainFormComponent, EditDialogWindow, EmptyNumDialogWindow
   ],
   bootstrap: [RootComponent],
   providers: [HttpService,
     {provide: MAT_DATE_LOCALE, useValue: 'ru-RU'}],
-  entryComponents: [EditDialogWindow],
+  entryComponents: [EditDialogWindow, EmptyNumDialogWindow],
 })
 export class AppModule {
 }

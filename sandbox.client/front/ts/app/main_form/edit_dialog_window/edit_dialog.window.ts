@@ -17,6 +17,7 @@ export class CollectionRecord{
 
 
 export class ToSaveElement {
+  public edit:boolean;
   public num: number;
   public catalog: number;
   public usage: string;
@@ -56,6 +57,8 @@ export class EditDialogWindow {
   public typeDict: Array<DictSimple> = [];
   public defaultCollection:string;
   public defaultMeasure:string;
+  public edit:boolean = false;
+  public errorMessage:string;
 
   constructor(
       public dialogRef: MatDialogRef<EditDialogWindow>,
@@ -64,6 +67,7 @@ export class EditDialogWindow {
     this.loadDict();
 
     if(data && data.floraId){
+      this.edit = true;
       this.detail(data.floraId);
     }
   }
@@ -187,10 +191,16 @@ export class EditDialogWindow {
       this.toSave.collectionList.push(CollectionRecord.from(item.collection, item.measure));
     });
 
+    this.errorMessage = undefined;
+    this.toSave.edit = this.edit;
     this.httpService.post("/flora/save",{toSave:JSON.stringify(this.toSave)})
         .toPromise().then(
             result=>{
               this.dialogRef.close();
+            },
+      error=>{
+              console.log(error);
+              this.errorMessage = error._body;
             }
     );
   }

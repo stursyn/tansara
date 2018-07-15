@@ -14,4 +14,6 @@ public interface FloraRegister {
   void save(FloraDetail toSave);
 
   List<DictRecord> dictSimple(DictSimpleToFilter toFilter);
+
+  List<EmptyNumsRecord> emptyNums();
 }

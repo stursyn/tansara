@@ -153,6 +153,7 @@
       </div>
     </div>
   </form>
+  <mat-error *ngIf="errorMessage">{{errorMessage}}</mat-error>
 </div>
 <div mat-dialog-actions>
     <button mat-raised-button ton color="accent" (click)="save()" [disabled]="!form.valid || !form2.valid">Сохранить</button>

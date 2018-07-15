@@ -5,42 +5,42 @@
 
   <changeSet author="stursyn" id="dict-data-001">
     <sql endDelimiter=";;"><![CDATA[
-insert into table_of_dicts(code, title, dictType) values('1'   ,     'Отроги Общего Сырта'     ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('2'   ,     'Тобыл-Есильский'         ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('3'   ,     'Иртышский'               ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('4'   ,     'Семипалатинский боровой' ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('5'   ,     'Кокшетавский'            ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('6'   ,     'Прикаспийский'           ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('6А'  ,     'Букеевский'              ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('7'   ,     'Актюбинский'             ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('7А'  ,     'Мугоджары'               ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('8'   ,     'Эмбенский'               ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('9'   ,     'Тургайский'              ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('10'  ,     'Западный мелкосопочник'  ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('10А' ,     'Улутау'                  ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('11'  ,     'Восточный мелкосопочник' ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('11А' ,     'Каркаралинский'          ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('12'  ,     'Зайсанский'              ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('13'  ,     'Северный Усть-Урт'       ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('13А' ,     'Бузачи'                  ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('13Б' ,     'Мангышлак'               ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('14'  ,     'Приаральский'            ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('15'  ,     'Кызыл-Ординский'         ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('16'  ,     'Бетпакдалинский'         ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('17'  ,     'Мойынкумский'            ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('18'  ,     'Балхаш-Алакольский'      ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('19'  ,     'Южный Усть-Урт'          ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('20'  ,     'Кызыл-Кумский'           ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('21'  ,     'Туркестанский'           ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('22'  ,     'Алтай'                   ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('23'  ,     'Тарбагатай'              ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('24'  ,     'Джунгарский Алатау'      ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('25'  ,     'Заилийский Алатау'       ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('25А' ,     'Кетмень и Терскей Алатау','REGION');;
-insert into table_of_dicts(code, title, dictType) values('26'  ,     'Чу-Илийские горы'        ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('27'  ,     'Киргизский Алатау'       ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('28'  ,     'Каратау'                 ,'REGION');;
-insert into table_of_dicts(code, title, dictType) values('29'  ,     'Западный Тянь-Шань'      ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('1'   ,     '(1) Отроги Общего Сырта'     ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('2'   ,     '(2) Тобыл-Есильский'         ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('3'   ,     '(3) Иртышский'               ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('4'   ,     '(4) Семипалатинский боровой' ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('5'   ,     '(5) Кокшетавский'            ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('6'   ,     '(6) Прикаспийский'           ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('6А'  ,     '(6А) Букеевский'              ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('7'   ,     '(7) Актюбинский'             ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('7А'  ,     '(7А) Мугоджары'               ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('8'   ,     '(8) Эмбенский'               ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('9'   ,     '(9) Тургайский'              ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('10'  ,     '(10) Западный мелкосопочник'  ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('10А' ,     '(10А) Улутау'                  ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('11'  ,     '(11) Восточный мелкосопочник' ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('11А' ,     '(11А) Каркаралинский'          ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('12'  ,     '(12) Зайсанский'              ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('13'  ,     '(13) Северный Усть-Урт'       ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('13А' ,     '(13А) Бузачи'                  ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('13Б' ,     '(13Б) Мангышлак'               ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('14'  ,     '(14) Приаральский'            ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('15'  ,     '(15) Кызыл-Ординский'         ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('16'  ,     '(16) Бетпакдалинский'         ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('17'  ,     '(17) Мойынкумский'            ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('18'  ,     '(18) Балхаш-Алакольский'      ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('19'  ,     '(19) Южный Усть-Урт'          ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('20'  ,     '(20) Кызыл-Кумский'           ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('21'  ,     '(21) Туркестанский'           ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('22'  ,     '(22) Алтай'                   ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('23'  ,     '(23) Тарбагатай'              ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('24'  ,     '(24) Джунгарский Алатау'      ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('25'  ,     '(25) Заилийский Алатау'       ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('25А' ,     '(25А) Кетмень и Терскей Алатау','REGION');;
+insert into table_of_dicts(code, title, dictType) values('26'  ,     '(26) Чу-Илийские горы'        ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('27'  ,     '(27) Киргизский Алатау'       ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('28'  ,     '(28) Каратау'                 ,'REGION');;
+insert into table_of_dicts(code, title, dictType) values('29'  ,     '(29) Западный Тянь-Шань'      ,'REGION');;
     ]]></sql>
   </changeSet>
 
