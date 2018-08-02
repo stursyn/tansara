@@ -34,9 +34,9 @@ public class FloraListJdbc extends FloraLogicJdbc<List<FloraRecord>, FloraRecord
   @Override
   protected void select() {
     sql.select("f.num");
+    sql.select("string_agg(cd.title||' '||md.title,', ') as collectionTitle");
     sql.select("f.catalog");
     sql.select("fd.title as familyTitle");
-    sql.select("gd.title as genusTitle");
     sql.select("td.title as typeTitle");
     sql.select("f.collectDate");
   }
@@ -46,8 +46,8 @@ public class FloraListJdbc extends FloraLogicJdbc<List<FloraRecord>, FloraRecord
     FloraRecord r = new FloraRecord();
     r.num = rs.getLong("num");
     r.catalog = rs.getString("catalog");
+    r.collectionTitle = rs.getString("collectionTitle");
     r.familyTitle = rs.getString("familyTitle");
-    r.genusTitle = rs.getString("genusTitle");
     r.typeTitle = rs.getString("typeTitle");
     if(rs.getDate("collectDate")!=null)
       r.collectDate = new SimpleDateFormat("dd.MM.yyyy").format(rs.getDate("collectDate"));
@@ -57,6 +57,15 @@ public class FloraListJdbc extends FloraLogicJdbc<List<FloraRecord>, FloraRecord
   @Override
   protected void orderBy() {
     sql.order_by("f.num");
+  }
+
+  @Override
+  protected void groupBy() {
+    sql.group_by("f.num");
+    sql.group_by("f.catalog");
+    sql.group_by("fd.title");
+    sql.group_by("td.title");
+    sql.group_by("f.collectDate");
   }
 
 
@@ -69,6 +78,9 @@ public class FloraListJdbc extends FloraLogicJdbc<List<FloraRecord>, FloraRecord
     sql.leftjoin("table_of_dicts fd on fd.code = f.familyCode");
     sql.leftjoin("table_of_dicts gd on gd.code = f.genusCode");
     sql.leftjoin("table_of_dicts td on td.code = f.typeCode");
+    sql.leftjoin("flora_collection_relation fct on fct.flora = f.num");
+    sql.leftjoin("table_of_dicts cd on cd.code = fct.collectionDict");
+    sql.leftjoin("table_of_dicts md on md.code = fct.measureDict");
   }
 
   @Override

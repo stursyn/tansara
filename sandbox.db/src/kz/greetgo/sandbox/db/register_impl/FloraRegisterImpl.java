@@ -61,9 +61,11 @@ public class FloraRegisterImpl implements FloraRegister {
   public List<EmptyNumsRecord> emptyNums() {
     List<EmptyNumsRecord> ret = Lists.newArrayList();
     List<String> longs = floraDao.get().loadFloraNumByOrder();
-    for (long i = 1; i < Long.parseLong(longs.get(longs.size() - 1)); i++) {
-      if(longs.contains(i+"")) continue;
-      ret.add(new EmptyNumsRecord(i));
+    if(!longs.isEmpty()) {
+      for (long i = 1; i < Long.parseLong(longs.get(longs.size() - 1)); i++) {
+        if (longs.contains(i + "")) continue;
+        ret.add(new EmptyNumsRecord(i));
+      }
     }
     return ret;
   }

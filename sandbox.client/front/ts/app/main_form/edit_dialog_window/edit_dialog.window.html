@@ -80,7 +80,7 @@
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>Дата сбора (число.месяц год)</mat-label>
-              <input matInput [matDatepicker]="dp3"  [(ngModel)]="toSave.collectDate" [placeholder]="'Дата сбора (число.месяц год)'" disabled  name="collectDate">
+              <input matInput [matDatepicker]="dp3"  [(ngModel)]="toSave.collectDate" [placeholder]="'Дата сбора (число.месяц год)'" name="collectDate">
               <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
               <mat-datepicker #dp3 disabled="false"></mat-datepicker>
             </mat-form-field>

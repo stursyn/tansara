@@ -1,6 +1,7 @@
 package kz.greetgo.sandbox.db.jdbc;
 
 
+import com.google.common.base.Strings;
 import kz.greetgo.sandbox.controller.model.FloraToFilter;
 
 import java.sql.Connection;
@@ -41,6 +42,9 @@ public class FloraCountJdbc extends FloraLogicJdbc<Integer, Integer> {
 
   @Override
   protected void leftJoin() {
+    if (!Strings.isNullOrEmpty(filter.collection) || !Strings.isNullOrEmpty(filter.measure)) {
+      sql.leftjoin("flora_collection_relation fct on fct.flora = f.num");
+    }
   }
 
   @Override

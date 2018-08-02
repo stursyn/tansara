@@ -10,6 +10,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HttpModule} from "@angular/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {
+  DateAdapter, MAT_DATE_FORMATS,
   MAT_DATE_LOCALE,
   MatButtonModule,
   MatCardModule, MatDatepickerModule, MatDialogModule, MatFormFieldModule, MatIconModule, MatInputModule, MatMenuModule,
@@ -20,6 +21,8 @@ import {
 } from "@angular/material";
 import {e} from "@angular/core/src/render3";
 import {EmptyNumDialogWindow} from "./main_form/empty_num_dialog_window/empty_num_dialog.window";
+import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from "@angular/material-moment-adapter";
+import {MpDateAdapter} from "./MpDateAdapter";
 
 @NgModule({
   imports: [
@@ -50,7 +53,10 @@ import {EmptyNumDialogWindow} from "./main_form/empty_num_dialog_window/empty_nu
   ],
   bootstrap: [RootComponent],
   providers: [HttpService,
-    {provide: MAT_DATE_LOCALE, useValue: 'ru-RU'}],
+    {provide: MAT_DATE_LOCALE, useValue: 'ru-BY'},
+    {provide: DateAdapter, useClass: MpDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+    ],
   entryComponents: [EditDialogWindow, EmptyNumDialogWindow],
 })
 export class AppModule {

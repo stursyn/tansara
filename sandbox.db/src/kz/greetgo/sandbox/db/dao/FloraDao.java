@@ -19,10 +19,10 @@ public interface FloraDao {
 
   Long loadFloraId();
 
-  @Select("select code, title from table_of_dicts where dictType=#{dictType} ")
+  @Select("select code, title from table_of_dicts where dictType=#{dictType} order by title")
   List<DictRecord> loadDictSimpleList(@Param("dictType") String dictType);
 
-  @Select("select code, title from table_of_dicts where dictType=#{dictType} and parentCode = #{parentCode}")
+  @Select("select code, title from table_of_dicts where dictType=#{dictType} and parentCode = #{parentCode}  order by title")
   List<DictRecord> loadDictSimpleListByParentCode(@Param("dictType") String dictType, @Param("parentCode") String parentCode);
 
   @Select("select collectionDict as collection, measureDict as measure from flora_collection_relation where flora=#{floraId}")

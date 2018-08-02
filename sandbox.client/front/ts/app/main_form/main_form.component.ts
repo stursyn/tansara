@@ -62,7 +62,7 @@ export const MY_FORMATS = {
 })
 export class MainFormComponent implements AfterViewInit {
   public toFilter: ToFilterElement = new ToFilterElement();
-  public displayedColumns: string[] = ['num', 'catalog', 'familyTitle', 'genusTitle', 'typeTitle', 'collectDate', 'action'];
+  public displayedColumns: string[] = ['num', 'collectionTitle', 'catalog', 'familyTitle', 'typeTitle', 'collectDate', 'action'];
   public dataSource: Array<any> = [];
   public resultsLength: number = 0;
   public collectionDict: Array<DictSimple> = [];

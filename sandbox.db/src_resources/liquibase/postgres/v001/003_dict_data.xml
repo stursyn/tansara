@@ -1112,4 +1112,17 @@ insert into table_of_dicts(code, title, dictType, parentCode) values('Ziziphora 
     ]]></sql>
   </changeSet>
 
+  <changeSet author="stursyn" id="dict-data-006">
+    <sql endDelimiter=";;"><![CDATA[
+  insert into table_of_dicts(code, title, dictType) values('unknown'  ,     'Неизвестный'      ,'REGION');;
+    ]]></sql>
+  </changeSet>
+
+  <changeSet author="stursyn" id="dict-data-007">
+    <sql endDelimiter=";;"><![CDATA[
+  update table_of_dicts set dictType = 'TYPE', parentCode ='Bromus' where code = 'Bromus scoparius L.';;
+  update table_of_dicts set dictType = 'TYPE', parentCode ='Bromus' where code = 'Bromus squarrosus L.';;
+  update table_of_dicts set dictType = 'TYPE', parentCode ='Bromus' where code = 'Bromus  tectorum L.';;
+    ]]></sql>
+  </changeSet>
 </databaseChangeLog>

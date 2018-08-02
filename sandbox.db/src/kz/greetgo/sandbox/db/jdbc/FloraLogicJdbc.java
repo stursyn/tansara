@@ -71,14 +71,15 @@ abstract public class FloraLogicJdbc<ReturnType, ModelClassType> extends SqlLogi
       sql.setValue("usage", filter.usage);
     }
     if (!Strings.isNullOrEmpty(filter.collection) && !Strings.isNullOrEmpty(filter.measure)) {
-      sql.where("f.num in (select flora from flora_collection_relation where collectionDict = :collection and measureDict=:measure)");
+      sql.where("fct.collectionDict = :collection");
       sql.setValue("collection", filter.collection);
+      sql.where("fct.measureDict = :measure");
       sql.setValue("measure", filter.measure);
     } else if (!Strings.isNullOrEmpty(filter.collection)) {
-      sql.where("f.num in (select flora from flora_collection_relation where collectionDict = :collection)");
+      sql.where("fct.collectionDict = :collection");
       sql.setValue("collection", filter.collection);
     } else if (!Strings.isNullOrEmpty(filter.measure)) {
-      sql.where("f.num in (select flora from flora_collection_relation where measureDict = :measure)");
+      sql.where("fct.collectionDict = :measure");
       sql.setValue("measure", filter.measure);
     }
   }

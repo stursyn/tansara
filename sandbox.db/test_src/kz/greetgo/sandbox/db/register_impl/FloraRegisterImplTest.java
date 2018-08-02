@@ -29,6 +29,14 @@ public class FloraRegisterImplTest extends ParentTestNg {
   public BeanGetter<FloraDao> floraDao;
 
   @Test
+  public void list() throws Exception {
+    FloraToFilter floraToFilter = new FloraToFilter();
+    floraToFilter.page = 2;
+    floraToFilter.pageSize = 2;
+    floraRegister.get().getList(floraToFilter);
+  }
+
+  @Test
   public void detail() throws Exception {
     FloraDetail floraRecord = initFlora();
     floraDao.get().insertFlora(floraRecord);

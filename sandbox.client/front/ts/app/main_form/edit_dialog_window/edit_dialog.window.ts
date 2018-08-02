@@ -1,7 +1,7 @@
 import {HttpService} from "../../HttpService";
 import {DictSimple} from "../main_form.component";
 import {Component, Inject} from "@angular/core";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
+import {MAT_DATE_LOCALE, MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 
 export class CollectionRecord{
   public collection:string;
@@ -42,7 +42,7 @@ export class ToSaveElement {
 @Component({
   selector: 'edit-dialog-window',
   template: require('./edit_dialog.window.html'),
-  styles: [require('./edit_dialog.window.css')],
+  styles: [require('./edit_dialog.window.css')]
 })
 export class EditDialogWindow {
   public toSave:ToSaveElement = new ToSaveElement();
