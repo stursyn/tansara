@@ -23,6 +23,8 @@ import {e} from "@angular/core/src/render3";
 import {EmptyNumDialogWindow} from "./main_form/empty_num_dialog_window/empty_num_dialog.window";
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from "@angular/material-moment-adapter";
 import {MpDateAdapter} from "./MpDateAdapter";
+import {AdminFormComponent} from "./admin_form/admin_form.component";
+import {DictEditDialogWindow} from "./admin_form/edit_dialog_window/dict_edit_dialog.window";
 
 @NgModule({
   imports: [
@@ -49,7 +51,9 @@ import {MpDateAdapter} from "./MpDateAdapter";
 
   ],
   declarations: [
-    RootComponent, MainFormComponent, EditDialogWindow, EmptyNumDialogWindow
+    RootComponent, MainFormComponent,
+      EditDialogWindow, EmptyNumDialogWindow,
+      AdminFormComponent, DictEditDialogWindow
   ],
   bootstrap: [RootComponent],
   providers: [HttpService,
@@ -57,7 +61,9 @@ import {MpDateAdapter} from "./MpDateAdapter";
     {provide: DateAdapter, useClass: MpDateAdapter, deps: [MAT_DATE_LOCALE]},
     {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
     ],
-  entryComponents: [EditDialogWindow, EmptyNumDialogWindow],
+  entryComponents: [EditDialogWindow,
+      EmptyNumDialogWindow,
+      DictEditDialogWindow],
 })
 export class AppModule {
 }

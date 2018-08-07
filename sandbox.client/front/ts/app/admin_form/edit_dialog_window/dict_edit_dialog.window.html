@@ -1,0 +1,43 @@
+<h1 mat-dialog-title>{{header}}</h1>
+<div mat-dialog-content>
+    <form class="row" #form="ngForm">
+        <div class="col-lg-12  form-field-width-100">
+            <mat-form-field appearance="outline">
+              <mat-label>Код</mat-label>
+                <input matInput [placeholder]="'Код'"
+                       [(ngModel)]="toSave.code" required name="code"
+                >
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Наименование</mat-label>
+                <input matInput [placeholder]="'Наименование'" name="title"
+                       [(ngModel)]="toSave.title" required
+                >
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Тип справочника</mat-label>
+                <mat-select placeholder="Тип справочника" [(ngModel)]="toSave.dictType"
+                            (selectionChange)="selectionChange($event)"
+                            name="dictType" required>
+                    <mat-option *ngFor="let item of dictTypeDict" [value]="item.code">
+                        {{item.title}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Код родителя</mat-label>
+                <mat-select placeholder="Код родителя" [(ngModel)]="toSave.parentCode"  name="parentCode">
+                    <mat-option *ngFor="let item of parentDict" [value]="item.code">
+                        {{item.title}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </form>
+  <mat-error *ngIf="errorMessage">{{errorMessage}}</mat-error>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button ton color="accent" (click)="save()" [disabled]="!form.valid">Сохранить</button>
+    <button mat-raised-button [mat-dialog-close]="">Отмена</button>
+</div>

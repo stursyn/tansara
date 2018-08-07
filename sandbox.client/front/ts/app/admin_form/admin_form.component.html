@@ -1,0 +1,65 @@
+<mat-card>
+    <mat-card-content fxLayoutGap="16px">
+        <div class="row">
+            <div class="col-lg-3">
+                <mat-form-field>
+                    <input matInput placeholder="Наименование"
+                           [(ngModel)]="toFilter.name"
+                    >
+                </mat-form-field>
+            </div>
+        </div>
+        <button mat-button color="primary" (click)="find()">Найти</button>
+        <button mat-button color="accent" (click)="clear()">Очистить</button>
+        <button mat-button color="accent" (click)="addFlora()">Добавить</button>
+    </mat-card-content>
+</mat-card>
+<mat-card>
+    <mat-card-content>
+        <div class="example-container mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                <ng-container matColumnDef="code">
+                    <th mat-header-cell *matHeaderCellDef> Код.</th>
+                    <td mat-cell *matCellDef="let element"> {{element.code}}</td>
+                </ng-container>
+                <ng-container matColumnDef="title">
+                  <th mat-header-cell *matHeaderCellDef> Наименование</th>
+                  <td mat-cell *matCellDef="let element"> {{element.title}}</td>
+                </ng-container>
+                <ng-container matColumnDef="parentCode">
+                    <th mat-header-cell *matHeaderCellDef> Код родителя</th>
+                    <td mat-cell *matCellDef="let element"> {{element.parentCode}}</td>
+                </ng-container>
+                <ng-container matColumnDef="parentTitle">
+                    <th mat-header-cell *matHeaderCellDef> Наименование родителя</th>
+                    <td mat-cell *matCellDef="let element"> {{element.parentCode}}</td>
+                </ng-container>
+                <ng-container matColumnDef="dictType">
+                  <th mat-header-cell *matHeaderCellDef> Тип справочника</th>
+                  <td mat-cell *matCellDef="let element"> {{element.dictType}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let row">
+                        <button mat-mini-fab color="transparent" [matMenuTriggerFor]="menu">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item (click)="edit(row)">
+                                Редактировать
+                            </button>
+                            <button mat-menu-item (click)="remove(row)">
+                                Удалить
+                            </button>
+                        </mat-menu>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+        <mat-paginator [length]="resultsLength" [pageSizeOptions]="[25, 50, 100]" (page)="find()"></mat-paginator>
+    </mat-card-content>
+</mat-card>

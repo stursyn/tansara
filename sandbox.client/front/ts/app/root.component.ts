@@ -6,14 +6,17 @@ import {AuthInfo} from "../model/AuthInfo";
   selector: 'root-component',
   template: `
       <div class="mat-app-background basic-container">
-          <main-form-component></main-form-component>
+          <button mat-button color="primary" (click)="showAdmin?showAdmin=false:showAdmin=true">Изменить тип</button>
+          <main-form-component *ngIf="!showAdmin"></main-form-component>
+          <admin-form-component *ngIf="showAdmin"></admin-form-component>
       </div>
   `
 })
 export class RootComponent implements OnInit {
-
+  public showAdmin:boolean = false;
   constructor(private httpService: HttpService) {}
 
   ngOnInit(): void {
+
   }
 }
