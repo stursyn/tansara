@@ -16,4 +16,6 @@ public interface DictRegister {
   List<DictRecord> dictTypeDict();
 
   List<DictRecord> parentDict(DictSimpleToFilter toFilter);
+
+  void remove(String code);
 }

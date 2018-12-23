@@ -14,4 +14,7 @@ public interface DictDao {
   void insertDict(AdminDictDetail dictDetail);
 
   AdminDictDetail loadDict(String dictId);
+
+  @Delete("delete from table_of_dicts where code = #{code}")
+  void deleteDict(@Param("code") String code);
 }

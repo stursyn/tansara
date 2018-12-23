@@ -87,7 +87,11 @@ export class AdminFormComponent implements AfterViewInit {
   }
 
   remove(row) {
-    console.log(row);
+    this.httpService.post("/dict/remove",
+        {code: row.code}).toPromise()
+        .then(result => {
+          this.find();
+        });
   }
 
   addFlora() {

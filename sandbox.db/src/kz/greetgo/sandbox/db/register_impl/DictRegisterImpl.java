@@ -57,4 +57,9 @@ public class DictRegisterImpl implements DictRegister {
     }
     return Lists.newArrayList();
   }
+
+  @Override
+  public void remove(String code) {
+    dictDao.get().deleteDict(code);
+  }
 }

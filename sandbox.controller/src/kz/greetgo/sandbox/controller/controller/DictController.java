@@ -66,4 +66,11 @@ public class DictController implements Controller {
     return dictRegister.get().parentDict(toFilter);
   }
 
+  @NoSecurity
+  @ToJson
+  @Mapping("/remove")
+  public void remove(@Par("code") String code) {
+    dictRegister.get().remove(code);
+  }
+
 }

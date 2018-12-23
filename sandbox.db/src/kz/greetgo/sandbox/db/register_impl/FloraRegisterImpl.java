@@ -66,6 +66,7 @@ public class FloraRegisterImpl implements FloraRegister {
         if (longs.contains(i + "")) continue;
         ret.add(new EmptyNumsRecord(i));
       }
+      ret.add(new EmptyNumsRecord(Long.parseLong(longs.get(longs.size() - 1)) + 1));
     }
     return ret;
   }

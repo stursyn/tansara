@@ -79,4 +79,9 @@ public class DictRegisterStand implements DictRegister {
     return ret;
   }
 
+  @Override
+  public void remove(String code) {
+
+  }
+
 }
