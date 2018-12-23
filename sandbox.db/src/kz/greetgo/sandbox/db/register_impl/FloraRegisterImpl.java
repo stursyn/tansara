@@ -69,4 +69,9 @@ public class FloraRegisterImpl implements FloraRegister {
     }
     return ret;
   }
+
+  @Override
+  public void remove(String floraId) {
+    floraDao.get().deleteFlora(Long.parseLong(floraId));
+  }
 }

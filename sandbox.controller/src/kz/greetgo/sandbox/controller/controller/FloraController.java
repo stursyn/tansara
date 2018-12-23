@@ -51,6 +51,13 @@ public class FloraController implements Controller {
 
   @NoSecurity
   @ToJson
+  @Mapping("/remove")
+  public void remove(@Par("floraId") String floraId) {
+    floraRegister.get().remove(floraId);
+  }
+
+  @NoSecurity
+  @ToJson
   @Mapping("/dict_simple")
   public List<DictRecord> dictSimple(@Json @Par("toFilter") DictSimpleToFilter toFilter) {
     return floraRegister.get().dictSimple(toFilter);

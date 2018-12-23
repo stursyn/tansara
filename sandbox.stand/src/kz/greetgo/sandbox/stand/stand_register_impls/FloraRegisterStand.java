@@ -107,4 +107,9 @@ public class FloraRegisterStand implements FloraRegister {
     ret.add(new EmptyNumsRecord(RND.plusLong(1500)));
     return ret;
   }
+
+  @Override
+  public void remove(String floraId) {
+
+  }
 }

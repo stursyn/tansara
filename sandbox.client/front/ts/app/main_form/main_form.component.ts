@@ -212,6 +212,16 @@ export class MainFormComponent implements AfterViewInit {
       this.find();
     });
   }
+
+  remove(row) {
+    this.httpService.post("/flora/remove", {
+      floraId: row ? row.num : row
+    }).toPromise().then(
+        result => {
+          this.find();
+        });
+  }
+
   date = new FormControl(moment());
 
   chosenYearHandler(normalizedYear: Moment, dp) {

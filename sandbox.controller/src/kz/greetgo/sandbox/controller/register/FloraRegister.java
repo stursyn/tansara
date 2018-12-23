@@ -16,4 +16,6 @@ public interface FloraRegister {
   List<DictRecord> dictSimple(DictSimpleToFilter toFilter);
 
   List<EmptyNumsRecord> emptyNums();
+
+  void remove(String floraId);
 }
