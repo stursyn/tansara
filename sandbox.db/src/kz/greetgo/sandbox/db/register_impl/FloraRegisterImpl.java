@@ -3,15 +3,24 @@ package kz.greetgo.sandbox.db.register_impl;
 import com.google.common.collect.Lists;
 import kz.greetgo.depinject.core.Bean;
 import kz.greetgo.depinject.core.BeanGetter;
+import kz.greetgo.mvc.interfaces.BinResponse;
 import kz.greetgo.sandbox.controller.errors.RestError;
 import kz.greetgo.sandbox.controller.model.*;
 import kz.greetgo.sandbox.controller.register.FloraRegister;
 import kz.greetgo.sandbox.db.dao.FloraDao;
 import kz.greetgo.sandbox.db.jdbc.FloraCountJdbc;
 import kz.greetgo.sandbox.db.jdbc.FloraListJdbc;
+import kz.greetgo.sandbox.db.jdbc.FloraReportJdbc;
+import kz.greetgo.sandbox.db.report.ReportView;
+import kz.greetgo.sandbox.db.report.main.MainFooterData;
+import kz.greetgo.sandbox.db.report.main.MainHeaderData;
+import kz.greetgo.sandbox.db.report.main.MainViewXlsx;
 import kz.greetgo.sandbox.db.util.JdbcSandbox;
 import org.fest.util.Strings;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Bean
@@ -74,5 +83,19 @@ public class FloraRegisterImpl implements FloraRegister {
   @Override
   public void remove(String floraId) {
     floraDao.get().deleteFlora(Long.parseLong(floraId));
+  }
+
+  @Override
+  public void downloadReport(FloraToFilter toFilter, BinResponse binResponse) {
+    try(ReportView view = new MainViewXlsx(binResponse.out())){
+      MainHeaderData headerData = new MainHeaderData();
+      view.start(headerData);
+
+      jdbcSandbox.get().execute(new FloraReportJdbc(toFilter, view));
+
+      view.finish(new MainFooterData());
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 }

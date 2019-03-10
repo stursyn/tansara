@@ -253,4 +253,27 @@ export class MainFormComponent implements AfterViewInit {
       this.find();
     });
   }
+
+  downloadReport(){
+    let post: string = '';
+    let keyValue = {toFilter: JSON.stringify(this.toFilter)};
+
+    if (keyValue) {
+
+      let data = new URLSearchParams();
+      let appended = false;
+      for (let key in keyValue) {
+        let value = keyValue[key];
+        if (value) {
+          data.append(key, value as string);
+          appended = true;
+        }
+      }
+
+      if (appended) post = '?' + data.toString();
+    }
+
+    // window.open((<any>window).urlPrefix+'/flora/download-report' + post);
+    this.httpService.downloadResource("/flora/download-report", {toFilter: JSON.stringify(this.toFilter)});
+  }
 }

@@ -25,6 +25,7 @@ import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from "@angular/material-mome
 import {MpDateAdapter} from "./MpDateAdapter";
 import {AdminFormComponent} from "./admin_form/admin_form.component";
 import {DictEditDialogWindow} from "./admin_form/edit_dialog_window/dict_edit_dialog.window";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import {DictEditDialogWindow} from "./admin_form/edit_dialog_window/dict_edit_di
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
+    HttpClientModule,
     FormsModule,
     MatTableModule,
     MatIconModule,
