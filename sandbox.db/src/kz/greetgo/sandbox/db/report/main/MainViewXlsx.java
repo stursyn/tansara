@@ -214,21 +214,21 @@ public class MainViewXlsx implements ReportView {
       MainFooterData use = (MainFooterData) footerData;
       Row sheetRow = sheet.createRow(sheet.getPhysicalNumberOfRows());
 
-      setStrCellValue(sheetRow, 0, "", (int)(Math.pow(2.0, 4)));
-      setStrCellValue(sheetRow, 1, "", (int)(Math.pow(2.0, 4)));
-      setStrCellValue(sheetRow, 2, "", (int)(Math.pow(2.0, 4)));
-      setStrCellValue(sheetRow, 3, "", (int)(Math.pow(2.0, 4)));
-      setStrCellValue(sheetRow, 4, "", (int)(Math.pow(2.0, 4)));
-      setStrCellValue(sheetRow, 5, "", (int)(Math.pow(2.0, 4)), HorizontalAlignment.CENTER);
-      setStrCellValue(sheetRow, 6, "", (int)(Math.pow(2.0, 4)), HorizontalAlignment.CENTER);
-      setStrCellValue(sheetRow, 7, "", (int)(Math.pow(2.0, 4)), HorizontalAlignment.CENTER);
-      setStrCellValue(sheetRow, 8, "", (int)(Math.pow(2.0, 4)), HorizontalAlignment.CENTER);
-      setStrCellValue(sheetRow, 9, "", (int)(Math.pow(2.0, 4)), HorizontalAlignment.CENTER);
-      setStrCellValue(sheetRow, 10, "", (int)(Math.pow(2.0, 4)), HorizontalAlignment.CENTER);
-      setStrCellValue(sheetRow, 11, "", (int)(Math.pow(2.0, 4)), HorizontalAlignment.CENTER);
-      setStrCellValue(sheetRow, 12, "", (int)(Math.pow(2.0, 4)), HorizontalAlignment.CENTER);
-      setStrCellValue(sheetRow, 13, "", (int)(Math.pow(2.0, 4)), HorizontalAlignment.CENTER);
-      setStrCellValue(sheetRow, 14, "", (int)(Math.pow(2.0, 4)), HorizontalAlignment.CENTER);
+      setStrCellValue(sheetRow, 0, "", (int)(Math.pow(2.0, 2)));
+      setStrCellValue(sheetRow, 1, "", (int)(Math.pow(2.0, 2)));
+      setStrCellValue(sheetRow, 2, "", (int)(Math.pow(2.0, 2)));
+      setStrCellValue(sheetRow, 3, "", (int)(Math.pow(2.0, 2)));
+      setStrCellValue(sheetRow, 4, "", (int)(Math.pow(2.0, 2)));
+      setStrCellValue(sheetRow, 5, "", (int)(Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
+      setStrCellValue(sheetRow, 6, "", (int)(Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
+      setStrCellValue(sheetRow, 7, "", (int)(Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
+      setStrCellValue(sheetRow, 8, "", (int)(Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
+      setStrCellValue(sheetRow, 9, "", (int)(Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
+      setStrCellValue(sheetRow, 10, "", (int)(Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
+      setStrCellValue(sheetRow, 11, "", (int)(Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
+      setStrCellValue(sheetRow, 12, "", (int)(Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
+      setStrCellValue(sheetRow, 13, "", (int)(Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
+      setStrCellValue(sheetRow, 14, "", (int)(Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
     }
   }
 
