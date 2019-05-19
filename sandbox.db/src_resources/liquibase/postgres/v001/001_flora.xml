@@ -54,7 +54,7 @@
   );;
 
    insert into flora_usage_relation (flora, usageDict, actual)
-      select num, usageCode, 1 from flora group by num, usageCode;;
+      select num, usageCode, 1 from flora where usageCode is not null group by num, usageCode;;
     ]]></sql>
   </changeSet>
 
