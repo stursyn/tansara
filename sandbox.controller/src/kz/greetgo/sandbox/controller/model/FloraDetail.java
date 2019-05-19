@@ -23,6 +23,7 @@ public class FloraDetail {
   public String behaviorPercent;
 
   public List<CollectionRecord> collectionList = Lists.newArrayList();
+  public List<String> usageList = Lists.newArrayList();
 
 
 }

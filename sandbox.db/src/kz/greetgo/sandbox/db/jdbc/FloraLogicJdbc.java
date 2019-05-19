@@ -67,7 +67,7 @@ abstract public class FloraLogicJdbc<ReturnType, ModelClassType> extends SqlLogi
       sql.setValue("typeCode", filter.type);
     }
     if (!Strings.isNullOrEmpty(filter.usage)) {
-      sql.where("f.usageCode = :usage");
+      sql.where("fur.usageDict = :usage");
       sql.setValue("usage", filter.usage);
     }
     if (!Strings.isNullOrEmpty(filter.collection) && !Strings.isNullOrEmpty(filter.measure)) {

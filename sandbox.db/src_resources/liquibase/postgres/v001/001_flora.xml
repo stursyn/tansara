@@ -43,5 +43,19 @@
     ]]></sql>
   </changeSet>
 
+  <changeSet author="seyit" id="create-table-flora-usage-relation">
+    <sql endDelimiter=";;"><![CDATA[
+  create table flora_usage_relation (
+    flora bigint not null,
+    usageDict varchar(1000) not null,
+    actual smallint not null default 1,
+
+    PRIMARY KEY(flora, usageDict)
+  );;
+
+   insert into flora_usage_relation (flora, usageDict, actual)
+      select num, usageCode, 1 from flora group by num, usageCode;;
+    ]]></sql>
+  </changeSet>
 
 </databaseChangeLog>

@@ -45,6 +45,9 @@ public class FloraCountJdbc extends FloraLogicJdbc<Integer, Integer> {
     if (!Strings.isNullOrEmpty(filter.collection) || !Strings.isNullOrEmpty(filter.measure)) {
       sql.leftjoin("flora_collection_relation fct on fct.flora = f.num");
     }
+    if (!Strings.isNullOrEmpty(filter.usage)) {
+      sql.leftjoin("flora_usage_relation fur on fur.flora = f.num");
+    }
   }
 
   @Override

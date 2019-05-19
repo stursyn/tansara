@@ -42,6 +42,7 @@ public class FloraRegisterImpl implements FloraRegister {
   public FloraDetail detail(Long floraId) {
     FloraDetail floraDetail = floraDao.get().loadFlora(floraId);
     floraDetail.collectionList = floraDao.get().loadCollectionList(floraId);
+    floraDetail.usageList = floraDao.get().loadUsageList(floraId);
     return floraDetail;
   }
 
@@ -57,6 +58,11 @@ public class FloraRegisterImpl implements FloraRegister {
     floraDao.get().deleteFloraCollectionList(toSave.num);
     toSave.collectionList.forEach( collection->{
       floraDao.get().insertFloraCollectionRelation(toSave.num, collection);
+    });
+
+    floraDao.get().deleteFloraUsageList(toSave.num);
+    toSave.usageList.forEach( usage->{
+      floraDao.get().insertFloraUsageRelation(toSave.num, usage);
     });
   }
 

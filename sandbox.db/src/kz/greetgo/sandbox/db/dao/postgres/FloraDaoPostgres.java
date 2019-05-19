@@ -33,6 +33,12 @@ public interface FloraDaoPostgres extends FloraDao {
   void insertFloraCollectionRelation(@Param("floraNum") Long floraNum, @Param("collection") CollectionRecord collection);
 
   @Override
+  @Insert("insert into flora_usage_relation(flora, usageDict, actual) " +
+      " values (#{floraNum}, #{usage}, 1)" +
+      " on conflict (flora, usageDict) do update set actual = 1")
+  void insertFloraUsageRelation(@Param("floraNum") Long floraNum, @Param("usage") String usage);
+
+  @Override
   @Select("select x.familyCode as family, x.genusCode as genus, x.typeCode as type, x.usageCode as usage, x.regionCode as region, x.* from flora x where x.num = #{floraId}")
   FloraDetail loadFlora(@Param("floraId") Long floraId);
 

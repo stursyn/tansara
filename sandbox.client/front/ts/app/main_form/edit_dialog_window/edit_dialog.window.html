@@ -14,14 +14,40 @@
                        [(ngModel)]="toSave.catalog"
                 >
             </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Важн хозяйс.значение</mat-label>
-              <mat-select placeholder="Важн хозяйс.значение" [(ngModel)]="toSave.usage"  name="usage">
-                <mat-option *ngFor="let item of usageDict" [value]="item.code">
-                  {{item.title}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+            <div class="row">
+              <div class="col-lg-10 form-field-width-100">
+                <mat-form-field appearance="outline">
+                  <mat-label>Важн хозяйс.значение</mat-label>
+                  <mat-select placeholder="Важн хозяйс.значение" [(ngModel)]="defaultUsage"  name="usageName">
+                    <mat-option *ngFor="let item of usageDict" [value]="item.code">
+                      {{item.title}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div  style="padding-top: 7px">
+                <button mat-mini-fab color="transparent" (click)="addUsage()">
+                  <mat-icon>add_circle</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="row" *ngFor="let value of usageList, let i = index">
+              <div class="col-lg-10 form-field-width-100">
+                <mat-form-field appearance="outline">
+                  <mat-label>Важн хозяйс.значение</mat-label>
+                  <mat-select placeholder="Важн хозяйс.значение" [(ngModel)]="usageList[i]"  name="usageName{{i}}">
+                    <mat-option *ngFor="let item of usageDict" [value]="item.code">
+                      {{item.title}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div  style="padding-top: 7px">
+                <button mat-mini-fab color="transparent" (click)="removeUsage(i)">
+                  <mat-icon>remove_circle</mat-icon>
+                </button>
+              </div>
+            </div>
             <mat-form-field appearance="outline">
               <mat-label>Место сбора, административный район</mat-label>
                 <input matInput [placeholder]="'Место сбора, административный район'"

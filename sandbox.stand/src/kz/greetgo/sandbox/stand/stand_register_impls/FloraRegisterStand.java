@@ -3,6 +3,7 @@ package kz.greetgo.sandbox.stand.stand_register_impls;
 import com.google.common.collect.Lists;
 import kz.greetgo.depinject.core.Bean;
 import kz.greetgo.depinject.core.BeanGetter;
+import kz.greetgo.mvc.interfaces.BinResponse;
 import kz.greetgo.sandbox.controller.errors.AuthError;
 import kz.greetgo.sandbox.controller.errors.RestError;
 import kz.greetgo.sandbox.controller.model.*;
@@ -110,6 +111,11 @@ public class FloraRegisterStand implements FloraRegister {
 
   @Override
   public void remove(String floraId) {
+
+  }
+
+  @Override
+  public void downloadReport(FloraToFilter toFilter, BinResponse binResponse) {
 
   }
 }

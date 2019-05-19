@@ -14,9 +14,14 @@ public interface FloraDao {
   @Delete("delete from flora where num = #{flora}")
   void deleteFlora(@Param("flora") Long flora);
 
+  @Delete("delete from flora_usage_relation where flora=#{floraNum}")
+  void deleteFloraUsageList(@Param("floraNum") Long floraNum);
+
   void insertFlora(FloraDetail floraRecord);
 
   void insertFloraCollectionRelation(Long floraNum, CollectionRecord collection);
+
+  void insertFloraUsageRelation(Long floraNum, String usage);
 
   FloraDetail loadFlora(Long floraId);
 
@@ -30,6 +35,9 @@ public interface FloraDao {
 
   @Select("select collectionDict as collection, measureDict as measure from flora_collection_relation where flora=#{floraId}")
   List<CollectionRecord> loadCollectionList(@Param("floraId") long floraId);
+
+  @Select("select usageDict from flora_usage_relation where flora=#{floraId}")
+  List<String> loadUsageList(@Param("floraId") long floraId);
 
   @Select("select num from flora order by num")
   List<String> loadFloraNumByOrder();

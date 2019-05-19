@@ -33,6 +33,7 @@ export class ToSaveElement {
   public floraWeight: string;
   public behaviorPercent: string;
 
+  public usageList: Array<string> = [];
   public collectionList: Array<CollectionRecord> = [];
 
   public page: number;
@@ -47,6 +48,8 @@ export class ToSaveElement {
 export class EditDialogWindow {
   public toSave:ToSaveElement = new ToSaveElement();
   public collectionList:Array<CollectionRecord> = [];
+  public usageList:Array<string> = [];
+
 
   public collectionDict: Array<DictSimple> = [];
   public measureDict: Array<DictSimple> = [];
@@ -59,6 +62,7 @@ export class EditDialogWindow {
   public defaultMeasure:string;
   public edit:boolean = false;
   public errorMessage:string;
+  public defaultUsage:string;
 
   constructor(
       public dialogRef: MatDialogRef<EditDialogWindow>,
@@ -178,11 +182,28 @@ export class EditDialogWindow {
                   }
                 });
               }
+
+              if(this.toSave.usageList){
+                this.toSave.usageList.forEach((item, index)=>{
+                  if(index == 0) {
+                    this.defaultUsage = item;
+                  } else {
+                    this.usageList.push(item);
+                  }
+                });
+              }
             }
     );
   }
 
   save(){
+
+    this.toSave.usageList = [];
+    this.toSave.usageList.push(this.defaultUsage);
+
+    this.usageList.forEach((item)=>{
+      this.toSave.usageList.push(item);
+    });
 
     this.toSave.collectionList = [];
     this.toSave.collectionList.push(CollectionRecord.from(this.defaultCollection, this.defaultMeasure));
@@ -203,6 +224,14 @@ export class EditDialogWindow {
               this.errorMessage = error._body;
             }
     );
+  }
+
+  addUsage(){
+    this.usageList.push("");
+  }
+
+  removeUsage(i){
+    this.usageList.splice(i,1);
   }
 
   addCollection(){

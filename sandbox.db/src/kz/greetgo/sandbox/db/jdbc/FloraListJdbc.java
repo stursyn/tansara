@@ -81,6 +81,7 @@ public class FloraListJdbc extends FloraLogicJdbc<List<FloraRecord>, FloraRecord
     sql.leftjoin("flora_collection_relation fct on fct.flora = f.num");
     sql.leftjoin("table_of_dicts cd on cd.code = fct.collectionDict");
     sql.leftjoin("table_of_dicts md on md.code = fct.measureDict");
+    sql.leftjoin("flora_usage_relation fur on fur.flora = f.num");
   }
 
   @Override
