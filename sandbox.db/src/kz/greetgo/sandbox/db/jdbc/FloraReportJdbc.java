@@ -106,11 +106,12 @@ public class FloraReportJdbc extends FloraLogicJdbc<Void, MainRow> {
     sql.leftjoin("table_of_dicts fd on fd.code = f.familyCode");
     sql.leftjoin("table_of_dicts gd on gd.code = f.genusCode");
     sql.leftjoin("table_of_dicts td on td.code = f.typeCode");
-    sql.leftjoin("table_of_dicts ud on ud.code = f.usageCode");
     sql.leftjoin("table_of_dicts rd on rd.code = f.regionCode");
     sql.leftjoin("flora_collection_relation fct on fct.flora = f.num");
     sql.leftjoin("table_of_dicts cd on cd.code = fct.collectionDict");
     sql.leftjoin("table_of_dicts md on md.code = fct.measureDict");
+    sql.leftjoin("flora_usage_relation fur on fur.flora = f.num");
+    sql.leftjoin("table_of_dicts ud on ud.code = fur.usageDict");
   }
 
   @Override
