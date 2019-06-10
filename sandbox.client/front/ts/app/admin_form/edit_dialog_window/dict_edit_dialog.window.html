@@ -33,7 +33,7 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-            <app-file-uploader></app-file-uploader>
+            <app-file-uploader accept='.jpg, .jpeg, .png'></app-file-uploader>
             <mat-form-field appearance="outline">
               <mat-label>Описание</mat-label>
               <textarea matInput [(ngModel)]="toSave.description"

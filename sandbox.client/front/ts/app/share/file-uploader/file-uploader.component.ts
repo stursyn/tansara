@@ -29,6 +29,7 @@ export class FileUploaderComponent implements ControlValueAccessor, Validator {
   @Input() argName;
   @Input() maxFileSize = maxFileSize;
   @Input() canEditTitle = false;
+  @Input() accept:string;
 
   uploadedFile: FileModel;
 
