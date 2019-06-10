@@ -58,4 +58,12 @@
     ]]></sql>
   </changeSet>
 
+  <changeSet author="stursyn" id="flora-001">
+    <sql endDelimiter=";;"><![CDATA[
+    alter table flora add column image BYTEA;;
+    alter table flora add column image_name varchar(1000);;
+    alter table flora add column description text;;
+    ]]></sql>
+  </changeSet>
+
 </databaseChangeLog>

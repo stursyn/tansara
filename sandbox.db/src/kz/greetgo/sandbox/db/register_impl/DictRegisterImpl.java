@@ -3,14 +3,11 @@ package kz.greetgo.sandbox.db.register_impl;
 import com.google.common.collect.Lists;
 import kz.greetgo.depinject.core.Bean;
 import kz.greetgo.depinject.core.BeanGetter;
-import kz.greetgo.sandbox.controller.errors.RestError;
 import kz.greetgo.sandbox.controller.model.*;
 import kz.greetgo.sandbox.controller.register.DictRegister;
 import kz.greetgo.sandbox.controller.register.FloraRegister;
+import kz.greetgo.sandbox.controller.util.FileUtil;
 import kz.greetgo.sandbox.db.dao.DictDao;
-import kz.greetgo.sandbox.db.dao.FloraDao;
-import kz.greetgo.sandbox.db.jdbc.FloraCountJdbc;
-import kz.greetgo.sandbox.db.jdbc.FloraListJdbc;
 import kz.greetgo.sandbox.db.jdbc.dict.DictCountJdbc;
 import kz.greetgo.sandbox.db.jdbc.dict.DictListJdbc;
 import kz.greetgo.sandbox.db.util.JdbcSandbox;
@@ -42,6 +39,11 @@ public class DictRegisterImpl implements DictRegister {
   @Override
   public void save(AdminDictDetail toSave) {
     dictDao.get().insertDict(toSave);
+    if(toSave.fileModel!=null && Strings.isNullOrEmpty(toSave.fileModel.src)) {
+      dictDao.get().updateImage(toSave.code, toSave.fileModel.name, FileUtil.base64ToBytes(toSave.fileModel.src), toSave.description);
+    } else {
+      dictDao.get().updateImage(toSave.code, null, new byte[0], toSave.description);
+    }
   }
 
   @Override

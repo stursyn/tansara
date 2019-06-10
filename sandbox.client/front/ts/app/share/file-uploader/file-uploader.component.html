@@ -1,0 +1,19 @@
+<div class="form-field-width-100" fxLayout="row" fxflex>
+  <input type="file" style="display: none;" [accept]="accept" (change)="fileChanged($event)"
+         name="input-file-hidden"
+         #fileInput>
+    <mat-form-field>
+      <input matInput #file_upload_input
+             [placeholder]="placeholder"
+             name="file-upload-input"
+             [(ngModel)]="uploadedFile == null ? '' : uploadedFile['name']"
+             (keyup)="valueChanged($event)" fxFlex>
+
+      <mat-icon class="file_icon" matSuffix *ngIf="uploadedFile != null" (click)="removeFile()">delete</mat-icon>
+      <mat-icon class="file_icon" matSuffix *ngIf="uploadedFile == null" (click)="fileInput.click()">attach_file</mat-icon>
+
+      <mat-error *ngIf="fileSizeExceeded === true">
+        Максимальный размер файла 10 мегабайт
+      </mat-error>
+    </mat-form-field>
+</div>

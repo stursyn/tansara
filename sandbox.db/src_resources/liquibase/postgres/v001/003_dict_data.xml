@@ -1125,4 +1125,12 @@ insert into table_of_dicts(code, title, dictType, parentCode) values('Ziziphora 
   update table_of_dicts set dictType = 'TYPE', parentCode ='Bromus' where code = 'Bromus  tectorum L.';;
     ]]></sql>
   </changeSet>
+
+  <changeSet author="stursyn" id="dict-data-008">
+    <sql endDelimiter=";;"><![CDATA[
+    alter table table_of_dicts add column image_name varchar(1000);;
+    alter table table_of_dicts add column image BYTEA;;
+    alter table table_of_dicts add column description text;;
+    ]]></sql>
+  </changeSet>
 </databaseChangeLog>

@@ -33,6 +33,16 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
+            <app-file-uploader></app-file-uploader>
+            <mat-form-field appearance="outline">
+              <mat-label>Описание</mat-label>
+              <textarea matInput [(ngModel)]="toSave.description"
+                        name="description"
+                        cdkTextareaAutosize
+                        #autosize="cdkTextareaAutosize"
+                        cdkAutosizeMinRows="1"
+                        cdkAutosizeMaxRows="10"></textarea>
+            </mat-form-field>
         </div>
     </form>
   <mat-error *ngIf="errorMessage">{{errorMessage}}</mat-error>

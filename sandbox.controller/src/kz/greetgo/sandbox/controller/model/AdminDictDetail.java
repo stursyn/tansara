@@ -6,4 +6,6 @@ public class AdminDictDetail {
   public String title;
   public String parentCode;
   public String dictType;
+  public FileModel fileModel;
+  public String description;
 }

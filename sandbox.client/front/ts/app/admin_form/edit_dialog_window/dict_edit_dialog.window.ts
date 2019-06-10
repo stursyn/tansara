@@ -1,7 +1,9 @@
 import {HttpService} from "../../HttpService";
 import {DictSimple} from "../admin_form.component";
-import {Component, Inject} from "@angular/core";
+import {Component, Inject, ViewChild} from "@angular/core";
 import {MAT_DATE_LOCALE, MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
+import {FileUploaderComponent} from "../../share/file-uploader/file-uploader.component";
+import {FileModel} from "../../../model/FileModel";
 
 export class CollectionRecord{
   public collection:string;
@@ -22,6 +24,8 @@ export class ToSaveElement {
   public title: string;
   public parentCode: string;
   public dictType: string;
+  public fileModel: FileModel;
+  public description:string;
 
   public page: number;
   public pageSize: number;
@@ -39,6 +43,7 @@ export class DictEditDialogWindow {
   public dictTypeDict: Array<DictSimple> = [];
   public edit:boolean = false;
   public errorMessage:string;
+  @ViewChild(FileUploaderComponent) fileUploaderComponent;
 
   constructor(
       public dialogRef: MatDialogRef<DictEditDialogWindow>,
@@ -89,6 +94,7 @@ export class DictEditDialogWindow {
   save(){
     this.errorMessage = undefined;
     this.toSave.edit = this.edit;
+    this.toSave.fileModel = this.fileUploaderComponent.getFileModel();
     this.httpService.post("/dict/save",{toSave:JSON.stringify(this.toSave)})
         .toPromise().then(
             result=>{

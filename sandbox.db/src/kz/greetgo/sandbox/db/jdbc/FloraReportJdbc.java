@@ -48,6 +48,8 @@ public class FloraReportJdbc extends FloraLogicJdbc<Void, MainRow> {
     sql.select("f.behaviorPercent as seedWeight");
     sql.select("f.floraWeight as accuracyRate");
     sql.select("f.collectedBy as whoIsCollect");
+    sql.select("fd.description as familyDescription");
+    sql.select("fd.image as familyImage");
   }
 
   @Override
@@ -70,6 +72,8 @@ public class FloraReportJdbc extends FloraLogicJdbc<Void, MainRow> {
     r.seedWeight = rs.getString("seedWeight");
     r.accuracyRate = rs.getString("accuracyRate");
     r.whoIsCollect = rs.getString("whoIsCollect");
+    r.description = rs.getString("familyDescription");
+    r.image = rs.getBytes("familyImage");
 
     return r;
   }
@@ -95,6 +99,8 @@ public class FloraReportJdbc extends FloraLogicJdbc<Void, MainRow> {
     sql.group_by("f.behaviorPercent");
     sql.group_by("f.floraWeight");
     sql.group_by("f.collectedBy");
+    sql.group_by("fd.description");
+    sql.group_by("fd.image");
   }
 
   @Override

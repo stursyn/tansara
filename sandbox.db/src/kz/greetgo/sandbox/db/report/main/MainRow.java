@@ -18,4 +18,6 @@ public class MainRow extends ReportRow {
   public String seedWeight;
   public String accuracyRate;
   public String whoIsCollect;
+  public String description;
+  public byte [] image;
 }

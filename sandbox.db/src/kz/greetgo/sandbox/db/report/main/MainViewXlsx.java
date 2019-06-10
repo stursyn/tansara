@@ -5,11 +5,14 @@ import kz.greetgo.sandbox.db.report.ReportHeaderData;
 import kz.greetgo.sandbox.db.report.ReportRow;
 import kz.greetgo.sandbox.db.report.ReportView;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.util.IOUtils;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 
@@ -62,6 +65,8 @@ public class MainViewXlsx implements ReportView {
         setStrCellValue(headerRow2, 12, "Масса 1000 семян, г", false, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), new XSSFColor(new java.awt.Color(191,191,191)), HorizontalAlignment.CENTER);
         setStrCellValue(headerRow2, 13, "Всхож %", false, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), new XSSFColor(new java.awt.Color(191,191,191)), HorizontalAlignment.CENTER);
         setStrCellValue(headerRow2, 14, "Кем собрано", false, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), new XSSFColor(new java.awt.Color(191,191,191)), HorizontalAlignment.CENTER);
+        setStrCellValue(headerRow2, 15, "Cемейства описания", false, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), new XSSFColor(new java.awt.Color(191,191,191)), HorizontalAlignment.CENTER);
+        setStrCellValue(headerRow2, 16, "Cемейства фотография", false, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), new XSSFColor(new java.awt.Color(191,191,191)), HorizontalAlignment.CENTER);
       }
     }
   }
@@ -205,6 +210,18 @@ public class MainViewXlsx implements ReportView {
       setStrCellValue(sheetRow, 12, use.seedWeight, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
       setStrCellValue(sheetRow, 13, use.accuracyRate, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
       setStrCellValue(sheetRow, 14, use.whoIsCollect, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
+      setStrCellValue(sheetRow, 15, use.description, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
+
+      final CreationHelper helper = workbook.getCreationHelper();
+      final Drawing drawing = sheet.createDrawingPatriarch();
+      final ClientAnchor anchor = helper.createClientAnchor();
+      final int pictureIndex =
+          workbook.addPicture(use.image, Workbook.PICTURE_TYPE_PNG);
+
+      anchor.setCol1( 16 );
+      anchor.setRow1( sheetRow.getRowNum() ); // same row is okay
+      final Picture pict = drawing.createPicture( anchor, pictureIndex );
+      pict.resize();
     }
   }
 
@@ -229,6 +246,8 @@ public class MainViewXlsx implements ReportView {
       setStrCellValue(sheetRow, 12, "", (int)(Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
       setStrCellValue(sheetRow, 13, "", (int)(Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
       setStrCellValue(sheetRow, 14, "", (int)(Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
+      setStrCellValue(sheetRow, 15, "", (int)(Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
+      setStrCellValue(sheetRow, 16, "", (int)(Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
     }
   }
 

@@ -26,6 +26,7 @@ import {MpDateAdapter} from "./MpDateAdapter";
 import {AdminFormComponent} from "./admin_form/admin_form.component";
 import {DictEditDialogWindow} from "./admin_form/edit_dialog_window/dict_edit_dialog.window";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {FileUploaderComponent} from "./share/file-uploader/file-uploader.component";
 
 @NgModule({
   imports: [
@@ -55,7 +56,8 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
   declarations: [
     RootComponent, MainFormComponent,
       EditDialogWindow, EmptyNumDialogWindow,
-      AdminFormComponent, DictEditDialogWindow
+      AdminFormComponent, DictEditDialogWindow,
+      FileUploaderComponent
   ],
   bootstrap: [RootComponent],
   providers: [HttpService,
