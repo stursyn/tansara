@@ -39,7 +39,7 @@ public class DictRegisterImpl implements DictRegister {
   @Override
   public void save(AdminDictDetail toSave) {
     dictDao.get().insertDict(toSave);
-    if(toSave.fileModel!=null && Strings.isNullOrEmpty(toSave.fileModel.src)) {
+    if(toSave.fileModel!=null && !Strings.isNullOrEmpty(toSave.fileModel.src)) {
       dictDao.get().updateImage(toSave.code, toSave.fileModel.name, FileUtil.base64ToBytes(toSave.fileModel.src), toSave.description);
     } else {
       dictDao.get().updateImage(toSave.code, null, new byte[0], toSave.description);

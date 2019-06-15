@@ -42,14 +42,14 @@ public class FloraReportJdbc extends FloraLogicJdbc<Void, MainRow> {
     sql.select("rd.title as floraRegionNumber");
     sql.select("f.collectPlace");
     sql.select("f.collectCoordinate as collectCoordinate");
-    sql.select("ud.title as importantStaff");
+    sql.select("string_agg(ud.title,', ') as importantStaff");
     sql.select("f.collectAltitude as heightFromWater");
     sql.select("f.collectDate");
     sql.select("f.behaviorPercent as seedWeight");
     sql.select("f.floraWeight as accuracyRate");
     sql.select("f.collectedBy as whoIsCollect");
-    sql.select("fd.description as familyDescription");
-    sql.select("fd.image as familyImage");
+    sql.select("td.description as familyDescription");
+    sql.select("td.image as familyImage");
   }
 
   @Override
@@ -73,6 +73,11 @@ public class FloraReportJdbc extends FloraLogicJdbc<Void, MainRow> {
     r.accuracyRate = rs.getString("accuracyRate");
     r.whoIsCollect = rs.getString("whoIsCollect");
     r.description = rs.getString("familyDescription");
+    if(rs.getBytes("familyImage")==null){
+      r.hasImage = false;
+    } else {
+      r.hasImage = true;
+    }
     r.image = rs.getBytes("familyImage");
 
     return r;
@@ -93,14 +98,14 @@ public class FloraReportJdbc extends FloraLogicJdbc<Void, MainRow> {
     sql.group_by("rd.title");
     sql.group_by("f.collectPlace");
     sql.group_by("f.collectCoordinate");
-    sql.group_by("ud.title");
+//    sql.group_by("ud.title");
     sql.group_by("f.collectAltitude");
     sql.group_by("f.collectDate");
     sql.group_by("f.behaviorPercent");
     sql.group_by("f.floraWeight");
     sql.group_by("f.collectedBy");
-    sql.group_by("fd.description");
-    sql.group_by("fd.image");
+    sql.group_by("td.description");
+    sql.group_by("td.image");
   }
 
   @Override

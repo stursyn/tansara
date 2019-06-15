@@ -1,5 +1,6 @@
 package kz.greetgo.sandbox.db.jdbc;
 
+import com.google.common.base.Strings;
 import kz.greetgo.sandbox.controller.model.FloraRecord;
 import kz.greetgo.sandbox.controller.model.FloraToFilter;
 
@@ -81,7 +82,9 @@ public class FloraListJdbc extends FloraLogicJdbc<List<FloraRecord>, FloraRecord
     sql.leftjoin("flora_collection_relation fct on fct.flora = f.num");
     sql.leftjoin("table_of_dicts cd on cd.code = fct.collectionDict");
     sql.leftjoin("table_of_dicts md on md.code = fct.measureDict");
-    sql.leftjoin("flora_usage_relation fur on fur.flora = f.num");
+    if (!Strings.isNullOrEmpty(filter.usage)) {
+      sql.leftjoin("flora_usage_relation fur on fur.flora = f.num");
+    }
   }
 
   @Override
