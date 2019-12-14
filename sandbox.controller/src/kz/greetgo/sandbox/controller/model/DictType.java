@@ -11,7 +11,8 @@ public enum DictType {
     USAGE("Назначение", false, null),
     FAMILY("Семейства", false, null),
     GENUS("Род", true, FAMILY),
-    TYPE("Вид", true, GENUS);
+    TYPE("Вид", true, GENUS),
+    LIFE_FORM("Жизненная форм", false, null);
 
     public String title;
     public boolean hasParent = false;
@@ -32,6 +33,7 @@ public enum DictType {
         ret.add(new DictRecord(FAMILY.name(),FAMILY.title));
         ret.add(new DictRecord(GENUS.name(),GENUS.title));
         ret.add(new DictRecord(TYPE.name(),TYPE.title));
+        ret.add(new DictRecord(LIFE_FORM.name(),LIFE_FORM.title));
         return ret;
     }
 
