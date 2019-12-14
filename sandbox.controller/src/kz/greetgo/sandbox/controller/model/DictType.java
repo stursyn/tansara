@@ -12,7 +12,7 @@ public enum DictType {
     FAMILY("Семейства", false, null),
     GENUS("Род", true, FAMILY),
     TYPE("Вид", true, GENUS),
-    LIFE_FORM("Жизненная форм", false, null);
+    LIFE_FORM("Жизненная форма", false, null);
 
     public String title;
     public boolean hasParent = false;
