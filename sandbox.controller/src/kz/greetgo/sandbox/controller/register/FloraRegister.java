@@ -21,4 +21,6 @@ public interface FloraRegister {
   void remove(String floraId);
 
   void downloadReport(FloraToFilter toFilter, BinResponse binResponse);
+
+  String importFloraData(FileModel fileModel);
 }

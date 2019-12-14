@@ -32,6 +32,7 @@ export class ToSaveElement {
   public collectDate: Date;
   public floraWeight: string;
   public behaviorPercent: string;
+  public lifeForm: string;
 
   public usageList: Array<string> = [];
   public collectionList: Array<CollectionRecord> = [];
@@ -58,6 +59,7 @@ export class EditDialogWindow {
   public familyDict: Array<DictSimple> = [];
   public genusDict: Array<DictSimple> = [];
   public typeDict: Array<DictSimple> = [];
+  public lifeFormDict: Array<DictSimple> = [];
   public defaultCollection:string;
   public defaultMeasure:string;
   public edit:boolean = false;
@@ -121,6 +123,15 @@ export class EditDialogWindow {
       result => {
         this.familyDict = result.json();
       });
+
+    this.httpService.post("/flora/dict_simple", {
+      toFilter: JSON.stringify({
+        dictType: 'LIFE_FORM'
+      })
+    }).toPromise().then(
+        result => {
+          this.lifeFormDict = result.json();
+        });
   }
 
   loadGenusDict(familyCode) {

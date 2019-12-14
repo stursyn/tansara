@@ -1133,4 +1133,26 @@ insert into table_of_dicts(code, title, dictType, parentCode) values('Ziziphora 
     alter table table_of_dicts add column description text;;
     ]]></sql>
   </changeSet>
+
+  <changeSet author="stursyn" id="dict-data-009">
+    <sql endDelimiter=";;"><![CDATA[
+    update table_of_dicts set image = null, image_name = null, description = null;
+    ]]></sql>
+  </changeSet>
+
+  <changeSet author="stursyn" id="dict-data-010">
+    <sql endDelimiter=";;"><![CDATA[
+  insert into table_of_dicts(code, title, dictType) values('lifeForm1'  ,     'Деревья 1 категории'      ,'LIFE_FORM');;
+  insert into table_of_dicts(code, title, dictType) values('lifeForm2'  ,     'Деревья 2 категории'      ,'LIFE_FORM');;
+  insert into table_of_dicts(code, title, dictType) values('lifeForm3'  ,     'Деревья 3 категории'      ,'LIFE_FORM');;
+  insert into table_of_dicts(code, title, dictType) values('lifeForm4'  ,     'Кустарник'      ,'LIFE_FORM');;
+  insert into table_of_dicts(code, title, dictType) values('lifeForm5'  ,     'Полукустарник'      ,'LIFE_FORM');;
+  insert into table_of_dicts(code, title, dictType) values('lifeForm6'  ,     'Трава однолетняя'      ,'LIFE_FORM');;
+  insert into table_of_dicts(code, title, dictType) values('lifeForm7'  ,     'Трава многолетняя'      ,'LIFE_FORM');;
+  insert into table_of_dicts(code, title, dictType) values('lifeForm8'  ,     'Лиана'      ,'LIFE_FORM');;
+  insert into table_of_dicts(code, title, dictType) values('lifeForm9'  ,     'Мхи'      ,'LIFE_FORM');;
+  insert into table_of_dicts(code, title, dictType) values('lifeForm10'  ,     'Лишайник'      ,'LIFE_FORM');;
+  insert into table_of_dicts(code, title, dictType) values('lifeForm11'  ,     'Гриб'      ,'LIFE_FORM');;
+    ]]></sql>
+  </changeSet>
 </databaseChangeLog>

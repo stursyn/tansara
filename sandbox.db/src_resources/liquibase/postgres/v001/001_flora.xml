@@ -66,4 +66,11 @@
     ]]></sql>
   </changeSet>
 
+  <changeSet author="stursyn" id="flora-002">
+    <sql endDelimiter=";;"><![CDATA[
+    alter table flora add column lifeFormCode varchar(1000);;
+    update flora set image = null, image_name = null, description = null;
+    ]]></sql>
+  </changeSet>
+
 </databaseChangeLog>

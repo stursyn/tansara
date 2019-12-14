@@ -128,7 +128,7 @@ public class DbWorker {
     return DriverManager.getConnection(
       SysParams.pgAdminUrl(),
       SysParams.pgAdminUserid(),
-      "postgres"
+        SysParams.pgAdminPassword()
     );
   }
 }

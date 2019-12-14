@@ -97,6 +97,14 @@
               </mat-select>
             </mat-form-field>
             <mat-form-field appearance="outline">
+              <mat-label>Жизненная форма</mat-label>
+              <mat-select placeholder="Жизненная форма" [(ngModel)]="toSave.lifeForm"  name="lifeForm">
+                <mat-option *ngFor="let item of lifeFormDict" [value]="item.code">
+                  {{item.title}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
               <mat-label>№ флор р-на</mat-label>
               <mat-select placeholder="№ флор р-на" [(ngModel)]="toSave.region"  name="region" required>
                 <mat-option *ngFor="let item of regionDict" [value]="item.code">

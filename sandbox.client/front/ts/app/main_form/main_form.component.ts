@@ -7,6 +7,7 @@ import {MomentDateAdapter} from "@angular/material-moment-adapter";
 import {AfterViewInit, Component, ViewChild} from "@angular/core";
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatDialog, MatPaginator} from "@angular/material";
 import {EmptyNumDialogWindow} from "./empty_num_dialog_window/empty_num_dialog.window";
+import {ImportDataDialogWindow} from "./import_data_dialog_window/import_data_dialog.window";
 
 const moment = _moment;
 
@@ -21,6 +22,7 @@ export class ToFilterElement {
   public genus: string;
   public type: string;
   public region: string;
+  public lifeForm: string;
 
   public collectPlace: string;
   public collectCoordinate: string;
@@ -72,6 +74,7 @@ export class MainFormComponent implements AfterViewInit {
   public familyDict: Array<DictSimple> = [];
   public genusDict: Array<DictSimple> = [];
   public typeDict: Array<DictSimple> = [];
+  public lifeFormDict: Array<DictSimple> = [];
 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -145,6 +148,15 @@ export class MainFormComponent implements AfterViewInit {
       result => {
         this.familyDict = result.json();
       });
+
+    this.httpService.post("/flora/dict_simple", {
+      toFilter: JSON.stringify({
+        dictType: 'LIFE_FORM'
+      })
+    }).toPromise().then(
+        result => {
+          this.lifeFormDict = result.json();
+        });
 
     this.loadTypeDict(undefined);
     this.loadGenusDict(undefined);
@@ -241,6 +253,17 @@ export class MainFormComponent implements AfterViewInit {
 
     this.loadTypeDict(undefined);
     this.loadGenusDict(undefined);
+  }
+
+  importData(){
+    const dialogRef = this.dialog.open(ImportDataDialogWindow, {
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.clear();
+      this.find();
+    });
   }
 
   getEmptyNums(){

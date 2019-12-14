@@ -26,6 +26,13 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+                <mat-form-field>
+                    <mat-select placeholder="Жизненная форма" [(ngModel)]="toFilter.lifeForm">
+                        <mat-option *ngFor="let item of lifeFormDict" [value]="item.code">
+                            {{item.title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
             <div class="col-lg-3">
                 <mat-form-field>
@@ -106,6 +113,7 @@
       <button mat-button color="accent" (click)="addFlora()">Добавить</button>
       <button mat-button color="primary" (click)="getEmptyNums()">Пустые нумерации</button>
       <button mat-button color="primary" (click)="downloadReport()">Скачать отчет</button>
+      <button mat-button color="primary" (click)="importData()">Импортировать данные</button>
 
     </mat-card-content>
 </mat-card>

@@ -1,12 +1,14 @@
 package kz.greetgo.sandbox.db.register_impl;
 
 import com.google.common.collect.Lists;
+import kz.greetgo.db.ConnectionCallback;
 import kz.greetgo.depinject.core.Bean;
 import kz.greetgo.depinject.core.BeanGetter;
 import kz.greetgo.mvc.interfaces.BinResponse;
 import kz.greetgo.sandbox.controller.errors.RestError;
 import kz.greetgo.sandbox.controller.model.*;
 import kz.greetgo.sandbox.controller.register.FloraRegister;
+import kz.greetgo.sandbox.controller.util.FileUtil;
 import kz.greetgo.sandbox.db.dao.FloraDao;
 import kz.greetgo.sandbox.db.jdbc.FloraCountJdbc;
 import kz.greetgo.sandbox.db.jdbc.FloraListJdbc;
@@ -16,12 +18,18 @@ import kz.greetgo.sandbox.db.report.main.MainFooterData;
 import kz.greetgo.sandbox.db.report.main.MainHeaderData;
 import kz.greetgo.sandbox.db.report.main.MainViewXlsx;
 import kz.greetgo.sandbox.db.util.JdbcSandbox;
+import org.apache.poi.xwpf.usermodel.*;
 import org.fest.util.Strings;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Bean
 public class FloraRegisterImpl implements FloraRegister {
@@ -103,5 +111,87 @@ public class FloraRegisterImpl implements FloraRegister {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  @Override
+  public String importFloraData(FileModel fileModel) {
+    StringBuilder ret = new StringBuilder();
+
+    try {
+      XWPFDocument document =
+          new XWPFDocument(new ByteArrayInputStream(FileUtil.base64ToBytes(fileModel.src)));
+      AtomicBoolean findTable = new AtomicBoolean(false);
+      document.getBodyElements().forEach(iBodyElement -> {
+        if(iBodyElement instanceof XWPFTable) {
+          workWithTable(ret, (XWPFTable) iBodyElement);
+          findTable.set(true);
+        }
+      });
+
+      if(!findTable.get()) ret.append("Не может найти таблицу в файле");
+      if(!Strings.isNullOrEmpty(ret.toString())) throw new RestError(ret.toString());
+      return Strings.isNullOrEmpty(ret.toString())?null:ret.toString();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private void checkInnerElements(IBodyElement iBodyElement, StringBuilder ret) {
+    if(iBodyElement instanceof XWPFParagraph) {
+      iBodyElement.getBody().getBodyElements().forEach(innerIBodyElement -> {
+        checkInnerElements(innerIBodyElement, ret);
+      });
+    } else if(iBodyElement instanceof XWPFTable) {
+      workWithTable(ret, (XWPFTable) iBodyElement);
+    }
+  }
+
+  private void workWithTable(StringBuilder ret, XWPFTable iBodyElement) {
+    XWPFTable table = iBodyElement;
+    jdbcSandbox.get().execute(new ConnectionCallback<Void>() {
+
+      @Override
+      public Void doInConnection(Connection connection) throws Exception {
+        try(PreparedStatement ps = connection.prepareStatement("update flora set collectPlace=?," +
+            "collectCoordinate=? where num=?")) {
+          AtomicBoolean header = new AtomicBoolean(true);
+          table.getRows().forEach(xwpfTableRow -> {
+            if(header.getAndSet(false)) return;
+
+            List<XWPFTableCell> tableCells = xwpfTableRow.getTableCells();
+            if (tableCells.size() != 4) ret.append("строка:" + tableCells.get(0).getText());
+            String idStr = tableCells.get(0).getText().trim();
+            Integer id = null;
+            if(idStr.indexOf(".")!=-1) {
+              try {
+                id = Integer.parseInt(tableCells.get(0).getText().trim().split("\\.")[0]);
+              } catch (Exception e){
+                ret.append("строка:" + tableCells.get(0).getText());
+              }
+            } else {
+              try {
+                id = Integer.parseInt(tableCells.get(0).getText().trim().split("\\.")[0]);
+              } catch (Exception e){
+                ret.append("строка:" + tableCells.get(0).getText());
+              }
+            }
+            if(id == null) return;
+            try {
+              ps.setString(1, tableCells.get(2).getText().trim());
+              ps.setString(2, tableCells.get(3).getText().trim());
+              ps.setInt(3, id);
+              ps.addBatch();
+            } catch (SQLException e) {
+              throw new RuntimeException(e);
+            }
+
+          });
+          ps.executeBatch();
+        } catch (Exception e) {
+          throw new RuntimeException(e);
+        }
+        return null;
+      }
+    });
   }
 }

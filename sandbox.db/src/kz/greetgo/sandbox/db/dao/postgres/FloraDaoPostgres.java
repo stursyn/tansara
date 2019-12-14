@@ -22,7 +22,7 @@ public interface FloraDaoPostgres extends FloraDao {
       " on conflict (num) do update set catalog = #{flora.catalog}, collectedBy = #{flora.collectedBy}, familyCode = #{flora.family},  genusCode = #{flora.genus}, " +
       " typeCode = #{flora.type}, regionCode = #{flora.region}, collectPlace = #{flora.collectPlace}, " +
       " collectCoordinate = #{flora.collectCoordinate}, collectAltitude = #{flora.collectAltitude}, collectDate = #{flora.collectDate}, floraWeight = #{flora.floraWeight}," +
-      " usageCode = #{flora.usage}, behaviorPercent = #{flora.behaviorPercent}")
+      " usageCode = #{flora.usage}, behaviorPercent = #{flora.behaviorPercent}, lifeFormCode = #{flora.lifeForm}")
   void insertFlora(@Param("flora") FloraDetail floraRecord);
 
 
@@ -39,7 +39,8 @@ public interface FloraDaoPostgres extends FloraDao {
   void insertFloraUsageRelation(@Param("floraNum") Long floraNum, @Param("usage") String usage);
 
   @Override
-  @Select("select x.familyCode as family, x.genusCode as genus, x.typeCode as type, x.usageCode as usage, x.regionCode as region, x.* from flora x where x.num = #{floraId}")
+  @Select("select x.familyCode as family, x.genusCode as genus, x.typeCode as type, x.usageCode as usage, " +
+      "x.regionCode as region, x.lifeFormCode as lifeForm, x.* from flora x where x.num = #{floraId}")
   FloraDetail loadFlora(@Param("floraId") Long floraId);
 
   @Override

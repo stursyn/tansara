@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>{{"Пустые нумерации"}}</h1>
+<div mat-dialog-content>
+  <app-file-uploader accept='.doc, .docx'></app-file-uploader>
+  <mat-error *ngIf="errorMessage">{{errorMessage}}</mat-error>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button (click)="importFile()">Импортировать</button>
+    <button mat-raised-button [mat-dialog-close]="">Отмена</button>
+</div>

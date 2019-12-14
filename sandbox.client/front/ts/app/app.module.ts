@@ -27,6 +27,7 @@ import {AdminFormComponent} from "./admin_form/admin_form.component";
 import {DictEditDialogWindow} from "./admin_form/edit_dialog_window/dict_edit_dialog.window";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {FileUploaderComponent} from "./share/file-uploader/file-uploader.component";
+import {ImportDataDialogWindow} from "./main_form/import_data_dialog_window/import_data_dialog.window";
 
 @NgModule({
   imports: [
@@ -57,6 +58,7 @@ import {FileUploaderComponent} from "./share/file-uploader/file-uploader.compone
     RootComponent, MainFormComponent,
       EditDialogWindow, EmptyNumDialogWindow,
       AdminFormComponent, DictEditDialogWindow,
+      ImportDataDialogWindow,
       FileUploaderComponent
   ],
   bootstrap: [RootComponent],
@@ -67,7 +69,8 @@ import {FileUploaderComponent} from "./share/file-uploader/file-uploader.compone
     ],
   entryComponents: [EditDialogWindow,
       EmptyNumDialogWindow,
-      DictEditDialogWindow],
+      DictEditDialogWindow,
+      ImportDataDialogWindow],
 })
 export class AppModule {
 }

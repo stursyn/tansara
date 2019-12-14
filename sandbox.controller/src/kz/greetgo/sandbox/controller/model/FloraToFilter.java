@@ -19,6 +19,7 @@ public class FloraToFilter {
   public String floraWeight;
   public String behaviorPercent;
   public String collectedBy;
+  public String lifeForm;
 
   public Integer pageSize;
   public Integer page;

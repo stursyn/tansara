@@ -21,6 +21,7 @@ public class FloraDetail {
   public Date collectDate;
   public String floraWeight;
   public String behaviorPercent;
+  public String lifeForm;
 
   public List<CollectionRecord> collectionList = Lists.newArrayList();
   public List<String> usageList = Lists.newArrayList();

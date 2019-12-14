@@ -50,6 +50,10 @@ abstract public class FloraLogicJdbc<ReturnType, ModelClassType> extends SqlLogi
       sql.where("f.familyCode = :family");
       sql.setValue("family", filter.family);
     }
+    if (!Strings.isNullOrEmpty(filter.lifeForm)) {
+      sql.where("f.lifeFormCode = :lifeForm");
+      sql.setValue("lifeForm", filter.lifeForm);
+    }
     if (!Strings.isNullOrEmpty(filter.genus)) {
       sql.where("f.genusCode = :genus");
       sql.setValue("genus", filter.genus);

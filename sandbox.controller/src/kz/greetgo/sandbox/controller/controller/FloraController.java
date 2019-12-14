@@ -5,7 +5,6 @@ import kz.greetgo.depinject.core.BeanGetter;
 import kz.greetgo.mvc.annotations.*;
 import kz.greetgo.mvc.interfaces.BinResponse;
 import kz.greetgo.sandbox.controller.model.*;
-import kz.greetgo.sandbox.controller.register.AuthRegister;
 import kz.greetgo.sandbox.controller.register.FloraRegister;
 import kz.greetgo.sandbox.controller.security.NoSecurity;
 import kz.greetgo.sandbox.controller.util.Controller;
@@ -83,5 +82,11 @@ public class FloraController implements Controller {
     floraRegister.get().downloadReport(toFilter, binResponse);
 
     binResponse.flushBuffers();
+  }
+
+  @NoSecurity
+  @Mapping("/import_flora_data")
+  public void importFloraData(@Json @Par("toSave") FileModel fileModel) {
+    floraRegister.get().importFloraData(fileModel);
   }
 }

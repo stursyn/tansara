@@ -13,11 +13,14 @@ import kz.greetgo.sandbox.controller.register.model.SessionInfo;
 import kz.greetgo.sandbox.controller.register.model.UserParamName;
 import kz.greetgo.sandbox.controller.security.SecurityError;
 import kz.greetgo.sandbox.controller.util.FileReadUtil;
+import kz.greetgo.sandbox.controller.util.FileUtil;
 import kz.greetgo.sandbox.controller.util.resources.UtilResources;
 import kz.greetgo.sandbox.db.stand.beans.StandDb;
 import kz.greetgo.sandbox.db.stand.model.PersonDot;
 import kz.greetgo.util.RND;
 import kz.greetgo.util.ServerUtil;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
 import java.io.*;
@@ -25,6 +28,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
+import java.util.regex.Matcher;
 
 @Bean
 public class FloraRegisterStand implements FloraRegister {
@@ -117,5 +121,10 @@ public class FloraRegisterStand implements FloraRegister {
   @Override
   public void downloadReport(FloraToFilter toFilter, BinResponse binResponse) {
 
+  }
+
+  @Override
+  public String importFloraData(FileModel fileModel) {
+    return null;
   }
 }
