@@ -36,6 +36,7 @@ export class ToSaveElement {
 
   public usageList: Array<string> = [];
   public collectionList: Array<CollectionRecord> = [];
+  public collectedByList: Array<string> = [];
 
   public page: number;
   public pageSize: number;
@@ -50,6 +51,7 @@ export class EditDialogWindow {
   public toSave:ToSaveElement = new ToSaveElement();
   public collectionList:Array<CollectionRecord> = [];
   public usageList:Array<string> = [];
+  public collectedByList:Array<string> = [];
 
 
   public collectionDict: Array<DictSimple> = [];
@@ -60,11 +62,13 @@ export class EditDialogWindow {
   public genusDict: Array<DictSimple> = [];
   public typeDict: Array<DictSimple> = [];
   public lifeFormDict: Array<DictSimple> = [];
+  public collectedByDict: Array<DictSimple> = [];
   public defaultCollection:string;
   public defaultMeasure:string;
   public edit:boolean = false;
   public errorMessage:string;
   public defaultUsage:string;
+  public defaultCollectedBy:string;
 
   constructor(
       public dialogRef: MatDialogRef<EditDialogWindow>,
@@ -131,6 +135,15 @@ export class EditDialogWindow {
     }).toPromise().then(
         result => {
           this.lifeFormDict = result.json();
+        });
+
+    this.httpService.post("/flora/dict_simple", {
+      toFilter: JSON.stringify({
+        dictType: 'COLLECTED_BY'
+      })
+    }).toPromise().then(
+        result => {
+          this.collectedByDict = result.json();
         });
   }
 
@@ -203,6 +216,16 @@ export class EditDialogWindow {
                   }
                 });
               }
+
+              if(this.toSave.collectedByList){
+                this.toSave.collectedByList.forEach((item, index)=>{
+                  if(index == 0) {
+                    this.defaultCollectedBy = item;
+                  } else {
+                    this.collectedByList.push(item);
+                  }
+                });
+              }
             }
     );
   }
@@ -214,6 +237,13 @@ export class EditDialogWindow {
 
     this.usageList.forEach((item)=>{
       this.toSave.usageList.push(item);
+    });
+
+    this.toSave.collectedByList = [];
+    this.toSave.collectedByList.push(this.defaultCollectedBy);
+
+    this.collectedByList.forEach((item)=>{
+      this.toSave.collectedByList.push(item);
     });
 
     this.toSave.collectionList = [];
@@ -243,6 +273,14 @@ export class EditDialogWindow {
 
   removeUsage(i){
     this.usageList.splice(i,1);
+  }
+
+  addCollectedBy(){
+    this.collectedByList.push("");
+  }
+
+  removeCollectedBy(i){
+    this.collectedByList.splice(i,1);
   }
 
   addCollection(){

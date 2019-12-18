@@ -85,6 +85,9 @@ public class FloraListJdbc extends FloraLogicJdbc<List<FloraRecord>, FloraRecord
     if (!Strings.isNullOrEmpty(filter.usage)) {
       sql.leftjoin("flora_usage_relation fur on fur.flora = f.num");
     }
+    if (!Strings.isNullOrEmpty(filter.collectedBy)) {
+      sql.leftjoin("flora_collected_by_relation fcbr on fcbr.flora = f.num");
+    }
   }
 
   @Override

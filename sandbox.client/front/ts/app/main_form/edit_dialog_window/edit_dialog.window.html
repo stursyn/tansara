@@ -68,6 +68,41 @@
               <input matInput [placeholder]="'Кем собрано'"
                      [(ngModel)]="toSave.collectedBy" name="collectedBy">
             </mat-form-field>
+
+            <div class="row">
+              <div class="col-lg-10 form-field-width-100">
+                <mat-form-field appearance="outline">
+                  <mat-label>Кем собрано</mat-label>
+                  <mat-select placeholder="Кем собрано" [(ngModel)]="defaultCollectedBy"  name="collectedByName">
+                    <mat-option *ngFor="let item of collectedByDict" [value]="item.code">
+                      {{item.title}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div  style="padding-top: 7px">
+                <button mat-mini-fab color="transparent" (click)="addCollectedBy()">
+                  <mat-icon>add_circle</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="row" *ngFor="let value of collectedByList, let i = index">
+              <div class="col-lg-10 form-field-width-100">
+                <mat-form-field appearance="outline">
+                  <mat-label>Кем собрано</mat-label>
+                  <mat-select placeholder="Кем собрано" [(ngModel)]="collectedByList[i]"  name="collectedByName{{i}}">
+                    <mat-option *ngFor="let item of collectedByDict" [value]="item.code">
+                      {{item.title}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div  style="padding-top: 7px">
+                <button mat-mini-fab color="transparent" (click)="removeCollectedBy(i)">
+                  <mat-icon>remove_circle</mat-icon>
+                </button>
+              </div>
+            </div>
         </div>
         <div class="col-lg-6  form-field-width-100">
             <mat-form-field appearance="outline">

@@ -46,4 +46,10 @@ public interface FloraDaoPostgres extends FloraDao {
   @Override
   @Select("select nextval('num')")
   Long loadFloraId();
+
+  @Override
+  @Insert("insert into flora_collected_by_relation(flora, collectedByDict, actual) " +
+      " values (#{floraNum}, #{collectedBy}, 1)" +
+      " on conflict (flora, collectedByDict) do update set actual = 1")
+  void insertFloraCollectedByRelation(@Param("floraNum") Long floraNum, @Param("collectedBy") String collectedBy);
 }

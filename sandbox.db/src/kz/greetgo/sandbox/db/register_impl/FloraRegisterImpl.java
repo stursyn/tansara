@@ -51,6 +51,7 @@ public class FloraRegisterImpl implements FloraRegister {
     FloraDetail floraDetail = floraDao.get().loadFlora(floraId);
     floraDetail.collectionList = floraDao.get().loadCollectionList(floraId);
     floraDetail.usageList = floraDao.get().loadUsageList(floraId);
+    floraDetail.collectedByList = floraDao.get().loadCollectedByList(floraId);
     return floraDetail;
   }
 
@@ -70,7 +71,14 @@ public class FloraRegisterImpl implements FloraRegister {
 
     floraDao.get().deleteFloraUsageList(toSave.num);
     toSave.usageList.forEach( usage->{
+      if (Strings.isNullOrEmpty(usage)) return;
       floraDao.get().insertFloraUsageRelation(toSave.num, usage);
+    });
+
+    floraDao.get().deleteFloraUsageList(toSave.num);
+    toSave.collectedByList.forEach( collectBy->{
+      if (Strings.isNullOrEmpty(collectBy)) return;
+      floraDao.get().insertFloraCollectedByRelation(toSave.num, collectBy);
     });
   }
 

@@ -73,4 +73,16 @@
     ]]></sql>
   </changeSet>
 
+  <changeSet author="seyit" id="create-table-flora-collected-by-relation">
+  <sql endDelimiter=";;"><![CDATA[
+  create table flora_collected_by_relation (
+    flora bigint not null,
+    collectedByDict varchar(1000) not null,
+    actual smallint not null default 1,
+
+    PRIMARY KEY(flora, collectedByDict)
+  );;
+    ]]></sql>
+</changeSet>
+
 </databaseChangeLog>

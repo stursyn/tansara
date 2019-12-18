@@ -12,6 +12,7 @@ const moment = _moment;
 
 export class ToFilterElement {
   public name: string;
+  public dictType: string;
 
   public page: number;
   public pageSize: number;
@@ -54,10 +55,18 @@ export class AdminFormComponent implements AfterViewInit {
 
   constructor(private httpService: HttpService,
               public dialog: MatDialog) {
+    this.loadDict();
   }
 
   ngAfterViewInit() {
     this.find();
+  }
+
+  loadDict() {
+    this.httpService.get("/dict/dictTypeDict").toPromise().then(
+        result => {
+          this.dictTypeDict = result.json();
+        });
   }
 
   find() {
@@ -96,6 +105,28 @@ export class AdminFormComponent implements AfterViewInit {
 
   addFlora() {
     this.edit(undefined);
+  }
+
+  downloadReport(){
+    let post: string = '';
+    let keyValue = {toFilter: JSON.stringify(this.toFilter)};
+
+    if (keyValue) {
+
+      let data = new URLSearchParams();
+      let appended = false;
+      for (let key in keyValue) {
+        let value = keyValue[key];
+        if (value) {
+          data.append(key, value as string);
+          appended = true;
+        }
+      }
+
+      if (appended) post = '?' + data.toString();
+    }
+
+    this.httpService.downloadResource("/dict/download-report", {toFilter: JSON.stringify(this.toFilter)});
   }
 
   clear(){

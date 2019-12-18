@@ -3,16 +3,27 @@ package kz.greetgo.sandbox.db.register_impl;
 import com.google.common.collect.Lists;
 import kz.greetgo.depinject.core.Bean;
 import kz.greetgo.depinject.core.BeanGetter;
+import kz.greetgo.mvc.interfaces.BinResponse;
 import kz.greetgo.sandbox.controller.model.*;
 import kz.greetgo.sandbox.controller.register.DictRegister;
 import kz.greetgo.sandbox.controller.register.FloraRegister;
 import kz.greetgo.sandbox.controller.util.FileUtil;
 import kz.greetgo.sandbox.db.dao.DictDao;
+import kz.greetgo.sandbox.db.jdbc.FloraReportJdbc;
 import kz.greetgo.sandbox.db.jdbc.dict.DictCountJdbc;
 import kz.greetgo.sandbox.db.jdbc.dict.DictListJdbc;
+import kz.greetgo.sandbox.db.jdbc.dict.DictReportJdbc;
+import kz.greetgo.sandbox.db.report.ReportView;
+import kz.greetgo.sandbox.db.report.dict.DictFooterData;
+import kz.greetgo.sandbox.db.report.dict.DictHeaderData;
+import kz.greetgo.sandbox.db.report.dict.DictViewXlsx;
+import kz.greetgo.sandbox.db.report.main.MainFooterData;
+import kz.greetgo.sandbox.db.report.main.MainHeaderData;
+import kz.greetgo.sandbox.db.report.main.MainViewXlsx;
 import kz.greetgo.sandbox.db.util.JdbcSandbox;
 import org.fest.util.Strings;
 
+import java.io.IOException;
 import java.util.List;
 
 @Bean
@@ -58,6 +69,20 @@ public class DictRegisterImpl implements DictRegister {
       return floraRegister.get().dictSimple(toFilter);
     }
     return Lists.newArrayList();
+  }
+
+  @Override
+  public void downloadReport(AdminDictToFilter toFilter, BinResponse binResponse) {
+    try(ReportView view = new DictViewXlsx(binResponse.out())){
+      DictHeaderData headerData = new DictHeaderData();
+      view.start(headerData);
+
+      jdbcSandbox.get().execute(new DictReportJdbc(toFilter, view));
+
+      view.finish(new DictFooterData());
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override

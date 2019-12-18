@@ -19,6 +19,7 @@ public class MainRow extends ReportRow {
   public String accuracyRate;
   public String whoIsCollect;
   public String description;
+  public String lifeForm;
   public boolean hasImage = false;
   public byte [] image;
 }

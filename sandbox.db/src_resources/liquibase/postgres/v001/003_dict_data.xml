@@ -1155,4 +1155,49 @@ insert into table_of_dicts(code, title, dictType, parentCode) values('Ziziphora 
   insert into table_of_dicts(code, title, dictType) values('lifeForm11'  ,     'Гриб'      ,'LIFE_FORM');;
     ]]></sql>
   </changeSet>
+
+  <changeSet author="stursyn" id="dict-data-011">
+    <sql endDelimiter=";;"><![CDATA[
+  insert into table_of_dicts(code, title, dictType) values('collectedBy1'  ,     'ИБиФ, лаборатория растительных ресурсов'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy2'  ,     'ИБиФ, лаборатория микологии и альгологии'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy3'  ,     'ИБиФ, лаборатория семеноводства и защиты растений'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy4'  ,     'ИбиФ, лаборатория геоботаники'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy5'  ,     'ИБиФ, лаборатория флора высших сосудистых растений'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy6'  ,     'ИБиФ, лаборатория генофонда плодовых культур'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy7'  ,     'ИБиФ, лаборатория цветочно-декоративных растений открытого грунта'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy8'  ,     'ИБиФ, лаборатория дендрологии'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy9'  ,     'ИбиФ, комплексная экспедиция'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy10'  ,     'Дастанова Р.Х.'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy11'  ,     'Веселова П.В.'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy12'  ,     'Кудабаева Г.М.'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy13'  ,     'Шорманова А.А.'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy14'  ,     'Билибаева Б.К.'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy15'  ,     'Осмонали Б.Б.'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy16'  ,     'Данилов М.П.'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy17'  ,     'Мухтубаева С.К.'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy18'  ,     'Кенесбай А.Х.'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy19'  ,     'Ситпаева Г.Т.'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy20'  ,     'Мурзатаева Т.Ш.'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy21'  ,     'Гемеджиева Н.Г.'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy22'  ,     'Димеева Л.А.'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy23'  ,     'Рахимова Е.В.'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy24'  ,     'Саметова Э.С.'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy25'  ,     'Муканова Г.С.'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy26'  ,     'Нам Г.А.'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy27'  ,     'Отрадная И.Г.'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy28'  ,     'Съедина И.А.'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy29'  ,     'Дагарова Ш.'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy30'  ,     'Елубаева А.'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy31'  ,     'Муган А.'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy32'  ,     'Зверев Н.Е.'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy33'  ,     'ИББР (Институт биологии и биотехнологии растений)'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy34'  ,     'МЭБС (Мангышлакский экспериментальный ботанический сад)'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy35'  ,     'ЖБС (Жезказганский ботанический сад)'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy36'  ,     'АБС (Алтайский ботанический сад)'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy37'  ,     'ИБС (Илийский ботанический сад)'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy38'  ,     'Международная экспедиция с корейскими коллегами'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy39'  ,     'КазГУ, кафедра биоразнообразия и биоресурсов'      ,'COLLECTED_BY');;
+  insert into table_of_dicts(code, title, dictType) values('collectedBy40'  ,     'Сербаева А PhD, докторант'      ,'COLLECTED_BY');;
+    ]]></sql>
+  </changeSet>
 </databaseChangeLog>

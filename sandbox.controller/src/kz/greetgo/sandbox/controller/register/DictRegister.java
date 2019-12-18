@@ -1,5 +1,6 @@
 package kz.greetgo.sandbox.controller.register;
 
+import kz.greetgo.mvc.interfaces.BinResponse;
 import kz.greetgo.sandbox.controller.model.*;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface DictRegister {
   List<DictRecord> parentDict(DictSimpleToFilter toFilter);
 
   void remove(String code);
+
+  void downloadReport(AdminDictToFilter toFilter, BinResponse binResponse);
 }

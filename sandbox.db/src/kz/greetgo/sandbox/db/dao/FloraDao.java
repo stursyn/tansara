@@ -44,4 +44,9 @@ public interface FloraDao {
 
   @Select("select num from flora where num = #{num}")
   Long checkFloraNum(@Param("num")Long num);
+
+  @Select("select collectedByDict from flora_collected_by_relation where flora=#{floraId}")
+  List<String> loadCollectedByList(Long floraId);
+
+  void insertFloraCollectedByRelation(Long num, String collectBy);
 }

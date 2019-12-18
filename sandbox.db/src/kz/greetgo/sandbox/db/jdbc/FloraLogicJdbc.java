@@ -39,7 +39,7 @@ abstract public class FloraLogicJdbc<ReturnType, ModelClassType> extends SqlLogi
       sql.setValue("collectDate", filter.collectDate);
     }
     if (!Strings.isNullOrEmpty(filter.collectedBy)) {
-      sql.where("lower(f.collectedBy) like lower('%' || :collectedBy || '%')");
+      sql.where("fcbr.collectedByDict = :collectedBy ");
       sql.setValue("collectedBy", filter.collectedBy);
     }
     if (!Strings.isNullOrEmpty(filter.collectPlace)) {

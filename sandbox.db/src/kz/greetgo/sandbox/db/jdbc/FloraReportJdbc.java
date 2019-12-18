@@ -47,7 +47,8 @@ public class FloraReportJdbc extends FloraLogicJdbc<Void, MainRow> {
     sql.select("f.collectDate");
     sql.select("f.behaviorPercent as seedWeight");
     sql.select("f.floraWeight as accuracyRate");
-    sql.select("f.collectedBy as whoIsCollect");
+    sql.select("string_agg(cb.title,', ') as whoIsCollect");
+    sql.select("lf.title as lifeForm");
     sql.select("td.description as familyDescription");
     sql.select("td.image as familyImage");
   }
@@ -73,6 +74,7 @@ public class FloraReportJdbc extends FloraLogicJdbc<Void, MainRow> {
     r.accuracyRate = rs.getString("accuracyRate");
     r.whoIsCollect = rs.getString("whoIsCollect");
     r.description = rs.getString("familyDescription");
+    r.lifeForm = rs.getString("lifeForm");
     if(rs.getBytes("familyImage")==null){
       r.hasImage = false;
     } else {
@@ -103,7 +105,8 @@ public class FloraReportJdbc extends FloraLogicJdbc<Void, MainRow> {
     sql.group_by("f.collectDate");
     sql.group_by("f.behaviorPercent");
     sql.group_by("f.floraWeight");
-    sql.group_by("f.collectedBy");
+//    sql.group_by("f.collectedBy");
+    sql.group_by("lf.title");
     sql.group_by("td.description");
     sql.group_by("td.image");
   }
@@ -121,8 +124,11 @@ public class FloraReportJdbc extends FloraLogicJdbc<Void, MainRow> {
     sql.leftjoin("flora_collection_relation fct on fct.flora = f.num");
     sql.leftjoin("table_of_dicts cd on cd.code = fct.collectionDict");
     sql.leftjoin("table_of_dicts md on md.code = fct.measureDict");
+    sql.leftjoin("table_of_dicts lf on lf.code = f.lifeFormCode");
     sql.leftjoin("flora_usage_relation fur on fur.flora = f.num");
     sql.leftjoin("table_of_dicts ud on ud.code = fur.usageDict");
+    sql.leftjoin("flora_collected_by_relation fcbr on fcbr.flora = f.num");
+    sql.leftjoin("table_of_dicts cb on cb.code = fcbr.collectedByDict");
   }
 
   @Override

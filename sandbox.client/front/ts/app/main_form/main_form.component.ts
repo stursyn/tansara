@@ -75,6 +75,7 @@ export class MainFormComponent implements AfterViewInit {
   public genusDict: Array<DictSimple> = [];
   public typeDict: Array<DictSimple> = [];
   public lifeFormDict: Array<DictSimple> = [];
+  public collectedByDict: Array<DictSimple> = [];
 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -156,6 +157,15 @@ export class MainFormComponent implements AfterViewInit {
     }).toPromise().then(
         result => {
           this.lifeFormDict = result.json();
+        });
+
+    this.httpService.post("/flora/dict_simple", {
+      toFilter: JSON.stringify({
+        dictType: 'COLLECTED_BY'
+      })
+    }).toPromise().then(
+        result => {
+          this.collectedByDict = result.json();
         });
 
     this.loadTypeDict(undefined);

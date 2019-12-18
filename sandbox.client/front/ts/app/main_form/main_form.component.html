@@ -103,8 +103,11 @@
                            [(ngModel)]="toFilter.behaviorPercent">
                 </mat-form-field>
                 <mat-form-field>
-                    <input matInput placeholder="Кем собрано"
-                           [(ngModel)]="toFilter.collectedBy">
+                    <mat-select placeholder="Кем собрано" [(ngModel)]="toFilter.collectedBy">
+                        <mat-option *ngFor="let item of collectedByDict" [value]="item.code" [matTooltip]="item.title">
+                            {{item.title}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
             </div>
         </div>

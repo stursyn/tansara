@@ -20,6 +20,10 @@ abstract public class DictLogicJdbc<ReturnType, ModelClassType> extends SqlLogic
       sql.where("lower(tod.title) like lower('%' || :name || '%')");
       sql.setValue("name", filter.name);
     }
+    if (!Strings.isNullOrEmpty(filter.dictType)) {
+      sql.where("tod.dictType = :dictType");
+      sql.setValue("dictType", filter.dictType);
+    }
   }
 
   protected void from() {

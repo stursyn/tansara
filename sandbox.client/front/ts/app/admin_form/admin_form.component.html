@@ -8,10 +8,21 @@
                     >
                 </mat-form-field>
             </div>
+            <div class="col-lg-3">
+                <mat-form-field>
+                    <mat-label>Тип справочника</mat-label>
+                    <mat-select placeholder="Тип справочника" [(ngModel)]="toFilter.dictType">
+                        <mat-option *ngFor="let item of dictTypeDict" [value]="item.code">
+                            {{item.title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
         </div>
         <button mat-button color="primary" (click)="find()">Найти</button>
         <button mat-button color="accent" (click)="clear()">Очистить</button>
         <button mat-button color="accent" (click)="addFlora()">Добавить</button>
+        <button mat-button color="primary" (click)="downloadReport()">Скачать отчет</button>
     </mat-card-content>
 </mat-card>
 <mat-card>

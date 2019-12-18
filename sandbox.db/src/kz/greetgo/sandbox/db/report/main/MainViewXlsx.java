@@ -45,6 +45,7 @@ public class MainViewXlsx implements ReportView {
       sheet.setColumnWidth(12,6000);
       sheet.setColumnWidth(13,6000);
       sheet.setColumnWidth(14,6000);
+      sheet.setColumnWidth(15,6000);
 
       {
         Row headerRow2 = sheet.createRow(0);
@@ -65,8 +66,9 @@ public class MainViewXlsx implements ReportView {
         setStrCellValue(headerRow2, 12, "Масса 1000 семян, г", false, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), new XSSFColor(new java.awt.Color(191,191,191)), HorizontalAlignment.CENTER);
         setStrCellValue(headerRow2, 13, "Всхож %", false, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), new XSSFColor(new java.awt.Color(191,191,191)), HorizontalAlignment.CENTER);
         setStrCellValue(headerRow2, 14, "Кем собрано", false, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), new XSSFColor(new java.awt.Color(191,191,191)), HorizontalAlignment.CENTER);
-        setStrCellValue(headerRow2, 15, "Вид описания", false, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), new XSSFColor(new java.awt.Color(191,191,191)), HorizontalAlignment.CENTER);
-        setStrCellValue(headerRow2, 16, "Вид фотография", false, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), new XSSFColor(new java.awt.Color(191,191,191)), HorizontalAlignment.CENTER);
+        setStrCellValue(headerRow2, 15, "Жизненная форма", false, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), new XSSFColor(new java.awt.Color(191,191,191)), HorizontalAlignment.CENTER);
+        setStrCellValue(headerRow2, 16, "Вид описания", false, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), new XSSFColor(new java.awt.Color(191,191,191)), HorizontalAlignment.CENTER);
+        setStrCellValue(headerRow2, 17, "Вид фотография", false, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), new XSSFColor(new java.awt.Color(191,191,191)), HorizontalAlignment.CENTER);
       }
     }
   }
@@ -210,7 +212,8 @@ public class MainViewXlsx implements ReportView {
       setStrCellValue(sheetRow, 12, use.seedWeight, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
       setStrCellValue(sheetRow, 13, use.accuracyRate, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
       setStrCellValue(sheetRow, 14, use.whoIsCollect, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
-      setStrCellValue(sheetRow, 15, use.description, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
+      setStrCellValue(sheetRow, 15, use.lifeForm, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
+      setStrCellValue(sheetRow, 16, use.description, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
 
       if(use.hasImage && use.image.length > 0) {
         final CreationHelper helper = workbook.getCreationHelper();
@@ -219,7 +222,7 @@ public class MainViewXlsx implements ReportView {
         final int pictureIndex =
             workbook.addPicture(use.image, Workbook.PICTURE_TYPE_PNG);
 
-        anchor.setCol1(16);
+        anchor.setCol1(17);
         anchor.setRow1(sheetRow.getRowNum()); // same row is okay
         final Picture pict = drawing.createPicture(anchor, pictureIndex);
         pict.resize();
@@ -250,6 +253,7 @@ public class MainViewXlsx implements ReportView {
       setStrCellValue(sheetRow, 14, "", (int)(Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
       setStrCellValue(sheetRow, 15, "", (int)(Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
       setStrCellValue(sheetRow, 16, "", (int)(Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
+      setStrCellValue(sheetRow, 17, "", (int)(Math.pow(2.0, 2)), HorizontalAlignment.CENTER);
     }
   }
 

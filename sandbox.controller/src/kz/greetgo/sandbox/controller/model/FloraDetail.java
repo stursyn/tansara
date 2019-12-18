@@ -25,6 +25,7 @@ public class FloraDetail {
 
   public List<CollectionRecord> collectionList = Lists.newArrayList();
   public List<String> usageList = Lists.newArrayList();
+  public List<String> collectedByList = Lists.newArrayList();
 
 
 }
