@@ -9,7 +9,6 @@ import kz.greetgo.sandbox.controller.register.DictRegister;
 import kz.greetgo.sandbox.controller.register.FloraRegister;
 import kz.greetgo.sandbox.controller.util.FileUtil;
 import kz.greetgo.sandbox.db.dao.DictDao;
-import kz.greetgo.sandbox.db.jdbc.FloraReportJdbc;
 import kz.greetgo.sandbox.db.jdbc.dict.DictCountJdbc;
 import kz.greetgo.sandbox.db.jdbc.dict.DictListJdbc;
 import kz.greetgo.sandbox.db.jdbc.dict.DictReportJdbc;
@@ -17,13 +16,12 @@ import kz.greetgo.sandbox.db.report.ReportView;
 import kz.greetgo.sandbox.db.report.dict.DictFooterData;
 import kz.greetgo.sandbox.db.report.dict.DictHeaderData;
 import kz.greetgo.sandbox.db.report.dict.DictViewXlsx;
-import kz.greetgo.sandbox.db.report.main.MainFooterData;
-import kz.greetgo.sandbox.db.report.main.MainHeaderData;
-import kz.greetgo.sandbox.db.report.main.MainViewXlsx;
 import kz.greetgo.sandbox.db.util.JdbcSandbox;
 import org.fest.util.Strings;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 
 @Bean
@@ -51,7 +49,7 @@ public class DictRegisterImpl implements DictRegister {
   public void save(AdminDictDetail toSave) {
     dictDao.get().insertDict(toSave);
     if(toSave.fileModel!=null && !Strings.isNullOrEmpty(toSave.fileModel.src)) {
-      dictDao.get().updateImage(toSave.code, toSave.fileModel.name, FileUtil.base64ToBytes(toSave.fileModel.src), toSave.description);
+      dictDao.get().updateImage(toSave.code, toSave.fileModel.name, FileUtil.bytesToBase64(toSave.fileModel.src), toSave.description);
     } else {
       dictDao.get().updateImage(toSave.code, null, new byte[0], toSave.description);
     }
@@ -83,6 +81,21 @@ public class DictRegisterImpl implements DictRegister {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  @Override
+  public String floraImage(String code) {
+    return jdbcSandbox.get().execute(con -> {
+      try(PreparedStatement ps = con.prepareStatement("select image from table_of_dicts where code = ? and image is not null")) {
+        ps.setString(1, code);
+        try(ResultSet resultSet = ps.executeQuery()) {
+          while (resultSet.next()) {
+            return "data:image/jpeg;base64, "+FileUtil.bytesToBase64(resultSet.getBytes("image"));
+          }
+        }
+      }
+      return null;
+    });
   }
 
   @Override

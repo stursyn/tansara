@@ -6,6 +6,7 @@ import {MomentDateAdapter} from "@angular/material-moment-adapter";
 import {AfterViewInit, Component, ViewChild} from "@angular/core";
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatDialog, MatPaginator} from "@angular/material";
 import {DictEditDialogWindow} from "./edit_dialog_window/dict_edit_dialog.window";
+import {PhotoDialogWindow} from "./photo_dialog_window/photo_dialog.window";
 
 const moment = _moment;
 
@@ -87,6 +88,17 @@ export class AdminFormComponent implements AfterViewInit {
   edit(row) {
     const dialogRef = this.dialog.open(DictEditDialogWindow, {
       width: '500px',
+      data: {dictId: row ? row.code : row}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.find();
+    });
+  }
+
+  view(row) {
+    const dialogRef = this.dialog.open(PhotoDialogWindow, {
+      width: '800px',
       data: {dictId: row ? row.code : row}
     });
 

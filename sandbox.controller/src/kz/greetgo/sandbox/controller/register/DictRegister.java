@@ -21,4 +21,6 @@ public interface DictRegister {
   void remove(String code);
 
   void downloadReport(AdminDictToFilter toFilter, BinResponse binResponse);
+
+  String floraImage(String code);
 }

@@ -87,4 +87,12 @@ public class DictController implements Controller {
 
     binResponse.flushBuffers();
   }
+
+  @NoSecurity
+  @ToJson
+  @Mapping("/flora-image")
+  public String floraImage(@Par("code") String code) {
+    return dictRegister.get().floraImage(code);
+  }
+
 }

@@ -19,7 +19,6 @@ import {
   MatSelectModule,
   MatTableModule, MatTooltipModule
 } from "@angular/material";
-import {e} from "@angular/core/src/render3";
 import {EmptyNumDialogWindow} from "./main_form/empty_num_dialog_window/empty_num_dialog.window";
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from "@angular/material-moment-adapter";
 import {MpDateAdapter} from "./MpDateAdapter";
@@ -28,6 +27,7 @@ import {DictEditDialogWindow} from "./admin_form/edit_dialog_window/dict_edit_di
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {FileUploaderComponent} from "./share/file-uploader/file-uploader.component";
 import {ImportDataDialogWindow} from "./main_form/import_data_dialog_window/import_data_dialog.window";
+import {PhotoDialogWindow} from "./admin_form/photo_dialog_window/photo_dialog.window";
 
 @NgModule({
   imports: [
@@ -58,7 +58,7 @@ import {ImportDataDialogWindow} from "./main_form/import_data_dialog_window/impo
     RootComponent, MainFormComponent,
       EditDialogWindow, EmptyNumDialogWindow,
       AdminFormComponent, DictEditDialogWindow,
-      ImportDataDialogWindow,
+      ImportDataDialogWindow, PhotoDialogWindow,
       FileUploaderComponent
   ],
   bootstrap: [RootComponent],
@@ -70,6 +70,7 @@ import {ImportDataDialogWindow} from "./main_form/import_data_dialog_window/impo
   entryComponents: [EditDialogWindow,
       EmptyNumDialogWindow,
       DictEditDialogWindow,
+      PhotoDialogWindow,
       ImportDataDialogWindow],
 })
 export class AppModule {

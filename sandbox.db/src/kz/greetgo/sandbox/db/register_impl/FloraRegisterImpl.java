@@ -26,8 +26,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -127,7 +125,7 @@ public class FloraRegisterImpl implements FloraRegister {
 
     try {
       XWPFDocument document =
-          new XWPFDocument(new ByteArrayInputStream(FileUtil.base64ToBytes(fileModel.src)));
+          new XWPFDocument(new ByteArrayInputStream(FileUtil.bytesToBase64(fileModel.src)));
       AtomicBoolean findTable = new AtomicBoolean(false);
       document.getBodyElements().forEach(iBodyElement -> {
         if(iBodyElement instanceof XWPFTable) {
