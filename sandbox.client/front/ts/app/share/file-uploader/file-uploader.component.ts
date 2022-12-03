@@ -100,7 +100,7 @@ export class FileUploaderComponent implements ControlValueAccessor, Validator {
 
       reader.onloadend = () => {
         let contractFile = FileModel.fromFile(file);
-        contractFile.src = reader.result ? (reader.result.split(",")[1]) : ("");
+        contractFile.src = reader.result ? ((<string>reader.result).split(",")[1]) : ("");
         this.uploadedFile = contractFile;
 
         this.emmitValueChanged();

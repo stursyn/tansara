@@ -2,6 +2,7 @@ package kz.greetgo.sandbox.stand.stand_register_impls;
 
 import com.google.common.collect.Lists;
 import kz.greetgo.depinject.core.Bean;
+import kz.greetgo.mvc.interfaces.BinResponse;
 import kz.greetgo.sandbox.controller.errors.RestError;
 import kz.greetgo.sandbox.controller.model.*;
 import kz.greetgo.sandbox.controller.register.DictRegister;
@@ -82,6 +83,16 @@ public class DictRegisterStand implements DictRegister {
   @Override
   public void remove(String code) {
 
+  }
+
+  @Override
+  public void downloadReport(AdminDictToFilter toFilter, BinResponse binResponse) {
+
+  }
+
+  @Override
+  public String floraImage(String code) {
+    return null;
   }
 
 }

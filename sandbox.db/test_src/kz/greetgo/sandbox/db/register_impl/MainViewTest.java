@@ -4,6 +4,7 @@ import kz.greetgo.sandbox.controller.util.Modules;
 import kz.greetgo.sandbox.db.report.ReportView;
 import kz.greetgo.sandbox.db.report.main.MainFooterData;
 import kz.greetgo.sandbox.db.report.main.MainHeaderData;
+import kz.greetgo.sandbox.db.report.main.MainRow;
 import kz.greetgo.sandbox.db.report.main.MainViewXlsx;
 import kz.greetgo.util.RND;
 import org.testng.annotations.Test;
@@ -32,11 +33,29 @@ public class MainViewTest {
 
           v.start(headerData);
 
+          for (int i = 0; i < 10000; i++) {
+            v.addRow(createRow());
+          }
           v.finish(new MainFooterData());
         }
       }
       out.close();
     }
     System.out.println("Complete");
+  }
+
+  public MainRow createRow() {
+    MainRow row = new MainRow();
+    row.num = RND.plusLong(10_000);
+    row.accuracyRate = RND.str(12);
+    row.catalog = RND.str(12);
+    row.collection = RND.str(12);
+    row.collectCoordinate = RND.str(12);
+    row.collectPlace = RND.str(12);
+    row.description = RND.str(12);
+    row.familyName = RND.str(12);
+    row.floraRegionNumber = RND.str(12);
+    row.typeName = RND.str(12);
+    return row;
   }
 }

@@ -6,6 +6,7 @@ import kz.greetgo.sandbox.db.util.App;
 import kz.greetgo.sandbox.db.util.LiquibaseManager;
 
 import javax.servlet.ServletContext;
+import java.nio.charset.Charset;
 
 @Bean
 public class AppInitializer {
@@ -17,6 +18,8 @@ public class AppInitializer {
   public BeanGetter<Utf8AndTraceResetFilter> utf8AndTraceResetFilter;
 
   public void initialize(ServletContext ctx) throws Exception {
+    System.out.println(Charset.defaultCharset());
+
     if (!App.do_not_run_liquibase_on_deploy_war().exists()) {
       liquibaseManager.get().apply();
     }

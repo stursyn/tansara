@@ -1,4 +1,5 @@
 import gulp from "gulp";
+import gulpUTFConverter from "gulp-utf8-convert";
 import gutil from "gulp-util";
 import pug from "gulp-pug";
 import rename from "gulp-rename";
@@ -144,45 +145,45 @@ task('copy:based', function () {
     "node_modules/zone.js/dist/zone.min.js",
     "node_modules/core-js/client/shim.min.js",
     "node_modules/core-js/client/shim.min.js.map",
-  ]).pipe(gulp.dest(outDir()));
+  ]).pipe(gulpUTFConverter()).pipe(gulp.dest(outDir()));
 });
 task('copy:bootstrap-fonts', function () {
-  return gulp.src("node_modules/bootstrap/dist/fonts/**/*.*")
+  return gulp.src("node_modules/bootstrap/dist/fonts/**/*.*").pipe(gulpUTFConverter())
     .pipe(gulp.dest(path.resolve(outDir(), "fonts")));
 });
 task('copy:jquery', function () {
   return gulp.src([
     "node_modules/jquery/dist/*.min.js",
     "node_modules/jquery/dist/*.min.map",
-  ], {base: 'node_modules/jquery/dist'})
+  ], {base: 'node_modules/jquery/dist'}).pipe(gulpUTFConverter())
     .pipe(gulp.dest(outDir()));
 });
 task('copy:jquery-contextMenu', par(function () {
   return gulp.src([
     "node_modules/jquery-contextmenu/dist/*.min.js",
     "node_modules/jquery-contextmenu/dist/*.min.js.map",
-  ], {base: 'node_modules/jquery-contextmenu/dist'})
+  ], {base: 'node_modules/jquery-contextmenu/dist'}).pipe(gulpUTFConverter())
     .pipe(gulp.dest(outDir()));
 }, function () {
   return gulp.src([
     "node_modules/jquery-contextmenu/dist/*.min.css",
     "node_modules/jquery-contextmenu/dist/*.min.css.map",
-  ], {base: 'node_modules/jquery-contextmenu/dist'})
+  ], {base: 'node_modules/jquery-contextmenu/dist'}).pipe(gulpUTFConverter())
     .pipe(gulp.dest(outDir()));
 }, function () {
-  return gulp.src("node_modules/jquery-contextmenu/dist/font/**/*.*")
+  return gulp.src("node_modules/jquery-contextmenu/dist/font/**/*.*").pipe(gulpUTFConverter())
     .pipe(gulp.dest(path.resolve(outDir(), "font")));
 }));
 task('copy:img-svg', function () {
-  return gulp.src("front/img/**/*.svg")
+  return gulp.src("front/img/**/*.svg").pipe(gulpUTFConverter())
     .pipe(gulp.dest(path.resolve(outDir(), 'img')));
 });
 task('copy:img-gif', function () {
-  return gulp.src("front/img/**/*.gif")
+  return gulp.src("front/img/**/*.gif").pipe(gulpUTFConverter())
     .pipe(gulp.dest(path.resolve(outDir(), 'img')));
 });
 task('copy:img-png', function () {
-  return gulp.src("front/img/**/*.png")
+  return gulp.src("front/img/**/*.png").pipe(gulpUTFConverter())
     .pipe(gulp.dest(path.resolve(outDir(), 'img')));
 });
 
@@ -200,7 +201,7 @@ task('pug', function () {
     "./front/pug/*.all.pug",
     "./front/pug/*." + (isStand ? "stand" : "product") + ".pug",
     "!./front/pug/**/_*"
-  ]);
+  ]).pipe(gulpUTFConverter());
 
   p = p.pipe(pug({
     pretty: true,
@@ -239,7 +240,7 @@ gulp.task('pug-prod', ser('stand:off', 'pug'));
 
 task('less', function () {
 
-  let p = gulp.src("front/styles/*.m.less");
+  let p = gulp.src("front/styles/*.m.less").pipe(gulpUTFConverter());
 
   p = p.pipe(sourceMaps.init());
 
@@ -277,7 +278,7 @@ task('sass', function () {
   let p = gulp.src([
     "front/styles/*.m.scss",
     "front/styles/*.m.sass",
-  ]);
+  ]).pipe(gulpUTFConverter());
 
   p = p.pipe(debug());
 
