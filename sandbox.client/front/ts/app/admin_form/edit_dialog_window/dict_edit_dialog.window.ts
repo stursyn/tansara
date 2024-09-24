@@ -53,7 +53,7 @@ export class DictEditDialogWindow {
 
     if(data && data.dictId){
       this.edit = true;
-      this.detail(data.dictId);
+      this.detail(data.dictId, data.dictType);
     }
   }
 
@@ -77,8 +77,8 @@ export class DictEditDialogWindow {
     }
 
 
-    detail(id){
-    this.httpService.post("/dict/detail",{dictId:id})
+    detail(id, type){
+    this.httpService.post("/dict/detail",{dictId:id, dictType: type})
         .toPromise().then(
             result=>{
               this.toSave = result.json();

@@ -41,8 +41,8 @@ public class DictRegisterImpl implements DictRegister {
   }
 
   @Override
-  public AdminDictDetail detail(String dictId) {
-    return dictDao.get().loadDict(dictId);
+  public AdminDictDetail detail(String dictId, String dictType) {
+    return dictDao.get().loadDict(dictId, dictType);
   }
 
   @Override
@@ -84,10 +84,11 @@ public class DictRegisterImpl implements DictRegister {
   }
 
   @Override
-  public String floraImage(String code) {
+  public String floraImage(String code, String dictType) {
     return jdbcSandbox.get().execute(con -> {
-      try (PreparedStatement ps = con.prepareStatement("select image from table_of_dicts where code = ? and image is not null")) {
+      try (PreparedStatement ps = con.prepareStatement("select image from table_of_dicts where code = ? and dictType = ? and image is not null")) {
         ps.setString(1, code);
+        ps.setString(2, dictType);
         try (ResultSet resultSet = ps.executeQuery()) {
           while (resultSet.next()) {
             return "data:image/jpeg;base64, " + FileUtil.bytesToBase64(resultSet.getBytes("image"));
@@ -99,7 +100,7 @@ public class DictRegisterImpl implements DictRegister {
   }
 
   @Override
-  public void remove(String code) {
-    dictDao.get().deleteDict(code);
+  public void remove(String code, String dictType) {
+    dictDao.get().deleteDict(code, dictType);
   }
 }

@@ -47,7 +47,7 @@ public class DictRegisterStand implements DictRegister {
   }
 
   @Override
-  public AdminDictDetail detail(String dictId) {
+  public AdminDictDetail detail(String dictId, String dictType) {
     return createAdminDictDetial();
   }
 
@@ -81,7 +81,7 @@ public class DictRegisterStand implements DictRegister {
   }
 
   @Override
-  public void remove(String code) {
+  public void remove(String code, String dictType) {
 
   }
 
@@ -91,7 +91,7 @@ public class DictRegisterStand implements DictRegister {
   }
 
   @Override
-  public String floraImage(String code) {
+  public String floraImage(String code, String dictType) {
     return null;
   }
 

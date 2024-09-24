@@ -19,6 +19,6 @@ public interface DictDaoPostgres extends DictDao {
 
 
   @Override
-  @Select("select x.code, x.title, x.parentCode, x.dictType from table_of_dicts x where x.code = #{dictId}")
-  AdminDictDetail loadDict(@Param("dictId") String dictId);
+  @Select("select x.code, x.title, x.parentCode, x.dictType from table_of_dicts x where x.code = #{dictId} and x.dictType = #{dictType}")
+  AdminDictDetail loadDict(@Param("dictId") String dictId, @Param("dictType") String dictType);
 }

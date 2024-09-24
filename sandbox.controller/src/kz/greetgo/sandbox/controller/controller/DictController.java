@@ -44,8 +44,8 @@ public class DictController implements Controller {
   @NoSecurity
   @ToJson
   @Mapping("/detail")
-  public AdminDictDetail detail( @Par("dictId") String dictId) {
-    return dictRegister.get().detail(dictId);
+  public AdminDictDetail detail( @Par("dictId") String dictId, @Par("dictType") String dictType) {
+    return dictRegister.get().detail(dictId, dictType);
   }
 
   @NoSecurity
@@ -72,8 +72,8 @@ public class DictController implements Controller {
   @NoSecurity
   @ToJson
   @Mapping("/remove")
-  public void remove(@Par("code") String code) {
-    dictRegister.get().remove(code);
+  public void remove(@Par("code") String code, @Par("dictType") String dictType) {
+    dictRegister.get().remove(code, dictType);
   }
 
   @NoSecurity
@@ -91,8 +91,8 @@ public class DictController implements Controller {
   @NoSecurity
   @ToJson
   @Mapping("/flora-image")
-  public String floraImage(@Par("code") String code) {
-    return dictRegister.get().floraImage(code);
+  public String floraImage(@Par("code") String code, @Par("dictType") String dictType) {
+    return dictRegister.get().floraImage(code, dictType);
   }
 
 }

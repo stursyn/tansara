@@ -10,7 +10,7 @@ public interface DictRegister {
 
   int getCount(AdminDictToFilter toFilter);
 
-  AdminDictDetail detail(String dictId);
+  AdminDictDetail detail(String dictId, String dictType);
 
   void save(AdminDictDetail toSave);
 
@@ -18,9 +18,9 @@ public interface DictRegister {
 
   List<DictRecord> parentDict(DictSimpleToFilter toFilter);
 
-  void remove(String code);
+  void remove(String code, String dictType);
 
   void downloadReport(AdminDictToFilter toFilter, BinResponse binResponse);
 
-  String floraImage(String code);
+  String floraImage(String code, String dictType);
 }

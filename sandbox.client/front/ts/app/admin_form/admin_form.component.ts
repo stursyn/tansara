@@ -88,7 +88,10 @@ export class AdminFormComponent implements AfterViewInit {
   edit(row) {
     const dialogRef = this.dialog.open(DictEditDialogWindow, {
       width: '500px',
-      data: {dictId: row ? row.code : row}
+      data: {
+        dictId: row ? row.code : row,
+        dictType: row?.dictType
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -99,7 +102,10 @@ export class AdminFormComponent implements AfterViewInit {
   view(row) {
     const dialogRef = this.dialog.open(PhotoDialogWindow, {
       width: '800px',
-      data: {dictId: row ? row.code : row}
+      data: {
+        dictId: row ? row.code : row,
+        dictType: row?.dictType
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -109,7 +115,10 @@ export class AdminFormComponent implements AfterViewInit {
 
   remove(row) {
     this.httpService.post("/dict/remove",
-        {code: row.code}).toPromise()
+        {
+          code: row.code,
+          dictType: row?.dictType
+        }).toPromise()
         .then(result => {
           this.find();
         });

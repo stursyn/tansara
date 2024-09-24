@@ -19,7 +19,8 @@ export class PhotoDialogWindow {
       private httpService: HttpService) {
     if(data && data.dictId){
       this.httpService.post("/dict/flora-image", {
-        code: data.dictId
+        code: data.dictId,
+        dictType: data.dictType
       }).toPromise().then(
           result => {
             this.photoBase64 = result.json();
