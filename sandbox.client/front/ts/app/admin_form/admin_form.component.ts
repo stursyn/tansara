@@ -90,7 +90,7 @@ export class AdminFormComponent implements AfterViewInit {
       width: '500px',
       data: {
         dictId: row ? row.code : row,
-        dictType: row?.dictType
+        dictType: row?.dictTypeCode
       }
     });
 
@@ -104,7 +104,7 @@ export class AdminFormComponent implements AfterViewInit {
       width: '800px',
       data: {
         dictId: row ? row.code : row,
-        dictType: row?.dictType
+        dictType: row?.dictTypeCode
       }
     });
 
@@ -117,7 +117,7 @@ export class AdminFormComponent implements AfterViewInit {
     this.httpService.post("/dict/remove",
         {
           code: row.code,
-          dictType: row?.dictType
+          dictType: row?.dictTypeCode
         }).toPromise()
         .then(result => {
           this.find();

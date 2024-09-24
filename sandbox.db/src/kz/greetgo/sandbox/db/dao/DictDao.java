@@ -15,7 +15,7 @@ public interface DictDao {
                   @Param("dictType") String dictType);
 
   @Update("update table_of_dicts set image_name = #{image_name}, image=#{image}, " +
-      " description = #{description} where code = #{code} and dictType = ${dictType}")
+      " description = #{description} where code = #{code} and dictType = #{dictType}")
   void updateImage(@Param("code") String code,
                    @Param("dictType") String dictType,
                    @Param("image_name") String imageName,

@@ -48,6 +48,7 @@ public class DictListJdbc extends DictLogicJdbc<List<AdminDictRecord>, AdminDict
     r.parentCode = rs.getString("parentCode");
     r.parentTitle = rs.getString("parentTitle");
     String dictType = rs.getString("dictType");
+    r.dictTypeCode = dictType;
     if(!Strings.isNullOrEmpty(dictType)) {
       r.dictType = DictType.valueOf(dictType).title;
     }

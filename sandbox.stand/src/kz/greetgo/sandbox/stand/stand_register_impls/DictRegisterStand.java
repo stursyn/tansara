@@ -38,6 +38,7 @@ public class DictRegisterStand implements DictRegister {
     ret.parentTitle = RND.str(12);
     ret.title = RND.str(12);
     ret.dictType = RND.str(12);
+    ret.dictTypeCode = RND.str(12);
     return ret;
   }
 

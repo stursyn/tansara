@@ -6,4 +6,5 @@ public class AdminDictRecord {
   public String parentTitle;
   public String parentCode;
   public String dictType;
+  public String dictTypeCode;
 }

@@ -117,18 +117,18 @@ public class FloraReportJdbc extends FloraLogicJdbc<Void, MainRow> {
 
   @Override
   protected void leftJoin(){
-    sql.leftjoin("table_of_dicts fd on fd.code = f.familyCode");
-    sql.leftjoin("table_of_dicts gd on gd.code = f.genusCode");
-    sql.leftjoin("table_of_dicts td on td.code = f.typeCode");
-    sql.leftjoin("table_of_dicts rd on rd.code = f.regionCode");
+    sql.leftjoin("table_of_dicts fd on fd.code = f.familyCode and fd.dictType = 'FAMILY'");
+    sql.leftjoin("table_of_dicts gd on gd.code = f.genusCode and gd.dictType = 'GENUS'");
+    sql.leftjoin("table_of_dicts td on td.code = f.typeCode and td.dictType = 'TYPE'");
+    sql.leftjoin("table_of_dicts rd on rd.code = f.regionCode and rd.dictType = 'REGION'");
     sql.leftjoin("flora_collection_relation fct on fct.flora = f.num");
-    sql.leftjoin("table_of_dicts cd on cd.code = fct.collectionDict");
-    sql.leftjoin("table_of_dicts md on md.code = fct.measureDict");
-    sql.leftjoin("table_of_dicts lf on lf.code = f.lifeFormCode");
+    sql.leftjoin("table_of_dicts cd on cd.code = fct.collectionDict and cd.dictType = 'COLLECTION'");
+    sql.leftjoin("table_of_dicts md on md.code = fct.measureDict and md.dictType = 'MEASURE'");
+    sql.leftjoin("table_of_dicts lf on lf.code = f.lifeFormCode and lf.dictType = 'LIFE_FORM'");
     sql.leftjoin("flora_usage_relation fur on fur.flora = f.num");
-    sql.leftjoin("table_of_dicts ud on ud.code = fur.usageDict");
+    sql.leftjoin("table_of_dicts ud on ud.code = fur.usageDict and ud.dictType = 'USAGE'");
     sql.leftjoin("flora_collected_by_relation fcbr on fcbr.flora = f.num");
-    sql.leftjoin("table_of_dicts cb on cb.code = fcbr.collectedByDict");
+    sql.leftjoin("table_of_dicts cb on cb.code = fcbr.collectedByDict and cb.dictType = 'COLLECTED_BY'");
   }
 
   @Override
