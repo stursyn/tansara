@@ -34,7 +34,7 @@ public class FloraReportJdbc extends FloraLogicJdbc<Void, MainRow> {
   @Override
   protected void select() {
     sql.select("f.num");
-    sql.select("string_agg(cd.title||' '||md.title,', ') as collection");
+    sql.select("string_agg(distinct cd.title||' '||md.title,', ') as collection");
     sql.select("f.catalog");
     sql.select("fd.title as familyName");
     sql.select("gd.title as generateName");
@@ -42,12 +42,12 @@ public class FloraReportJdbc extends FloraLogicJdbc<Void, MainRow> {
     sql.select("rd.title as floraRegionNumber");
     sql.select("f.collectPlace");
     sql.select("f.collectCoordinate as collectCoordinate");
-    sql.select("string_agg(ud.title,', ') as importantStaff");
+    sql.select("string_agg(distinct ud.title,', ') as importantStaff");
     sql.select("f.collectAltitude as heightFromWater");
     sql.select("f.collectDate");
     sql.select("f.behaviorPercent as seedWeight");
     sql.select("f.floraWeight as accuracyRate");
-    sql.select("string_agg(cb.title,', ') as whoIsCollect");
+    sql.select("string_agg(distinct cb.title,', ') as whoIsCollect");
     sql.select("lf.title as lifeForm");
     sql.select("td.description as familyDescription");
     sql.select("td.image as familyImage");

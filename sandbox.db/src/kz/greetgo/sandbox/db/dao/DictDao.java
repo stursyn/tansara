@@ -20,8 +20,9 @@ public interface DictDao {
   void deleteDict(@Param("code") String code);
 
   @Update("update table_of_dicts set image_name = #{image_name}, image=#{image}, " +
-      " description = #{description} where code = #{code}")
+      " description = #{description} where code = #{code} and dictType = ${dictType}")
   void updateImage(@Param("code") String code,
+                   @Param("dictType") String dictType,
                    @Param("image_name") String imageName,
                    @Param("image") byte[] image,
                    @Param("description") String description);

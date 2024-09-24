@@ -48,10 +48,10 @@ public class DictRegisterImpl implements DictRegister {
   @Override
   public void save(AdminDictDetail toSave) {
     dictDao.get().insertDict(toSave);
-    if(toSave.fileModel!=null && !Strings.isNullOrEmpty(toSave.fileModel.src)) {
-      dictDao.get().updateImage(toSave.code, toSave.fileModel.name, FileUtil.bytesToBase64(toSave.fileModel.src), toSave.description);
+    if (toSave.fileModel != null && !Strings.isNullOrEmpty(toSave.fileModel.src)) {
+      dictDao.get().updateImage(toSave.code, toSave.dictType, toSave.fileModel.name, FileUtil.bytesToBase64(toSave.fileModel.src), toSave.description);
     } else {
-      dictDao.get().updateImage(toSave.code, null, new byte[0], toSave.description);
+      dictDao.get().updateImage(toSave.code, toSave.dictType, null, new byte[0], toSave.description);
     }
   }
 
@@ -62,7 +62,7 @@ public class DictRegisterImpl implements DictRegister {
 
   @Override
   public List<DictRecord> parentDict(DictSimpleToFilter toFilter) {
-    if(!Strings.isNullOrEmpty(toFilter.dictType) && DictType.isHasParent(toFilter.dictType)){
+    if (!Strings.isNullOrEmpty(toFilter.dictType) && DictType.isHasParent(toFilter.dictType)) {
       toFilter.dictType = DictType.valueOf(toFilter.dictType).parent.name();
       return floraRegister.get().dictSimple(toFilter);
     }
@@ -71,7 +71,7 @@ public class DictRegisterImpl implements DictRegister {
 
   @Override
   public void downloadReport(AdminDictToFilter toFilter, BinResponse binResponse) {
-    try(ReportView view = new DictViewXlsx(binResponse.out())){
+    try (ReportView view = new DictViewXlsx(binResponse.out())) {
       DictHeaderData headerData = new DictHeaderData();
       view.start(headerData);
 
@@ -86,11 +86,11 @@ public class DictRegisterImpl implements DictRegister {
   @Override
   public String floraImage(String code) {
     return jdbcSandbox.get().execute(con -> {
-      try(PreparedStatement ps = con.prepareStatement("select image from table_of_dicts where code = ? and image is not null")) {
+      try (PreparedStatement ps = con.prepareStatement("select image from table_of_dicts where code = ? and image is not null")) {
         ps.setString(1, code);
-        try(ResultSet resultSet = ps.executeQuery()) {
+        try (ResultSet resultSet = ps.executeQuery()) {
           while (resultSet.next()) {
-            return "data:image/jpeg;base64, "+FileUtil.bytesToBase64(resultSet.getBytes("image"));
+            return "data:image/jpeg;base64, " + FileUtil.bytesToBase64(resultSet.getBytes("image"));
           }
         }
       }

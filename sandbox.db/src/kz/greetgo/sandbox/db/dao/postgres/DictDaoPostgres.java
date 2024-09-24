@@ -14,7 +14,7 @@ import org.apache.ibatis.annotations.Select;
 public interface DictDaoPostgres extends DictDao {
   @Override
   @Insert("insert into table_of_dicts(code, title, dictType, parentCode) values (#{dict.code}, #{dict.title}, #{dict.dictType}, #{dict.parentCode})" +
-      " on conflict (code) do update set title = #{dict.title}, dictType = #{dict.dictType}, parentCode = #{dict.parentCode}")
+      " on conflict (code, dictType) do update set title = #{dict.title}, parentCode = #{dict.parentCode}")
   void insertDict(@Param("dict") AdminDictDetail floraRecord);
 
 
