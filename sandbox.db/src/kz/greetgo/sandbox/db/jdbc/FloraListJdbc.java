@@ -35,7 +35,7 @@ public class FloraListJdbc extends FloraLogicJdbc<List<FloraRecord>, FloraRecord
   @Override
   protected void select() {
     sql.select("f.num");
-    sql.select("string_agg(cd.title||' '||md.title,', ') as collectionTitle");
+    sql.select("string_agg(distinct cd.title||' '||md.title,', ') as collectionTitle");
     sql.select("f.catalog");
     sql.select("fd.title as familyTitle");
     sql.select("td.title as typeTitle");
@@ -76,12 +76,12 @@ public class FloraListJdbc extends FloraLogicJdbc<List<FloraRecord>, FloraRecord
 
   @Override
   protected void leftJoin(){
-    sql.leftjoin("table_of_dicts fd on fd.code = f.familyCode");
-    sql.leftjoin("table_of_dicts gd on gd.code = f.genusCode");
-    sql.leftjoin("table_of_dicts td on td.code = f.typeCode");
+    sql.leftjoin("table_of_dicts fd on fd.code = f.familyCode and fd.dictType = 'FAMILY'");
+    sql.leftjoin("table_of_dicts gd on gd.code = f.genusCode and gd.dictType = 'GENUS'");
+    sql.leftjoin("table_of_dicts td on td.code = f.typeCode and td.dictType = 'TYPE'");
     sql.leftjoin("flora_collection_relation fct on fct.flora = f.num");
-    sql.leftjoin("table_of_dicts cd on cd.code = fct.collectionDict");
-    sql.leftjoin("table_of_dicts md on md.code = fct.measureDict");
+    sql.leftjoin("table_of_dicts cd on cd.code = fct.collectionDict and cd.dictType = 'COLLECTION'");
+    sql.leftjoin("table_of_dicts md on md.code = fct.measureDict and md.dictType = 'MEASURE'");
     if (!Strings.isNullOrEmpty(filter.usage)) {
       sql.leftjoin("flora_usage_relation fur on fur.flora = f.num");
     }
