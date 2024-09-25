@@ -17,6 +17,9 @@ public interface FloraDao {
   @Delete("delete from flora_usage_relation where flora=#{floraNum}")
   void deleteFloraUsageList(@Param("floraNum") Long floraNum);
 
+  @Delete("delete from flora_collected_by_relation where flora=#{floraNum}")
+  void deleteFloraCollectedByList(@Param("floraNum") Long floraNum);
+
   void insertFlora(FloraDetail floraRecord);
 
   void insertFloraCollectionRelation(Long floraNum, CollectionRecord collection);

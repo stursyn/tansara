@@ -73,8 +73,8 @@ public class FloraRegisterImpl implements FloraRegister {
       floraDao.get().insertFloraUsageRelation(toSave.num, usage);
     });
 
-    floraDao.get().deleteFloraUsageList(toSave.num);
-    toSave.collectedByList.forEach( collectBy->{
+    floraDao.get().deleteFloraCollectedByList(toSave.num);
+    toSave.collectedByList.forEach(collectBy->{
       if (Strings.isNullOrEmpty(collectBy)) return;
       floraDao.get().insertFloraCollectedByRelation(toSave.num, collectBy);
     });

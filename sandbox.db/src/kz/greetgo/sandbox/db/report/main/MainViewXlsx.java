@@ -199,8 +199,8 @@ public class MainViewXlsx implements ReportView {
       setStrCellValue(sheetRow, 9, use.heightFromWater, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), HorizontalAlignment.CENTER, false);
       setStrCellValue(sheetRow, 10, use.importantStaff, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), HorizontalAlignment.CENTER, false);
       setStrCellValue(sheetRow, 11, use.collectYear, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), HorizontalAlignment.CENTER, false);
-      setStrCellValue(sheetRow, 12, use.seedWeight, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), HorizontalAlignment.CENTER, false);
-      setStrCellValue(sheetRow, 13, use.accuracyRate, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), HorizontalAlignment.CENTER, false);
+      setStrCellValue(sheetRow, 12, use.accuracyRate, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), HorizontalAlignment.CENTER, false);
+      setStrCellValue(sheetRow, 13, use.seedWeight, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), HorizontalAlignment.CENTER, false);
       setStrCellValue(sheetRow, 14, use.whoIsCollect, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), HorizontalAlignment.CENTER, false);
       setStrCellValue(sheetRow, 15, use.lifeForm, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), HorizontalAlignment.CENTER, false);
       setStrCellValue(sheetRow, 16, use.description, (int)(Math.pow(2.0, 1) + Math.pow(2.0, 2)), HorizontalAlignment.CENTER, false);
